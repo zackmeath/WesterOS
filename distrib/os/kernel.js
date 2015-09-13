@@ -11,8 +11,8 @@
      This code references page numbers in the text book:
      Operating System Concepts 8th edition by Silberschatz, Galvin, and Gagne.  ISBN 978-0-470-12872-5
      ------------ */
-var TSOS;
-(function (TSOS) {
+var ZMOS;
+(function (ZMOS) {
     var Kernel = (function () {
         function Kernel() {
         }
@@ -20,20 +20,20 @@ var TSOS;
         // OS Startup and Shutdown Routines
         //
         Kernel.prototype.krnBootstrap = function () {
-            TSOS.Control.hostLog("bootstrap", "host"); // Use hostLog because we ALWAYS want this, even if _Trace is off.
+            ZMOS.Control.hostLog("bootstrap", "host"); // Use hostLog because we ALWAYS want this, even if _Trace is off.
             // Initialize our global queues.
-            _KernelInterruptQueue = new TSOS.Queue(); // A (currently) non-priority queue for interrupt requests (IRQs).
+            _KernelInterruptQueue = new ZMOS.Queue(); // A (currently) non-priority queue for interrupt requests (IRQs).
             _KernelBuffers = new Array(); // Buffers... for the kernel.
-            _KernelInputQueue = new TSOS.Queue(); // Where device input lands before being processed out somewhere.
+            _KernelInputQueue = new ZMOS.Queue(); // Where device input lands before being processed out somewhere.
             // Initialize the console.
-            _Console = new TSOS.Console(); // The command line interface / console I/O device.
+            _Console = new ZMOS.Console(); // The command line interface / console I/O device.
             _Console.init();
             // Initialize standard input and output to the _Console.
             _StdIn = _Console;
             _StdOut = _Console;
             // Load the Keyboard Device Driver
             this.krnTrace("Loading the keyboard device driver.");
-            _krnKeyboardDriver = new TSOS.DeviceDriverKeyboard(); // Construct it.
+            _krnKeyboardDriver = new ZMOS.DeviceDriverKeyboard(); // Construct it.
             _krnKeyboardDriver.driverEntry(); // Call the driverEntry() initialization routine.
             this.krnTrace(_krnKeyboardDriver.status);
             //
@@ -44,7 +44,7 @@ var TSOS;
             this.krnEnableInterrupts();
             // Launch the shell.
             this.krnTrace("Creating and Launching the shell.");
-            _OsShell = new TSOS.Shell();
+            _OsShell = new ZMOS.Shell();
             _OsShell.init();
             // Finally, initiate student testing protocol.
             if (_GLaDOS) {
@@ -87,12 +87,12 @@ var TSOS;
         //
         Kernel.prototype.krnEnableInterrupts = function () {
             // Keyboard
-            TSOS.Devices.hostEnableKeyboardInterrupt();
+            ZMOS.Devices.hostEnableKeyboardInterrupt();
             // Put more here.
         };
         Kernel.prototype.krnDisableInterrupts = function () {
             // Keyboard
-            TSOS.Devices.hostDisableKeyboardInterrupt();
+            ZMOS.Devices.hostDisableKeyboardInterrupt();
             // Put more here.
         };
         Kernel.prototype.krnInterruptHandler = function (irq, params) {
@@ -144,20 +144,20 @@ var TSOS;
                     if (_OSclock % 10 == 0) {
                         // Check the CPU_CLOCK_INTERVAL in globals.ts for an
                         // idea of the tick rate and adjust this line accordingly.
-                        TSOS.Control.hostLog(msg, "OS");
+                        ZMOS.Control.hostLog(msg, "OS");
                     }
                 }
                 else {
-                    TSOS.Control.hostLog(msg, "OS");
+                    ZMOS.Control.hostLog(msg, "OS");
                 }
             }
         };
         Kernel.prototype.krnTrapError = function (msg) {
-            TSOS.Control.hostLog("OS ERROR - TRAP: " + msg);
+            ZMOS.Control.hostLog("OS ERROR - TRAP: " + msg);
             // TODO: Display error on console, perhaps in some sort of colored screen. (Maybe blue?)
             this.krnShutdown();
         };
         return Kernel;
     })();
-    TSOS.Kernel = Kernel;
-})(TSOS || (TSOS = {}));
+    ZMOS.Kernel = Kernel;
+})(ZMOS || (ZMOS = {}));

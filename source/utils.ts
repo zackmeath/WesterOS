@@ -4,7 +4,8 @@
    Utility functions.
    -------- */
 
-module TSOS {
+
+module ZMOS{
 
     export class Utils {
 

@@ -19,7 +19,7 @@
      Operating System Concepts 8th edition by Silberschatz, Galvin, and Gagne.  ISBN 978-0-470-12872-5
      ------------ */
 
-module TSOS {
+module ZMOS {
 
     export class Devices {
 

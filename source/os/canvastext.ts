@@ -17,7 +17,7 @@
  *       That might be fun.
  * ----------------- */
 
-module TSOS {
+module ZMOS {
 
     export class CanvasTextFunctions {
 

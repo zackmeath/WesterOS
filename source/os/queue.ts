@@ -8,7 +8,7 @@
 
    ------------ */
 
-module TSOS {
+module ZMOS {
     export class Queue {
         constructor(public q = new Array()) {
         }
