@@ -13,11 +13,11 @@ var typescript = require('gulp-tsc');
 gulp.task('compile-typescript', function() {
 	var typescriptPaths = {
 		src: [
-			'source/scripts/*.ts',
-			'source/scripts/host/*.ts',
-			'source/scripts/os/*.ts'
+			'source/*.ts',
+			'source/host/*.ts',
+			'source/os/*.ts'
 		],
-		dest: 'distrib/scripts/'
+		dest: 'distrib/'
 	};
 
 	return gulp.src(typescriptPaths.src)
@@ -43,8 +43,8 @@ gulp.task('copy-css', function() {
 
 // This is the default task that will run when we run `gulp` at the command line.
 gulp.task('default', function() {
-	gulp.watch('source/scripts/*.ts',      ['compile-typescript']);
-	gulp.watch('source/scripts/host/*.ts', ['compile-typescript']);
-	gulp.watch('source/scripts/os/*.ts',   ['compile-typescript']);
+	gulp.watch('source/*.ts',      ['compile-typescript']);
+	gulp.watch('source/host/*.ts', ['compile-typescript']);
+	gulp.watch('source/os/*.ts',   ['compile-typescript']);
 	gulp.watch('source/styles/*.css',      ['copy-css']);
 });
