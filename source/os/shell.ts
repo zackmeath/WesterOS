@@ -18,7 +18,7 @@
 module ZMOS {
     export class Shell {
         // Properties
-        public promptStr = ">";
+        public promptStr = "$ ";
         public commandList = [];
         public curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
         public apologies = "[sorry]";
@@ -34,8 +34,32 @@ module ZMOS {
             // ver
             sc = new ShellCommand(this.shellVer,
                                   "ver",
-                                  "- Displays the current version data.");
+                                  "- Displays the current version.");
             this.commandList[this.commandList.length] = sc;
+
+						// date
+						sc = new ShellCommand(this.shellDate,
+						                      "date",
+																	"- Displays the current date and time");
+						this.commandList[this.commandList.length] = sc;
+
+						// status
+						sc = new ShellCommand(this.shellStatus,
+						                      "status",
+																	"<string> - Updates the system status to <string>");
+						this.commandList[this.commandList.length] = sc;
+
+						// whereami
+						sc = new ShellCommand(this.shellWhereami,
+						                      "whereami",
+																	"Displays the current user's location");
+						this.commandList[this.commandList.length] = sc;
+
+						// chess
+						sc = new ShellCommand(this.shellChess,
+						                      "chess",
+																	"Toggles chess mode");
+						this.commandList[this.commandList.length] = sc;
 
             // help
             sc = new ShellCommand(this.shellHelp,
@@ -180,13 +204,12 @@ module ZMOS {
         public shellInvalidCommand() {
             _StdOut.putText("Invalid Command. ");
             if (_SarcasticMode) {
-                _StdOut.putText("Unbelievable. You, [subject name here],");
-                _StdOut.advanceLine();
-                _StdOut.putText("must be the pride of [subject hometown here].");
+                _StdOut.putText("Unbelievable.");
             } else {
-                _StdOut.putText("Type 'help' for, well... help.");
+                _StdOut.putText("Type 'help' for a list of available commands");
             }
         }
+
 
         public shellCurse() {
             _StdOut.putText("Oh, so that's how it's going to be, eh? Fine.");
@@ -209,6 +232,40 @@ module ZMOS {
         public shellVer(args) {
             _StdOut.putText(APP_NAME + " version " + APP_VERSION);
         }
+
+				public shellDate(args) {
+					  var currentDate = new Date();
+						var date = currentDate.getMonth()+1 + '/' + currentDate.getDate() + '/' + currentDate.getFullYear();
+						var hours = currentDate.getHours();
+					  var ampm = 'am';
+						if (hours > 12){
+							hours -= 12;
+							var ampm = 'pm';
+						}
+						var time = hours + ':' + currentDate.getMinutes() + ':' + currentDate.getSeconds() + ampm;
+						var dateTime = time + ' ' + date;
+						_StdOut.putText(dateTime);
+				}
+
+				public shellStatus(args){
+					  if (args.length < 0){
+							  _StdOut.putText("Please supply an argument <string> to be set as the new status");
+						} else {
+								_SystemStatus = args[0];
+						}
+				}
+
+				public shellWhereami(args){
+					  if (_SarcasticMode){
+							  _StdOut.putText('Right here');
+						} else {
+							  _StdOut.putText('Aperture Science Enrichment Center');
+						}
+				}
+
+				public shellChess(args){
+					  _ChessMode = !_ChessMode;
+				}
 
         public shellHelp(args) {
             _StdOut.putText("Commands:");
@@ -235,9 +292,43 @@ module ZMOS {
                 var topic = args[0];
                 switch (topic) {
                     case "help":
+									      if (_SarcasticMode) {
+                            _StdOut.putText("Really?");
+												    break;
+												}
                         _StdOut.putText("Help displays a list of (hopefully) valid commands.");
                         break;
-                    // TODO: Make descriptive MANual page entries for the the rest of the shell commands here.
+										case "ver":
+                        _StdOut.putText("Displays the current version of zmOS");
+												break;
+										case "shutdown":
+                        _StdOut.putText("Shuts down the virtual OS, but keeps underlying host running");
+												break;
+										case "cls":
+                        _StdOut.putText("Clears the terminal");
+												break;
+										case "man":
+									      if (_SarcasticMode) {
+                            _StdOut.putText("Really?");
+												    break;
+												}
+                        _StdOut.putText("<topic> - Displays detailed information about <topic>");
+												break;
+										case "trace":
+                        _StdOut.putText("<on | off> - Toggles OS tracing");
+												_StdOut.advanceLine();
+												_StdOut.putText("\ton - Enables host log trace output data");
+												_StdOut.advanceLine();
+												_StdOut.putText("\toff - Disables host log trace output data");
+												break;
+										case "rot13":
+                        _StdOut.putText("<string> - Does rot13 obfuscation on <string>");
+												_StdOut.advanceLine();
+                        _StdOut.putText("Encodes or decodes string with a Caesar cipher rotation of 13 characters");
+												break;
+										case "prompt":
+                        _StdOut.putText("<prompt> - Changes the prompt to be <prompt>");
+												break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }

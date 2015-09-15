@@ -10,7 +10,7 @@
 //
 // Global CONSTANTS (TypeScript 1.5 introduced const. Very cool.)
 //
-var APP_NAME = "ZMOS"; // 'cause Bob and I were at a loss for a better name.
+var APP_NAME = "zmOS"; // 'cause Bob and I were at a loss for a better name.
 var APP_VERSION = "0.00"; // What did you expect?
 var CPU_CLOCK_INTERVAL = 100; // This is in ms (milliseconds) so 1000 = 1 second.
 var TIMER_IRQ = 0; // Pages 23 (timer), 9 (interrupts), and 561 (interrupt priority).
@@ -23,6 +23,7 @@ var KEYBOARD_IRQ = 1;
 var _CPU; // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
 var _OSclock = 0; // Page 23.
 var _Mode = 0; // (currently unused)  0 = Kernel Mode, 1 = User Mode.  See page 21.
+var _SystemStatus = "Normal";
 var _Canvas; // Initialized in Control.hostInit().
 var _DrawingContext; // = _Canvas.getContext("2d");  // Assigned here for type safety, but re-initialized in Control.hostInit() for OCD and logic.
 var _DefaultFontFamily = "sans"; // Ignored, I think. The was just a place-holder in 2008, but the HTML canvas may have use for it.
@@ -42,6 +43,7 @@ var _Console;
 var _OsShell;
 // At least this OS is not trying to kill you. (Yet.)
 var _SarcasticMode = false;
+var _ChessMode = false;
 // Global Device Driver Objects - page 12
 var _krnKeyboardDriver; //  = null;
 var _hardwareClockID = null;

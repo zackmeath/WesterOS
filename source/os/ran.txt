@@ -1,0 +1,4 @@
+shellDate
+shellStatus
+shellWhereami
+shellChess

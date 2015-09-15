@@ -10,7 +10,7 @@
 //
 // Global CONSTANTS (TypeScript 1.5 introduced const. Very cool.)
 //
-const APP_NAME: string    = "ZMOS";   // 'cause Bob and I were at a loss for a better name.
+const APP_NAME: string    = "zmOS";   // 'cause Bob and I were at a loss for a better name.
 const APP_VERSION: string = "0.00";   // What did you expect?
 
 const CPU_CLOCK_INTERVAL: number = 100;   // This is in ms (milliseconds) so 1000 = 1 second.
@@ -28,6 +28,8 @@ var _CPU: ZMOS.Cpu;  // Utilize TypeScript's type annotation system to ensure th
 var _OSclock: number = 0;  // Page 23.
 
 var _Mode: number = 0;     // (currently unused)  0 = Kernel Mode, 1 = User Mode.  See page 21.
+
+var _SystemStatus: string = "Normal";
 
 var _Canvas: HTMLCanvasElement;         // Initialized in Control.hostInit().
 var _DrawingContext: any; // = _Canvas.getContext("2d");  // Assigned here for type safety, but re-initialized in Control.hostInit() for OCD and logic.
@@ -53,6 +55,7 @@ var _OsShell: ZMOS.Shell;
 
 // At least this OS is not trying to kill you. (Yet.)
 var _SarcasticMode: boolean = false;
+var _ChessMode: boolean = false;
 
 // Global Device Driver Objects - page 12
 var _krnKeyboardDriver; //  = null;

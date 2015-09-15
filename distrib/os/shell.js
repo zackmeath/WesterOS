@@ -16,7 +16,7 @@ var ZMOS;
     var Shell = (function () {
         function Shell() {
             // Properties
-            this.promptStr = ">";
+            this.promptStr = "$ ";
             this.commandList = [];
             this.curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
             this.apologies = "[sorry]";
@@ -26,7 +26,19 @@ var ZMOS;
             //
             // Load the command list.
             // ver
-            sc = new ZMOS.ShellCommand(this.shellVer, "ver", "- Displays the current version data.");
+            sc = new ZMOS.ShellCommand(this.shellVer, "ver", "- Displays the current version.");
+            this.commandList[this.commandList.length] = sc;
+            // date
+            sc = new ZMOS.ShellCommand(this.shellDate, "date", "- Displays the current date and time");
+            this.commandList[this.commandList.length] = sc;
+            // status
+            sc = new ZMOS.ShellCommand(this.shellStatus, "status", "<string> - Updates the system status to <string>");
+            this.commandList[this.commandList.length] = sc;
+            // whereami
+            sc = new ZMOS.ShellCommand(this.shellWhereami, "whereami", "Displays the current user's location");
+            this.commandList[this.commandList.length] = sc;
+            // chess
+            sc = new ZMOS.ShellCommand(this.shellChess, "chess", "Toggles chess mode");
             this.commandList[this.commandList.length] = sc;
             // help
             sc = new ZMOS.ShellCommand(this.shellHelp, "help", "- This is the help command. Seek help.");
@@ -143,12 +155,10 @@ var ZMOS;
         Shell.prototype.shellInvalidCommand = function () {
             _StdOut.putText("Invalid Command. ");
             if (_SarcasticMode) {
-                _StdOut.putText("Unbelievable. You, [subject name here],");
-                _StdOut.advanceLine();
-                _StdOut.putText("must be the pride of [subject hometown here].");
+                _StdOut.putText("Unbelievable.");
             }
             else {
-                _StdOut.putText("Type 'help' for, well... help.");
+                _StdOut.putText("Type 'help' for a list of available commands");
             }
         };
         Shell.prototype.shellCurse = function () {
@@ -170,6 +180,38 @@ var ZMOS;
         };
         Shell.prototype.shellVer = function (args) {
             _StdOut.putText(APP_NAME + " version " + APP_VERSION);
+        };
+        Shell.prototype.shellDate = function (args) {
+            var currentDate = new Date();
+            var date = currentDate.getMonth() + 1 + '/' + currentDate.getDate() + '/' + currentDate.getFullYear();
+            var hours = currentDate.getHours();
+            var ampm = 'am';
+            if (hours > 12) {
+                hours -= 12;
+                var ampm = 'pm';
+            }
+            var time = hours + ':' + currentDate.getMinutes() + ':' + currentDate.getSeconds() + ampm;
+            var dateTime = time + ' ' + date;
+            _StdOut.putText(dateTime);
+        };
+        Shell.prototype.shellStatus = function (args) {
+            if (args.length < 0) {
+                _StdOut.putText("Please supply an argument <string> to be set as the new status");
+            }
+            else {
+                _SystemStatus = args[0];
+            }
+        };
+        Shell.prototype.shellWhereami = function (args) {
+            if (_SarcasticMode) {
+                _StdOut.putText('Right here');
+            }
+            else {
+                _StdOut.putText('Aperture Science Enrichment Center');
+            }
+        };
+        Shell.prototype.shellChess = function (args) {
+            _ChessMode = !_ChessMode;
         };
         Shell.prototype.shellHelp = function (args) {
             _StdOut.putText("Commands:");
@@ -193,9 +235,43 @@ var ZMOS;
                 var topic = args[0];
                 switch (topic) {
                     case "help":
+                        if (_SarcasticMode) {
+                            _StdOut.putText("Really?");
+                            break;
+                        }
                         _StdOut.putText("Help displays a list of (hopefully) valid commands.");
                         break;
-                    // TODO: Make descriptive MANual page entries for the the rest of the shell commands here.
+                    case "ver":
+                        _StdOut.putText("Displays the current version of zmOS");
+                        break;
+                    case "shutdown":
+                        _StdOut.putText("Shuts down the virtual OS, but keeps underlying host running");
+                        break;
+                    case "cls":
+                        _StdOut.putText("Clears the terminal");
+                        break;
+                    case "man":
+                        if (_SarcasticMode) {
+                            _StdOut.putText("Really?");
+                            break;
+                        }
+                        _StdOut.putText("<topic> - Displays detailed information about <topic>");
+                        break;
+                    case "trace":
+                        _StdOut.putText("<on | off> - Toggles OS tracing");
+                        _StdOut.advanceLine();
+                        _StdOut.putText("\ton - Enables host log trace output data");
+                        _StdOut.advanceLine();
+                        _StdOut.putText("\toff - Disables host log trace output data");
+                        break;
+                    case "rot13":
+                        _StdOut.putText("<string> - Does rot13 obfuscation on <string>");
+                        _StdOut.advanceLine();
+                        _StdOut.putText("Encodes or decodes string with a Caesar cipher rotation of 13 characters");
+                        break;
+                    case "prompt":
+                        _StdOut.putText("<prompt> - Changes the prompt to be <prompt>");
+                        break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
