@@ -1,4 +1,0 @@
-shellDate
-shellStatus
-shellWhereami
-shellChess
