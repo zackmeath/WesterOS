@@ -83,7 +83,14 @@ var ZMOS;
             this.currentYPosition += _DefaultFontSize +
                 _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                 _FontHeightMargin;
-            // TODO: Handle scrolling. (iProject 1)
+            var imgData = _Canvas.getContext('2d').getImageData(0, 0, _Canvas.width, _Canvas.height);
+            if (this.currentYPosition > _Canvas.height) {
+                _Canvas.height = this.currentYPosition + 5;
+                _Canvas.getContext('2d').putImageData(imgData, 0, 0);
+                // Keep window at bottom of the canvas
+                var canvasDiv = document.getElementById("divConsole");
+                canvasDiv.scrollTop = canvasDiv.scrollHeight;
+            }
         };
         return Console;
     })();

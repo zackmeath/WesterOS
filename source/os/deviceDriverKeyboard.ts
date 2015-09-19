@@ -46,7 +46,8 @@ module ZMOS {
             } else if (((keyCode >= 48) && (keyCode <= 57)) ||   // digits
                         (keyCode == 32)                     ||   // space
                         (keyCode == 13)) {                       // enter
-							  if (isShifted){
+                chr = String.fromCharCode(keyCode);
+							  if (isShifted) {
 									 switch(keyCode){
 										   case 48:
 												   chr = String.fromCharCode(41);

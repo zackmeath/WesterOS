@@ -48,6 +48,7 @@ var ZMOS;
             else if (((keyCode >= 48) && (keyCode <= 57)) ||
                 (keyCode == 32) ||
                 (keyCode == 13)) {
+                chr = String.fromCharCode(keyCode);
                 if (isShifted) {
                     switch (keyCode) {
                         case 48:
