@@ -37,6 +37,12 @@ module ZMOS {
                                   "- Displays the current version.");
             this.commandList[this.commandList.length] = sc;
 
+						// bsod
+            sc = new ShellCommand(this.shellBsod,
+                                  "bsod",
+                                  "- Displays the blue screen of death.");
+            this.commandList[this.commandList.length] = sc;
+
 						// load
 						sc = new ShellCommand(this.shellLoad,
 						                      "load",
@@ -239,6 +245,10 @@ module ZMOS {
             _StdOut.putText(APP_NAME + " version " + APP_VERSION);
         }
 
+				public shellBsod(args){
+					  // TODO display the bsod
+				}
+
 				public shellLoad(args){
 					  var legalChars = ['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f',' ']; 
 						var isLegal = true;
@@ -325,6 +335,12 @@ module ZMOS {
                         break;
 										case "ver":
                         _StdOut.putText("Displays the current version of zmOS");
+												break;
+										case "bsod":
+												_StdOut.putText("Displays the blue screen of death");
+												break;
+										case "load":
+												_StdOut.putText("Loads the current user program");
 												break;
 										case "shutdown":
                         _StdOut.putText("Shuts down the virtual OS, but keeps underlying host running");
