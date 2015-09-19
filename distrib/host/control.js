@@ -32,6 +32,7 @@ var ZMOS;
             _Canvas = document.getElementById('display');
             // Get a global reference to the drawing context.
             _DrawingContext = _Canvas.getContext("2d");
+            _UserProgramInput = document.getElementById("taProgramInput").value;
             // Enable the added-in canvas text functions (see canvastext.ts for provenance and details).
             ZMOS.CanvasTextFunctions.enable(_DrawingContext); // Text functionality is now built in to the HTML5 canvas. But this is old-school, and fun, so we'll keep it.
             // Clear the log text box.

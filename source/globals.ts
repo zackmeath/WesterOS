@@ -62,6 +62,8 @@ var _krnKeyboardDriver; //  = null;
 
 var _hardwareClockID: number = null;
 
+var _UserProgramInput: string;
+
 // For testing (and enrichment)...
 var Glados: any = null;  // This is the function Glados() in glados.js on Labouseur.com.
 var _GLaDOS: any = null; // If the above is linked in, this is the instantiated instance of Glados.

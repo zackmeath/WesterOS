@@ -28,6 +28,9 @@ var ZMOS;
             // ver
             sc = new ZMOS.ShellCommand(this.shellVer, "ver", "- Displays the current version.");
             this.commandList[this.commandList.length] = sc;
+            // load
+            sc = new ZMOS.ShellCommand(this.shellLoad, "load", "- Loads program from input text area");
+            this.commandList[this.commandList.length] = sc;
             // date
             sc = new ZMOS.ShellCommand(this.shellDate, "date", "- Displays the current date and time");
             this.commandList[this.commandList.length] = sc;
@@ -180,6 +183,23 @@ var ZMOS;
         };
         Shell.prototype.shellVer = function (args) {
             _StdOut.putText(APP_NAME + " version " + APP_VERSION);
+        };
+        Shell.prototype.shellLoad = function (args) {
+            var legalChars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', ' '];
+            var isLegal = true;
+            _UserProgramInput = document.getElementById("taProgramInput").value.trim();
+            for (var i = 0; i < _UserProgramInput.length; i++) {
+                var character = _UserProgramInput[i];
+                if (legalChars.indexOf(character.toLowerCase()) === -1) {
+                    isLegal = false;
+                    break;
+                }
+            }
+            if (!isLegal) {
+                _StdOut.putText("Invalid user progrom");
+            }
+            else {
+            }
         };
         Shell.prototype.shellDate = function (args) {
             var currentDate = new Date();
