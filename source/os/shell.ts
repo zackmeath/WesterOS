@@ -64,13 +64,13 @@ module ZMOS {
 						// whereami
 						sc = new ShellCommand(this.shellWhereami,
 						                      "whereami",
-																	"Displays the current user's location");
+																	"- Displays the current user's location");
 						this.commandList[this.commandList.length] = sc;
 
 						// chess
 						sc = new ShellCommand(this.shellChess,
 						                      "chess",
-																	"Toggles chess mode");
+																	"- Toggles chess mode");
 						this.commandList[this.commandList.length] = sc;
 
             // help
@@ -118,7 +118,6 @@ module ZMOS {
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
-            //
             // Display the initial prompt.
             this.putPrompt();
         }

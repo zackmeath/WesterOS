@@ -41,10 +41,10 @@ var ZMOS;
             sc = new ZMOS.ShellCommand(this.shellStatus, "status", "<string> - Updates the system status to <string>");
             this.commandList[this.commandList.length] = sc;
             // whereami
-            sc = new ZMOS.ShellCommand(this.shellWhereami, "whereami", "Displays the current user's location");
+            sc = new ZMOS.ShellCommand(this.shellWhereami, "whereami", "- Displays the current user's location");
             this.commandList[this.commandList.length] = sc;
             // chess
-            sc = new ZMOS.ShellCommand(this.shellChess, "chess", "Toggles chess mode");
+            sc = new ZMOS.ShellCommand(this.shellChess, "chess", "- Toggles chess mode");
             this.commandList[this.commandList.length] = sc;
             // help
             sc = new ZMOS.ShellCommand(this.shellHelp, "help", "- This is the help command. Seek help.");
@@ -69,7 +69,6 @@ var ZMOS;
             this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
-            //
             // Display the initial prompt.
             this.putPrompt();
         };

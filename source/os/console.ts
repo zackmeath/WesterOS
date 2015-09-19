@@ -45,7 +45,9 @@ module ZMOS {
                     _OsShell.handleInput(this.buffer);
                     // ... and reset our buffer.
                     this.buffer = "";
-                } else {
+                } else if (chr === String.fromCharCode(8){
+                    // TODO Backspace functionality
+								} else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
                     this.putText(chr);
