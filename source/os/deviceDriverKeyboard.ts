@@ -110,12 +110,13 @@ module ZMOS {
 										};
 										if (regularMappings[keyCode] !== undefined){
 											  chr = String.fromCharCode(isShifted ? shiftedMappings[keyCode] : regularMappings[keyCode]);
+                        _KernelInputQueue.enqueue(chr);
 										} else {
 											  chr = String.fromCharCode(keyCode);
+                        _KernelInputQueue.enqueue(chr);
 										}
-                    _KernelInputQueue.enqueue(chr);
 								}
             }
         }
     }
-}
+};

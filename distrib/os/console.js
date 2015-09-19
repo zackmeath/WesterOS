@@ -66,10 +66,14 @@ var ZMOS;
             // UPDATE: Even though we are now working in TypeScript, char and string remain undistinguished.
             //         Consider fixing that.
             if (text !== "") {
+                var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
+                // Utilize line wrapping
+                if (this.currentXPosition + offset > _Canvas.width) {
+                    this.advanceLine();
+                }
                 // Draw the text at the current X and Y coordinates.
                 _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
                 // Move the current X position.
-                var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
                 this.currentXPosition = this.currentXPosition + offset;
             }
         };
