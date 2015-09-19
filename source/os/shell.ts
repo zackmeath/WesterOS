@@ -123,7 +123,9 @@ module ZMOS {
         }
 
         public putPrompt() {
-            _StdOut.putText(this.promptStr);
+					  if (_shouldPrompt){
+                _StdOut.putText(this.promptStr);
+						}
         }
 
         public handleInput(buffer) {
@@ -245,7 +247,8 @@ module ZMOS {
         }
 
 				public shellBsod(args){
-					  // TODO display the bsod
+						_shouldPrompt = false;
+					  _Kernel.krnTrapError('BSOD test');
 				}
 
 				public shellLoad(args){
@@ -313,7 +316,7 @@ module ZMOS {
              _StdOut.putText("Shutting down...");
              // Call Kernel shutdown routine.
             _Kernel.krnShutdown();
-            // TODO: Stop the final prompt from being displayed.  If possible.  Not a high priority.  (Damn OCD!)
+						_shouldPrompt = false;
         }
 
         public shellCls(args) {
@@ -417,6 +420,5 @@ module ZMOS {
                 _StdOut.putText("Usage: prompt <string>  Please supply a string.");
             }
         }
-
     }
 }

@@ -46,6 +46,13 @@ var ZMOS;
                     this.buffer = "";
                 }
                 else if (chr === String.fromCharCode(8)) {
+                    if (this.buffer.length > 0) {
+                        var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer[this.buffer.length - 1]);
+                        var charHeight = _DefaultFontSize + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize);
+                        _DrawingContext.clearRect(this.currentXPosition - offset, this.currentYPosition - charHeight, offset, charHeight + _FontHeightMargin);
+                        this.currentXPosition -= offset;
+                        this.buffer = this.buffer.substring(0, this.buffer.length - 1);
+                    }
                 }
                 else {
                     // This is a "normal" character, so ...
@@ -69,6 +76,8 @@ var ZMOS;
                 var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
                 // Utilize line wrapping
                 if (this.currentXPosition + offset > _Canvas.width) {
+                    if (offset < _Canvas.width) {
+                    }
                     this.advanceLine();
                 }
                 // Draw the text at the current X and Y coordinates.

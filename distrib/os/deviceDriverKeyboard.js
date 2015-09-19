@@ -27,7 +27,10 @@ var ZMOS;
             // More?
         };
         DeviceDriverKeyboard.prototype.krnKbdDispatchKeyPress = function (params) {
-            // Parse the params.    TODO: Check that the params are valid and osTrapError if not.
+            // Parse the params
+            if (typeof params[0] !== 'number' || typeof params[1] !== 'boolean') {
+                _Kernel.krnTrapError('Invalid key press parameters');
+            }
             var keyCode = params[0];
             var isShifted = params[1];
             _Kernel.krnTrace("Key code:" + keyCode + " shifted:" + isShifted);
@@ -86,7 +89,6 @@ var ZMOS;
                 _KernelInputQueue.enqueue(chr);
             }
             else {
-                console.log(keyCode);
                 var regularMappings = {
                     189: 45,
                     187: 61,

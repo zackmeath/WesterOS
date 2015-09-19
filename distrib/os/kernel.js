@@ -153,8 +153,17 @@ var ZMOS;
             }
         };
         Kernel.prototype.krnTrapError = function (msg) {
+            // TODO BSOD not displaying correctly
             ZMOS.Control.hostLog("OS ERROR - TRAP: " + msg);
-            // TODO: Display error on console, perhaps in some sort of colored screen. (Maybe blue?)
+            // Create BSOD image
+            var bsod = new Image();
+            bsod.src = 'distrib/images/bsod.png';
+            // Make sure canvas is the same size as the BSOD image
+            _Canvas.height = 500;
+            _Canvas.width = 500;
+            // Kill the kernal and draw BSOD
+            _Canvas.getContext('2d').drawImage(bsod, 0, 0);
+            console.log('BSOD');
             this.krnShutdown();
         };
         return Kernel;

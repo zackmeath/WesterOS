@@ -73,7 +73,9 @@ var ZMOS;
             this.putPrompt();
         };
         Shell.prototype.putPrompt = function () {
-            _StdOut.putText(this.promptStr);
+            if (_shouldPrompt) {
+                _StdOut.putText(this.promptStr);
+            }
         };
         Shell.prototype.handleInput = function (buffer) {
             _Kernel.krnTrace("Shell Command~" + buffer);
@@ -187,7 +189,8 @@ var ZMOS;
             _StdOut.putText(APP_NAME + " version " + APP_VERSION);
         };
         Shell.prototype.shellBsod = function (args) {
-            // TODO display the bsod
+            _shouldPrompt = false;
+            _Kernel.krnTrapError('BSOD test');
         };
         Shell.prototype.shellLoad = function (args) {
             var legalChars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', ' '];
@@ -249,7 +252,7 @@ var ZMOS;
             _StdOut.putText("Shutting down...");
             // Call Kernel shutdown routine.
             _Kernel.krnShutdown();
-            // TODO: Stop the final prompt from being displayed.  If possible.  Not a high priority.  (Damn OCD!)
+            _shouldPrompt = false;
         };
         Shell.prototype.shellCls = function (args) {
             _StdOut.clearScreen();
