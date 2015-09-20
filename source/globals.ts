@@ -10,6 +10,7 @@
 //
 // Global CONSTANTS (TypeScript 1.5 introduced const. Very cool.)
 //
+
 const APP_NAME: string    = "WesterOS";
 const APP_VERSION: string = "0.1"; 
 
