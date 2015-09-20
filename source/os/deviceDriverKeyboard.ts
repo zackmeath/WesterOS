@@ -51,7 +51,7 @@ module WESTEROS {
                         (keyCode == 13)) {                       // enter
                 chr = String.fromCharCode(keyCode);
 							  if (isShifted) {
-									 switch(keyCode){
+									 switch(keyCode) {
 										   case 48:
 												   chr = String.fromCharCode(41);
 													 break;
@@ -83,42 +83,41 @@ module WESTEROS {
 												   chr = String.fromCharCode(40);
 													 break;
 									 }
-								} 
+								}
                 _KernelInputQueue.enqueue(chr);
 						} else {
-									  var regularMappings = {
-										    189: 45,
-												187: 61,
-												219: 91,
-											  221: 93,
-												186: 59,
-												222: 39,
-												188: 44,
-											  190: 46,
-												191: 47,
-												192: 96,
-										};
-										var shiftedMappings = {
-										    189: 95,
-												187: 43,
-												219: 123,
-												221: 125,
-												186: 58,
-												222: 34,
-												188: 60,
-											  190: 62,
-												191: 63,
-												192: 126,
-										};
-										if (regularMappings[keyCode] !== undefined){
-											  chr = String.fromCharCode(isShifted ? shiftedMappings[keyCode] : regularMappings[keyCode]);
-                        _KernelInputQueue.enqueue(chr);
-										} else {
-											  chr = String.fromCharCode(keyCode);
-                        _KernelInputQueue.enqueue(chr);
-										}
+							  var regularMappings = {
+                    189: 45,
+									  187: 61,
+									  219: 91,
+									  221: 93,
+									  186: 59,
+									  222: 39,
+									  188: 44,
+									  190: 46,
+									  191: 47,
+									  192: 96,
+								};
+								var shiftedMappings = {
+										189: 95,
+										187: 43,
+										219: 123,
+										221: 125,
+										186: 58,
+										222: 34,
+										188: 60,
+										190: 62,
+										191: 63,
+										192: 126,
+								};
+								if (regularMappings[keyCode] !== undefined){
+										chr = String.fromCharCode(isShifted ? shiftedMappings[keyCode] : regularMappings[keyCode]);
+										_KernelInputQueue.enqueue(chr);
+								} else {
+										chr = String.fromCharCode(keyCode);
+										_KernelInputQueue.enqueue(chr);
 								}
             }
         }
     }
-};
+}
