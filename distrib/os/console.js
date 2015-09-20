@@ -7,8 +7,8 @@
      The OS Console - stdIn and stdOut by default.
      Note: This is not the Shell. The Shell is the "command line interface" (CLI) or interpreter for this console.
      ------------ */
-var ZMOS;
-(function (ZMOS) {
+var WESTEROS;
+(function (WESTEROS) {
     var CommandHistory = (function () {
         function CommandHistory() {
             this.pointer = -1;
@@ -34,7 +34,7 @@ var ZMOS;
         };
         return CommandHistory;
     })();
-    ZMOS.CommandHistory = CommandHistory; // End of CommandHistory class
+    WESTEROS.CommandHistory = CommandHistory; // End of CommandHistory class
     var Console = (function () {
         function Console(currentFont, currentFontSize, currentXPosition, currentYPosition, buffer) {
             if (currentFont === void 0) { currentFont = _DefaultFontFamily; }
@@ -173,5 +173,5 @@ var ZMOS;
         };
         return Console;
     })();
-    ZMOS.Console = Console;
-})(ZMOS || (ZMOS = {}));
+    WESTEROS.Console = Console;
+})(WESTEROS || (WESTEROS = {}));

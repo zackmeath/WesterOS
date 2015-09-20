@@ -1,8 +1,8 @@
 /* ------------
    Interrupt.ts
    ------------ */
-var ZMOS;
-(function (ZMOS) {
+var WESTEROS;
+(function (WESTEROS) {
     var Interrupt = (function () {
         function Interrupt(irq, params) {
             this.irq = irq;
@@ -10,5 +10,5 @@ var ZMOS;
         }
         return Interrupt;
     })();
-    ZMOS.Interrupt = Interrupt;
-})(ZMOS || (ZMOS = {}));
+    WESTEROS.Interrupt = Interrupt;
+})(WESTEROS || (WESTEROS = {}));

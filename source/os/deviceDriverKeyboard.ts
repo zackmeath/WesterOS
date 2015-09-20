@@ -9,7 +9,7 @@
    The Kernel Keyboard Device Driver.
    ---------------------------------- */
 
-module ZMOS {
+module WESTEROS {
 
     // Extends DeviceDriver
     export class DeviceDriverKeyboard extends DeviceDriver {

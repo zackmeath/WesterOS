@@ -1,5 +1,5 @@
-var ZMOS;
-(function (ZMOS) {
+var WESTEROS;
+(function (WESTEROS) {
     var ShellCommand = (function () {
         function ShellCommand(func, command, description) {
             if (command === void 0) { command = ""; }
@@ -10,5 +10,5 @@ var ZMOS;
         }
         return ShellCommand;
     })();
-    ZMOS.ShellCommand = ShellCommand;
-})(ZMOS || (ZMOS = {}));
+    WESTEROS.ShellCommand = ShellCommand;
+})(WESTEROS || (WESTEROS = {}));

@@ -16,8 +16,8 @@
  * Note: You could theoretically make up your own letters and symbols for your OS.
  *       That might be fun.
  * ----------------- */
-var ZMOS;
-(function (ZMOS) {
+var WESTEROS;
+(function (WESTEROS) {
     var CanvasTextFunctions = (function () {
         function CanvasTextFunctions() {
         }
@@ -190,5 +190,5 @@ var ZMOS;
         };
         return CanvasTextFunctions;
     })();
-    ZMOS.CanvasTextFunctions = CanvasTextFunctions;
-})(ZMOS || (ZMOS = {}));
+    WESTEROS.CanvasTextFunctions = CanvasTextFunctions;
+})(WESTEROS || (WESTEROS = {}));

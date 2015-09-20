@@ -8,7 +8,7 @@
 
    ------------ */
 
-module ZMOS {
+module WESTEROS {
     export class Queue {
         constructor(public q = new Array()) {
         }

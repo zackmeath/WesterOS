@@ -10,7 +10,7 @@
 //
 // Global CONSTANTS (TypeScript 1.5 introduced const. Very cool.)
 //
-var APP_NAME = "zmOS";
+var APP_NAME = "WesterOS";
 var APP_VERSION = "0.1";
 var CPU_CLOCK_INTERVAL = 100; // This is in ms (milliseconds) so 1000 = 1 second.
 var TIMER_IRQ = 0; // Pages 23 (timer), 9 (interrupts), and 561 (interrupt priority).
@@ -54,5 +54,5 @@ var _UserProgramInput;
 var Glados = null; // This is the function Glados() in glados.js on Labouseur.com.
 var _GLaDOS = null; // If the above is linked in, this is the instantiated instance of Glados.
 var onDocumentLoad = function () {
-    ZMOS.Control.hostInit();
+    WESTEROS.Control.hostInit();
 };

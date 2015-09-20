@@ -11,8 +11,8 @@
      This code references page numbers in the text book:
      Operating System Concepts 8th edition by Silberschatz, Galvin, and Gagne.  ISBN 978-0-470-12872-5
      ------------ */
-var ZMOS;
-(function (ZMOS) {
+var WESTEROS;
+(function (WESTEROS) {
     var Kernel = (function () {
         function Kernel() {
         }
@@ -20,21 +20,21 @@ var ZMOS;
         // OS Startup and Shutdown Routines
         //
         Kernel.prototype.krnBootstrap = function () {
-            ZMOS.Control.hostLog("bootstrap", "host"); // Use hostLog because we ALWAYS want this, even if _Trace is off.
+            WESTEROS.Control.hostLog("bootstrap", "host"); // Use hostLog because we ALWAYS want this, even if _Trace is off.
             // Initialize our global queues.
-            _KernelInterruptQueue = new ZMOS.Queue(); // A (currently) non-priority queue for interrupt requests (IRQs).
+            _KernelInterruptQueue = new WESTEROS.Queue(); // A (currently) non-priority queue for interrupt requests (IRQs).
             _KernelBuffers = new Array(); // Buffers... for the kernel.
-            _KernelInputQueue = new ZMOS.Queue(); // Where device input lands before being processed out somewhere.
+            _KernelInputQueue = new WESTEROS.Queue(); // Where device input lands before being processed out somewhere.
             // Initialize the console.
-            _Console = new ZMOS.Console(); // The command line interface / console I/O device.
+            _Console = new WESTEROS.Console(); // The command line interface / console I/O device.
             _Console.init();
             // Initialize standard input and output to the _Console.
             _StdIn = _Console;
             _StdOut = _Console;
-            _CommandHistory = new ZMOS.CommandHistory();
+            _CommandHistory = new WESTEROS.CommandHistory();
             // Load the Keyboard Device Driver
             this.krnTrace("Loading the keyboard device driver.");
-            _krnKeyboardDriver = new ZMOS.DeviceDriverKeyboard(); // Construct it.
+            _krnKeyboardDriver = new WESTEROS.DeviceDriverKeyboard(); // Construct it.
             _krnKeyboardDriver.driverEntry(); // Call the driverEntry() initialization routine.
             this.krnTrace(_krnKeyboardDriver.status);
             //
@@ -45,7 +45,7 @@ var ZMOS;
             this.krnEnableInterrupts();
             // Launch the shell.
             this.krnTrace("Creating and Launching the shell.");
-            _OsShell = new ZMOS.Shell();
+            _OsShell = new WESTEROS.Shell();
             _OsShell.init();
             // Finally, initiate student testing protocol.
             if (_GLaDOS) {
@@ -88,12 +88,12 @@ var ZMOS;
         //
         Kernel.prototype.krnEnableInterrupts = function () {
             // Keyboard
-            ZMOS.Devices.hostEnableKeyboardInterrupt();
+            WESTEROS.Devices.hostEnableKeyboardInterrupt();
             // Put more here.
         };
         Kernel.prototype.krnDisableInterrupts = function () {
             // Keyboard
-            ZMOS.Devices.hostDisableKeyboardInterrupt();
+            WESTEROS.Devices.hostDisableKeyboardInterrupt();
             // Put more here.
         };
         Kernel.prototype.krnInterruptHandler = function (irq, params) {
@@ -145,17 +145,17 @@ var ZMOS;
                     if (_OSclock % 10 == 0) {
                         // Check the CPU_CLOCK_INTERVAL in globals.ts for an
                         // idea of the tick rate and adjust this line accordingly.
-                        ZMOS.Control.hostLog(msg, "OS");
+                        WESTEROS.Control.hostLog(msg, "OS");
                     }
                 }
                 else {
-                    ZMOS.Control.hostLog(msg, "OS");
+                    WESTEROS.Control.hostLog(msg, "OS");
                 }
             }
         };
         Kernel.prototype.krnTrapError = function (msg) {
             // TODO BSOD not displaying correctly
-            ZMOS.Control.hostLog("OS ERROR - TRAP: " + msg);
+            WESTEROS.Control.hostLog("OS ERROR - TRAP: " + msg);
             // Make sure canvas is the same size as the BSOD image
             _Canvas.height = 500;
             _Canvas.width = 500;
@@ -171,5 +171,5 @@ var ZMOS;
         };
         return Kernel;
     })();
-    ZMOS.Kernel = Kernel;
-})(ZMOS || (ZMOS = {}));
+    WESTEROS.Kernel = Kernel;
+})(WESTEROS || (WESTEROS = {}));

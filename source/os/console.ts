@@ -9,7 +9,7 @@
      Note: This is not the Shell. The Shell is the "command line interface" (CLI) or interpreter for this console.
      ------------ */
 
-module ZMOS {
+module WESTEROS {
 
     export class CommandHistory {
 

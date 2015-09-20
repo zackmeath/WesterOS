@@ -14,7 +14,7 @@
      ------------ */
 
 
-module ZMOS {
+module WESTEROS {
 
     export class Kernel {
         //

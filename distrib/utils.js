@@ -3,8 +3,8 @@
 
    Utility functions.
    -------- */
-var ZMOS;
-(function (ZMOS) {
+var WESTEROS;
+(function (WESTEROS) {
     var Utils = (function () {
         function Utils() {
         }
@@ -46,5 +46,5 @@ var ZMOS;
         };
         return Utils;
     })();
-    ZMOS.Utils = Utils;
-})(ZMOS || (ZMOS = {}));
+    WESTEROS.Utils = Utils;
+})(WESTEROS || (WESTEROS = {}));

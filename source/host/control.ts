@@ -23,7 +23,7 @@
 //
 // Control Services
 //
-module ZMOS {
+module WESTEROS {
 
     export class Control {
 

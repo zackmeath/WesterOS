@@ -2,7 +2,7 @@
    Interrupt.ts
    ------------ */
 
-module ZMOS {
+module WESTEROS {
     export class Interrupt {
         constructor(public irq, public params) {
         }

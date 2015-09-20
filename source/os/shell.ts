@@ -15,7 +15,7 @@
 
 // TODO: Write a base class / prototype for system services and let Shell inherit from it.
 
-module ZMOS {
+module WESTEROS {
     export class Shell {
         // Properties
         public promptStr = "$ ";
@@ -338,7 +338,7 @@ module ZMOS {
                         _StdOut.putText("Help displays a list of (hopefully) valid commands.");
                         break;
 										case "ver":
-                        _StdOut.putText("Displays the current version of zmOS");
+                        _StdOut.putText("Displays the current version of WesterOS");
 												break;
 										case "bsod":
 												_StdOut.putText("Displays the blue screen of death");

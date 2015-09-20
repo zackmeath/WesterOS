@@ -7,8 +7,8 @@
    Look at the push and shift methods, as they are the least obvious here.
 
    ------------ */
-var ZMOS;
-(function (ZMOS) {
+var WESTEROS;
+(function (WESTEROS) {
     var Queue = (function () {
         function Queue(q) {
             if (q === void 0) { q = new Array(); }
@@ -39,5 +39,5 @@ var ZMOS;
         };
         return Queue;
     })();
-    ZMOS.Queue = Queue;
-})(ZMOS || (ZMOS = {}));
+    WESTEROS.Queue = Queue;
+})(WESTEROS || (WESTEROS = {}));

@@ -17,7 +17,7 @@
  *       That might be fun.
  * ----------------- */
 
-module ZMOS {
+module WESTEROS {
 
     export class CanvasTextFunctions {
 

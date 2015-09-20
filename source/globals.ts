@@ -10,7 +10,7 @@
 //
 // Global CONSTANTS (TypeScript 1.5 introduced const. Very cool.)
 //
-const APP_NAME: string    = "zmOS";
+const APP_NAME: string    = "WesterOS";
 const APP_VERSION: string = "0.1"; 
 
 const CPU_CLOCK_INTERVAL: number = 100;   // This is in ms (milliseconds) so 1000 = 1 second.
@@ -23,7 +23,7 @@ const KEYBOARD_IRQ: number = 1;
 // Global Variables
 // TODO: Make a global object and use that instead of the "_" naming convention in the global namespace.
 //
-var _CPU: ZMOS.Cpu;  // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
+var _CPU: WESTEROS.Cpu;  // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
 
 var _OSclock: number = 0;  // Page 23.
 
@@ -41,7 +41,7 @@ var _Trace: boolean = true;  // Default the OS trace to be on.
 var _shouldPrompt = true;
 
 // The OS Kernel and its queues.
-var _Kernel: ZMOS.Kernel;
+var _Kernel: WESTEROS.Kernel;
 var _KernelInterruptQueue;          // Initializing this to null (which I would normally do) would then require us to specify the 'any' type, as below.
 var _KernelInputQueue: any = null;  // Is this better? I don't like uninitialized variables. But I also don't like using the type specifier 'any'
 var _KernelBuffers: any[] = null;   // when clearly 'any' is not what we want. There is likely a better way, but what is it?
@@ -51,9 +51,9 @@ var _StdIn;    // Same "to null or not to null" issue as above.
 var _StdOut;
 
 // UI
-var _Console: ZMOS.Console;
-var _OsShell: ZMOS.Shell;
-var _CommandHistory: ZMOS.CommandHistory;
+var _Console: WESTEROS.Console;
+var _OsShell: WESTEROS.Shell;
+var _CommandHistory: WESTEROS.CommandHistory;
 
 // At least this OS is not trying to kill you. (Yet.)
 var _SarcasticMode: boolean = false;
@@ -71,5 +71,5 @@ var Glados: any = null;  // This is the function Glados() in glados.js on Labous
 var _GLaDOS: any = null; // If the above is linked in, this is the instantiated instance of Glados.
 
 var onDocumentLoad = function() {
-	ZMOS.Control.hostInit();
+	WESTEROS.Control.hostInit();
 };

@@ -3,8 +3,8 @@
 
      The "base class" for all Device Drivers.
      ------------------------------ */
-var ZMOS;
-(function (ZMOS) {
+var WESTEROS;
+(function (WESTEROS) {
     var DeviceDriver = (function () {
         function DeviceDriver(driverEntry, isr) {
             if (driverEntry === void 0) { driverEntry = null; }
@@ -17,5 +17,5 @@ var ZMOS;
         }
         return DeviceDriver;
     })();
-    ZMOS.DeviceDriver = DeviceDriver;
-})(ZMOS || (ZMOS = {}));
+    WESTEROS.DeviceDriver = DeviceDriver;
+})(WESTEROS || (WESTEROS = {}));
