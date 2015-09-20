@@ -75,7 +75,6 @@ var ZMOS;
                 if (chr === String.fromCharCode(13)) {
                     // The enter key marks the end of a console command, so ...
                     // Store command in history
-                    _CommandHistory.addCommand(this.buffer);
                     // ... tell the shell ...
                     _OsShell.handleInput(this.buffer);
                     // ... and reset our buffer.

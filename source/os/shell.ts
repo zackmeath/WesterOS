@@ -130,6 +130,8 @@ module ZMOS {
 
         public handleInput(buffer) {
             _Kernel.krnTrace("Shell Command~" + buffer);
+						// Track the command history
+						_CommandHistory.addCommand(this.buffer);
             //
             // Parse the input...
             //

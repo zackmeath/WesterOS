@@ -184,8 +184,8 @@ module ZMOS {
 						// Create BSOD image
 						var context = _Canvas.getContext('2d');
 					  var bsod = new Image();
-						bsod.onLoad = function(){
-							  context.drawImage(bsod,0,0);
+						bsod.onload = function(){
+							  context.drawImage(bsod,0,0,500,500);
 						}
 
 						// Kill the kernal and draw BSOD

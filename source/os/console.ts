@@ -85,7 +85,6 @@ module ZMOS {
                 if (chr === String.fromCharCode(13)) { //     Enter key
                     // The enter key marks the end of a console command, so ...
 										// Store command in history
-										_CommandHistory.addCommand(this.buffer);
                     // ... tell the shell ...
                     _OsShell.handleInput(this.buffer);
                     // ... and reset our buffer.

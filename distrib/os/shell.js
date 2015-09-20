@@ -79,6 +79,8 @@ var ZMOS;
         };
         Shell.prototype.handleInput = function (buffer) {
             _Kernel.krnTrace("Shell Command~" + buffer);
+            // Track the command history
+            _CommandHistory.addCommand(this.buffer);
             //
             // Parse the input...
             //
