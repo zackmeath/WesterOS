@@ -9,6 +9,32 @@
      ------------ */
 var ZMOS;
 (function (ZMOS) {
+    var CommandHistory = (function () {
+        function CommandHistory() {
+            this.pointer = -1;
+            this.historyArray = [];
+        }
+        CommandHistory.prototype.getCurrentPointerCommand = function () {
+            console.log(this.pointer);
+            return this.pointer === -1 ? '' : this.historyArray[this.pointer];
+        };
+        CommandHistory.prototype.addCommand = function (command) {
+            this.historyArray.unshift(command);
+            this.pointer = -1;
+        };
+        CommandHistory.prototype.upArrow = function () {
+            if (this.pointer < this.historyArray.length - 1) {
+                this.pointer++;
+            }
+        };
+        CommandHistory.prototype.downArrow = function () {
+            if (this.pointer >= 0) {
+                this.pointer--;
+            }
+        };
+        return CommandHistory;
+    })();
+    ZMOS.CommandHistory = CommandHistory; // End of CommandHistory class
     var Console = (function () {
         function Console(currentFont, currentFontSize, currentXPosition, currentYPosition, buffer) {
             if (currentFont === void 0) { currentFont = _DefaultFontFamily; }
@@ -33,6 +59,14 @@ var ZMOS;
             this.currentXPosition = 0;
             this.currentYPosition = this.currentFontSize;
         };
+        Console.prototype.changeCommand = function (newCommand) {
+            var charHeight = _DefaultFontSize + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize);
+            _DrawingContext.clearRect(0, this.currentYPosition - charHeight, _Canvas.width, charHeight + _FontHeightMargin);
+            this.currentXPosition = 0;
+            //console.log(newCommand);
+            _OsShell.putPrompt();
+            _StdOut.putText(newCommand);
+        };
         Console.prototype.handleInput = function () {
             while (_KernelInputQueue.getSize() > 0) {
                 // Get the next character from the kernel input queue.
@@ -40,6 +74,8 @@ var ZMOS;
                 // Check to see if it's "special" (enter or ctrl-c) or "normal" (anything else that the keyboard device driver gave us).
                 if (chr === String.fromCharCode(13)) {
                     // The enter key marks the end of a console command, so ...
+                    // Store command in history
+                    _CommandHistory.addCommand(this.buffer);
                     // ... tell the shell ...
                     _OsShell.handleInput(this.buffer);
                     // ... and reset our buffer.
@@ -53,6 +89,26 @@ var ZMOS;
                         this.currentXPosition -= offset;
                         this.buffer = this.buffer.substring(0, this.buffer.length - 1);
                     }
+                }
+                else if (chr === String.fromCharCode(9)) {
+                    // Tab
+                    for (var i = 0; i < _OsShell.commandList.length; i++) {
+                        var command = _OsShell.commandList[i];
+                        if (command.command.indexOf(this.buffer) === 0 && command.command.length !== this.buffer.length) {
+                            this.buffer = command.command;
+                            _StdOut.advanceLine();
+                            _OsShell.putPrompt();
+                            _StdOut.putText(this.buffer);
+                        }
+                    }
+                }
+                else if (chr === String.fromCharCode(38)) {
+                    _CommandHistory.upArrow();
+                    this.changeCommand(_CommandHistory.getCurrentPointerCommand());
+                }
+                else if (chr === String.fromCharCode(40)) {
+                    _CommandHistory.downArrow();
+                    this.changeCommand(_CommandHistory.getCurrentPointerCommand());
                 }
                 else {
                     // This is a "normal" character, so ...
@@ -73,17 +129,28 @@ var ZMOS;
             // UPDATE: Even though we are now working in TypeScript, char and string remain undistinguished.
             //         Consider fixing that.
             if (text !== "") {
-                var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
-                // Utilize line wrapping
-                if (this.currentXPosition + offset > _Canvas.width) {
-                    if (offset < _Canvas.width) {
+                var arr = text.split(' ');
+                if (arr.length > 1 && text !== ' ') {
+                    for (var i = 0; i < arr.length; i++) {
+                        this.putText(arr[i]);
+                        if (i !== arr.length - 1) {
+                            this.putText(' ');
+                        }
                     }
-                    this.advanceLine();
                 }
-                // Draw the text at the current X and Y coordinates.
-                _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
-                // Move the current X position.
-                this.currentXPosition = this.currentXPosition + offset;
+                else {
+                    var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
+                    // Utilize line wrapping
+                    if (this.currentXPosition + offset > _Canvas.width) {
+                        if (offset < _Canvas.width) {
+                        }
+                        this.advanceLine();
+                    }
+                    // Draw the text at the current X and Y coordinates.
+                    _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
+                    // Move the current X position.
+                    this.currentXPosition = this.currentXPosition + offset;
+                }
             }
         };
         Console.prototype.advanceLine = function () {

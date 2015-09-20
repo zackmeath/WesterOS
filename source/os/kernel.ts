@@ -35,6 +35,7 @@ module ZMOS {
             // Initialize standard input and output to the _Console.
             _StdIn  = _Console;
             _StdOut = _Console;
+						_CommandHistory = new CommandHistory();
 
             // Load the Keyboard Device Driver
             this.krnTrace("Loading the keyboard device driver.");
@@ -176,17 +177,19 @@ module ZMOS {
 					  // TODO BSOD not displaying correctly
             Control.hostLog("OS ERROR - TRAP: " + msg);
 
-						// Create BSOD image
-					  var bsod = new Image();
-						bsod.src = 'distrib/images/bsod.png';
-
 						// Make sure canvas is the same size as the BSOD image
 						_Canvas.height = 500;
 						_Canvas.width = 500;
 
+						// Create BSOD image
+						var context = _Canvas.getContext('2d');
+					  var bsod = new Image();
+						bsod.onLoad = function(){
+							  context.drawImage(bsod,0,0);
+						}
+
 						// Kill the kernal and draw BSOD
-					  _Canvas.getContext('2d').drawImage(bsod,0,0);
-						console.log('BSOD');
+						bsod.src = 'distrib/images/bsod.png';
             this.krnShutdown();
         }
     }

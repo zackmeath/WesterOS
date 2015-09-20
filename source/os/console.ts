@@ -11,6 +11,40 @@
 
 module ZMOS {
 
+    export class CommandHistory {
+
+			  constructor(){
+					  this.pointer = -1;
+					  this.historyArray = [];
+				}
+
+				private historyArray;
+				private pointer;
+
+				public getCurrentPointerCommand(){
+					  console.log(this.pointer);
+					  return this.pointer === -1 ? '' : this.historyArray[this.pointer];
+				}
+
+			  public addCommand(command){
+					  this.historyArray.unshift(command);
+						this.pointer = -1;
+				}
+				
+				public upArrow(){
+					  if (this.pointer < this.historyArray.length - 1){
+					      this.pointer++;
+						}
+				}
+				
+				public downArrow(){
+					  if (this.pointer >= 0){
+					      this.pointer--;
+						}
+				}
+
+		} // End of CommandHistory class
+
     export class Console {
 
         constructor(public currentFont = _DefaultFontFamily,
@@ -34,6 +68,15 @@ module ZMOS {
             this.currentYPosition = this.currentFontSize;
         }
 
+				private changeCommand(newCommand){
+					  var charHeight = _DefaultFontSize + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize);
+					  _DrawingContext.clearRect(0, this.currentYPosition - charHeight, _Canvas.width, charHeight + _FontHeightMargin);
+						this.currentXPosition = 0;
+						//console.log(newCommand);
+						_OsShell.putPrompt();
+						_StdOut.putText(newCommand);
+				}
+
         public handleInput(): void {
             while (_KernelInputQueue.getSize() > 0) {
                 // Get the next character from the kernel input queue.
@@ -41,6 +84,8 @@ module ZMOS {
                 // Check to see if it's "special" (enter or ctrl-c) or "normal" (anything else that the keyboard device driver gave us).
                 if (chr === String.fromCharCode(13)) { //     Enter key
                     // The enter key marks the end of a console command, so ...
+										// Store command in history
+										_CommandHistory.addCommand(this.buffer);
                     // ... tell the shell ...
                     _OsShell.handleInput(this.buffer);
                     // ... and reset our buffer.
@@ -53,6 +98,23 @@ module ZMOS {
 												this.currentXPosition -= offset;
 									      this.buffer = this.buffer.substring(0, this.buffer.length-1);
 										}
+								} else if (chr === String.fromCharCode(9)){
+									  // Tab
+										for (var i = 0; i < _OsShell.commandList.length; i++){
+											  var command = _OsShell.commandList[i];
+                        if (command.command.indexOf(this.buffer) === 0 && command.command.length !== this.buffer.length){
+													  this.buffer = command.command;
+														_StdOut.advanceLine();
+														_OsShell.putPrompt();
+														_StdOut.putText(this.buffer);
+												}
+										}
+								} else if (chr === String.fromCharCode(38)){
+									  _CommandHistory.upArrow();
+										this.changeCommand(_CommandHistory.getCurrentPointerCommand());
+								} else if (chr === String.fromCharCode(40)){
+									  _CommandHistory.downArrow();
+										this.changeCommand(_CommandHistory.getCurrentPointerCommand());
 								} else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
@@ -74,20 +136,30 @@ module ZMOS {
             // UPDATE: Even though we are now working in TypeScript, char and string remain undistinguished.
             //         Consider fixing that.
             if (text !== "") {
-                var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
-							  // Utilize line wrapping
-								if (this.currentXPosition + offset > _Canvas.width){
-										if (offset < _Canvas.width){
-											  // TODO Word wrap
+							  var arr = text.split(' ');
+								if ( arr.length > 1 && text !== ' '){
+									  for( var i = 0; i < arr.length; i++ ){
+											  this.putText(arr[i]);
+												if (i !== arr.length-1){
+												   this.putText(' ');
+												}
 										}
-									  this.advanceLine();
+								} else {
+                    var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
+							      // Utilize line wrapping
+								    if (this.currentXPosition + offset > _Canvas.width){
+								    		if (offset < _Canvas.width){
+								    			  // TODO Word wrap
+								    		}
+								    	  this.advanceLine();
+								    }
+                    // Draw the text at the current X and Y coordinates.
+                    _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
+                    // Move the current X position.
+                    this.currentXPosition = this.currentXPosition + offset;
 								}
-                // Draw the text at the current X and Y coordinates.
-                _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
-                // Move the current X position.
-                this.currentXPosition = this.currentXPosition + offset;
             }
-         }
+        }
 
         public advanceLine(): void {
             this.currentXPosition = 0;

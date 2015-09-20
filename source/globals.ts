@@ -53,6 +53,7 @@ var _StdOut;
 // UI
 var _Console: ZMOS.Console;
 var _OsShell: ZMOS.Shell;
+var _CommandHistory: ZMOS.CommandHistory;
 
 // At least this OS is not trying to kill you. (Yet.)
 var _SarcasticMode: boolean = false;
