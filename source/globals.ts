@@ -71,7 +71,13 @@ var _UserProgramInput: string;
 var Glados: any = null;  // This is the function Glados() in glados.js on Labouseur.com.
 var _GLaDOS: any = null; // If the above is linked in, this is the instantiated instance of Glados.
 
+var onlyOnce = true;
+
 var onDocumentLoad = function() {
+    if(onlyOnce){
+			 document.getElementById('display').height = 500 * window.devicePixelRatio;
+			 onlyOnce = false;
+		}
     function startTime() {
         var date = new Date();
 				var month = date.getMonth();
