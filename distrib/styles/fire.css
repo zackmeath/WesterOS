@@ -9,6 +9,7 @@ body {
   font-size: 12pt;
   font-weight: normal;
   font-style: normal;
+	color: black;
 }
 
 h1 {
@@ -35,9 +36,20 @@ h3 {
 }
 
 #display {
-  background-color:#DFDBC3;
-  border: 2px solid red;
+	color:black;
+  background-color:#EE6600;
+  border: 1px solid black;
   cursor: default;
+}
+
+#taHostLog {
+	color:black;
+	background-color:#EE6600;
+}
+
+#taProgramInput{
+	color:black;
+	background-color:#EE6600;
 }
 
 .normal_button {
@@ -55,3 +67,19 @@ h3 {
 	  overflow: scroll;
 }
 
+#status {
+	margin: 4px;
+	text-align: center;
+  float: left;
+}
+#statusTA {
+	background-color:#EE6600;
+}
+#time {
+	margin: 4px;
+	text-align: center;
+  float: left;
+}
+#timeTA {
+	background-color:#EE6600;
+}

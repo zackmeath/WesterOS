@@ -31,6 +31,18 @@ module WESTEROS {
             //
             // Load the command list.
 
+						// ice
+            sc = new ShellCommand(this.shellIce,
+                                  "ice",
+                                  "- Changes the current theme to ice");
+            this.commandList[this.commandList.length] = sc;
+
+						// fire
+            sc = new ShellCommand(this.shellFire,
+                                  "fire",
+                                  "- Changes the current theme to fire");
+            this.commandList[this.commandList.length] = sc;
+
             // ver
             sc = new ShellCommand(this.shellVer,
                                   "ver",
@@ -65,12 +77,6 @@ module WESTEROS {
 						sc = new ShellCommand(this.shellWhereami,
 						                      "whereami",
 																	"- Displays the current user's location");
-						this.commandList[this.commandList.length] = sc;
-
-						// chess
-						sc = new ShellCommand(this.shellChess,
-						                      "chess",
-																	"- Toggles chess mode");
 						this.commandList[this.commandList.length] = sc;
 
             // help
@@ -225,13 +231,20 @@ module WESTEROS {
             }
         }
 
-
         public shellCurse() {
             _StdOut.putText("Oh, so that's how it's going to be, eh? Fine.");
             _StdOut.advanceLine();
             _StdOut.putText("Bitch.");
             _SarcasticMode = true;
         }
+
+				public shellFire() {
+					  document.getElementById('stylesheet').href='distrib/styles/fire.css';
+				}
+
+				public shellIce() {
+					  document.getElementById('stylesheet').href='distrib/styles/ice.css';
+				}
 
         public shellApology() {
            if (_SarcasticMode) {
@@ -291,6 +304,7 @@ module WESTEROS {
 							  _StdOut.putText("Please supply an argument <string> to be set as the new status");
 						} else {
 								_SystemStatus = args[0];
+								document.getElementById('statusTA').value = 'Status: ' + args[0];
 						}
 				}
 
@@ -300,10 +314,6 @@ module WESTEROS {
 						} else {
 							  _StdOut.putText('Aperture Science Enrichment Center');
 						}
-				}
-
-				public shellChess(args){
-					  _ChessMode = !_ChessMode;
 				}
 
         public shellHelp(args) {
@@ -330,6 +340,12 @@ module WESTEROS {
             if (args.length > 0) {
                 var topic = args[0];
                 switch (topic) {
+									  case "ice":
+											  _StdOut.putText("Ally with the Starks of Winterfell, The North remembers...");
+												break;
+										case "fire":
+												_StdOut.putText("Ally with Daenerys Stormborn of house Targaryen, Zaldrizes buzdari iksos daor");
+												break;
                     case "help":
 									      if (_SarcasticMode) {
                             _StdOut.putText("Really?");
@@ -365,6 +381,15 @@ module WESTEROS {
 												_StdOut.putText("\ton - Enables host log trace output data");
 												_StdOut.advanceLine();
 												_StdOut.putText("\toff - Disables host log trace output data");
+												break;
+										case "status":
+												_StdOut.putText("<string> - sets the current system status to <string>");
+												break;
+										case "whereami":
+												_StdOut.putText("Prints the current user location");
+												break;
+										case "date":
+												_StdOut.putText("Prints the current time and date");
 												break;
 										case "rot13":
                         _StdOut.putText("<string> - Does rot13 obfuscation on <string>");

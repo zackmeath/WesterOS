@@ -72,5 +72,31 @@ var Glados: any = null;  // This is the function Glados() in glados.js on Labous
 var _GLaDOS: any = null; // If the above is linked in, this is the instantiated instance of Glados.
 
 var onDocumentLoad = function() {
-	WESTEROS.Control.hostInit();
+    function startTime() {
+        var date = new Date();
+				var month = date.getMonth();
+				var day = date.getDate();
+				var year = date.getYear();
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var seconds = date.getSeconds();
+				var ampm = 'am';
+        minutes = checkTime(minutes);
+        seconds = checkTime(seconds);
+				if (hours > 12){
+					  hours -= 12;
+						ampm = 'pm';
+				}
+        document.getElementById('timeTA').innerHTML = hours + ":" + minutes + ":" + seconds + ' ' + ampm + '  ' + month + '/' + day + '/' + year;
+        var t = setTimeout(function(){startTime()},500);
+    }
+
+		function checkTime(i) {
+			 if (i < 10) {
+				 i = "0" + i
+			 };  // add zero in front of numbers < 10
+			 return i;
+		}
+    startTime();
+	  WESTEROS.Control.hostInit();
 };

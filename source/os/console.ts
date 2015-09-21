@@ -69,8 +69,9 @@ module WESTEROS {
         }
 
 				private changeCommand(newCommand){
+					  this.buffer = newCommand;
 					  var charHeight = _DefaultFontSize + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize);
-					  _DrawingContext.clearRect(0, this.currentYPosition - charHeight, _Canvas.width, charHeight + _FontHeightMargin);
+					  _DrawingContext.clearRect(0, this.currentYPosition - charHeight, _Canvas.width/2, charHeight + _FontHeightMargin);
 						this.currentXPosition = 0;
 						//console.log(newCommand);
 						_OsShell.putPrompt();
@@ -146,8 +147,8 @@ module WESTEROS {
 								} else {
                     var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
 							      // Utilize line wrapping
-								    if (this.currentXPosition + offset > _Canvas.width){
-								    		if (offset < _Canvas.width){
+								    if (this.currentXPosition + offset > _Canvas.width/2){
+								    		if (offset < _Canvas.width/2){
 								    			  // TODO Word wrap
 								    		}
 								    	  this.advanceLine();
@@ -171,7 +172,7 @@ module WESTEROS {
                                      _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                                      _FontHeightMargin;
 
-						var imgData = _Canvas.getContext('2d').getImageData(0,0,_Canvas.width, _Canvas.height);
+						var imgData = _Canvas.getContext('2d').getImageData(0,0,_Canvas.width/2, _Canvas.height);
 						if (this.currentYPosition > _Canvas.height){
 							  _Canvas.height = this.currentYPosition + 5;
 						    _Canvas.getContext('2d').putImageData(imgData,0,0);
