@@ -25,7 +25,6 @@ var WESTEROS;
 (function (WESTEROS) {
     var Control = (function () {
         function Control() {
-            this.firstLoad = true;
         }
         Control.hostInit = function () {
             // This is called from index.html's onLoad event via the onDocumentLoad function pointer.
@@ -37,9 +36,7 @@ var WESTEROS;
             }
             else {
                 _Canvas.width = 500;
-                _Canvas.height = 500;
                 _Canvas.style.width = "500px";
-                _Canvas.style.height = "500px";
             }
             // Get a global reference to the drawing context.
             _DrawingContext = _Canvas.getContext("2d");

@@ -171,11 +171,12 @@ module WESTEROS {
                                      _FontHeightMargin;
 
 						if (this.currentYPosition > _Canvas.height/window.devicePixelRatio){
-						// if (this.currentYPosition > _Canvas.height){
 								var imgData = _Canvas.getContext('2d').getImageData(0,0,_Canvas.width, _Canvas.height);
 							  _Canvas.height = (this.currentYPosition + 5) * window.devicePixelRatio;
 						    _Canvas.getContext('2d').putImageData(imgData,0,0);
-								_DrawingContext.scale(window.devicePixelRatio,window.devicePixelRatio);
+								if(window.devicePixelRatio === 2){
+										_DrawingContext.scale(window.devicePixelRatio,window.devicePixelRatio);
+								}
 
 						    // Keep window at bottom of the canvas
 						    var canvasDiv = document.getElementById("divConsole");
