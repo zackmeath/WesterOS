@@ -27,6 +27,8 @@ module WESTEROS {
 
     export class Control {
 
+			  private firstLoad = true;
+
         public static hostInit(): void {
             // This is called from index.html's onLoad event via the onDocumentLoad function pointer.
 
@@ -38,6 +40,10 @@ module WESTEROS {
 						} else {
 							  _Canvas.width = 500;
 								_Canvas.style.width = "500px";
+								if (this.firstLoad){
+								    _Canvas.height = 500;
+										this.firstLoad = false;
+								}
 						}
 
             // Get a global reference to the drawing context.
