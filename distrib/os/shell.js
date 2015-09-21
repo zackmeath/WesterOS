@@ -205,8 +205,8 @@ var TSOS;
         };
         Shell.prototype.shellLoad = function (args) {
             var legalChars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', ' '];
-            var isLegal = true;
             _UserProgramInput = document.getElementById("taProgramInput").value.trim();
+            var isLegal = (_UserProgramInput.length > 0);
             for (var i = 0; i < _UserProgramInput.length; i++) {
                 var character = _UserProgramInput[i];
                 if (legalChars.indexOf(character.toLowerCase()) === -1) {
