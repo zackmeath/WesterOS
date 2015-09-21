@@ -303,8 +303,13 @@ module TSOS {
 					  if (args.length < 0){
 							  _StdOut.putText("Please supply an argument <string> to be set as the new status");
 						} else {
-								_SystemStatus = args[0];
-								document.getElementById('statusTA').value = 'Status: ' + args[0];
+							  var stat = '';
+							  for(var i = 0; i < args.length; i++){
+									  stat += args[i];
+										stat += (i === args.length-1) ? '' : ' ';
+								}
+								_SystemStatus = stat;
+								document.getElementById('statusTA').value = 'Status: ' + stat;
 						}
 				}
 
