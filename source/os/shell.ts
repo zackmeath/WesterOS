@@ -309,11 +309,71 @@ module WESTEROS {
 				}
 
 				public shellWhereami(args){
-					  if (_SarcasticMode){
-							  _StdOut.putText('Right here');
-						} else {
-							  _StdOut.putText('Aperture Science Enrichment Center');
-						}
+				    var locations = [
+						    'Casterly Rock',
+								'Kings Landing',
+								'Winterfell',
+								'The Lands of Always Winter',
+								'Castle Black',
+								'The Eyrie',
+								'Braavos',
+								'Dragonstone',
+								'Meereen',
+								'The Dreadfort',
+								'Riverrun',
+								'Storm\'s End',
+								'Highgarden',
+								'The Twins',
+								'Sunspear',
+								'Pyke',
+								'Harrenhal',
+								'Pentos',
+								'Volantis',
+								'Astapor',
+								'Quarth',
+								'Vaes Dothrak',
+								'The Citadel',
+						];
+						var people = [
+						    'Jon Snow',
+						    'Eddard Stark',
+						    'Tyrion Lannister',
+						    'Cersei Lannister',
+						    'Daenarys Targaryen',
+						    'Sansa Stark',
+						    'Arya Stark',
+						    'Robb Stark',
+						    'Bran Stark',
+						    'Gregor \'The Mountain\' Clegane',
+						    'Stannis Baratheon',
+						    'Ramsey Bolton',
+						    'Theon \'Reek\' Greyjoy',
+						    'Melisandre',
+						    'Jaime Lannister',
+						    'Petyr Baelish',
+						    'Jorah Mormont',
+						    'Oberyn Martell',
+						    'Sandor \'GET HYPE\' Clegane',
+						    'Tywin Lannister',
+						    'Brienne of Tarth',
+						    'Jaquen H\'ghar',
+						    'Varys',
+						    'Benjen Stark, Gendry, and Rickon',
+						    'Barriston Selmy',
+						    'Margaery Tyrell',
+						    'Drogon',
+						    'HODOR',
+						    'Allister Thorne',
+						    'Walder Frey',
+						    'Khal Drogo',
+						    'The Night\'s King',
+						    'Bronn',
+						    'Davos Seaworth',
+						    'Doran Martell',
+						];
+						Utils.shuffle(locations);
+						Utils.shuffle(people);
+						_StdOut.putText(locations.pop() + ' with ' + people.pop());
 				}
 
         public shellHelp(args) {

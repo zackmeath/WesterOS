@@ -22,7 +22,6 @@ module WESTEROS {
 				private pointer;
 
 				public getCurrentPointerCommand(){
-					  console.log(this.pointer);
 					  return this.pointer === -1 ? '' : this.historyArray[this.pointer];
 				}
 
@@ -54,6 +53,8 @@ module WESTEROS {
                     public buffer = "") {
         }
 
+				public YRatio = window.devicePixelRatio;
+
         public init(): void {
             this.clearScreen();
             this.resetXY();
@@ -71,9 +72,8 @@ module WESTEROS {
 				private changeCommand(newCommand){
 					  this.buffer = newCommand;
 					  var charHeight = _DefaultFontSize + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize);
-					  _DrawingContext.clearRect(0, this.currentYPosition - charHeight, _Canvas.width/2, charHeight + _FontHeightMargin);
+					  _DrawingContext.clearRect(0, this.currentYPosition - charHeight, _Canvas.width, charHeight + _FontHeightMargin);
 						this.currentXPosition = 0;
-						//console.log(newCommand);
 						_OsShell.putPrompt();
 						_StdOut.putText(newCommand);
 				}
@@ -147,10 +147,8 @@ module WESTEROS {
 								} else {
                     var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
 							      // Utilize line wrapping
-								    if (this.currentXPosition + offset > _Canvas.width/2){
-								    		if (offset < _Canvas.width/2){
-								    			  // TODO Word wrap
-								    		}
+								    if (this.currentXPosition + offset > _Canvas.width/window.devicePixelRatio){
+								    // if (this.currentXPosition + offset > _Canvas.width){
 								    	  this.advanceLine();
 								    }
                     // Draw the text at the current X and Y coordinates.
@@ -172,10 +170,12 @@ module WESTEROS {
                                      _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                                      _FontHeightMargin;
 
-						var imgData = _Canvas.getContext('2d').getImageData(0,0,_Canvas.width/2, _Canvas.height);
-						if (this.currentYPosition > _Canvas.height){
-							  _Canvas.height = this.currentYPosition + 5;
+						if (this.currentYPosition > _Canvas.height/window.devicePixelRatio){
+						// if (this.currentYPosition > _Canvas.height){
+								var imgData = _Canvas.getContext('2d').getImageData(0,0,_Canvas.width, _Canvas.height);
+							  _Canvas.height = (this.currentYPosition + 5) * 2;
 						    _Canvas.getContext('2d').putImageData(imgData,0,0);
+						    _DrawingContext.scale(window.devicePixelRatio,window.devicePixelRatio);
 
 						    // Keep window at bottom of the canvas
 						    var canvasDiv = document.getElementById("divConsole");

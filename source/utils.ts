@@ -9,6 +9,16 @@ module WESTEROS {
 
     export class Utils {
 
+			  public static shuffle(input) {
+						for (var i = input.length-1; i >= 0; i--) {
+								var randomIndex = Math.floor(Math.random()*(i+1)); 
+								var itemAtIndex = input[randomIndex]; 
+								input[randomIndex] = input[i]; 
+								input[i] = itemAtIndex;
+						}
+						return input;
+				}
+
         public static trim(str): string {
             // Use a regular expression to remove leading and trailing spaces.
             return str.replace(/^\s+ | \s+$/g, "");

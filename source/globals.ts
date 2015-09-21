@@ -12,7 +12,7 @@
 //
 
 const APP_NAME: string    = "WesterOS";
-const APP_VERSION: string = "0.1"; 
+const APP_VERSION: string = "5.10"; 
 
 const CPU_CLOCK_INTERVAL: number = 100;   // This is in ms (milliseconds) so 1000 = 1 second.
 
@@ -76,7 +76,7 @@ var onDocumentLoad = function() {
         var date = new Date();
 				var month = date.getMonth();
 				var day = date.getDate();
-				var year = date.getYear();
+				var year = date.getFullYear();
         var hours = date.getHours();
         var minutes = date.getMinutes();
         var seconds = date.getSeconds();

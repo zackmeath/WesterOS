@@ -11,7 +11,7 @@
 // Global CONSTANTS (TypeScript 1.5 introduced const. Very cool.)
 //
 var APP_NAME = "WesterOS";
-var APP_VERSION = "0.1";
+var APP_VERSION = "5.10";
 var CPU_CLOCK_INTERVAL = 100; // This is in ms (milliseconds) so 1000 = 1 second.
 var TIMER_IRQ = 0; // Pages 23 (timer), 9 (interrupts), and 561 (interrupt priority).
 // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
@@ -58,7 +58,7 @@ var onDocumentLoad = function () {
         var date = new Date();
         var month = date.getMonth();
         var day = date.getDate();
-        var year = date.getYear();
+        var year = date.getFullYear();
         var hours = date.getHours();
         var minutes = date.getMinutes();
         var seconds = date.getSeconds();

@@ -26,6 +26,7 @@
 module WESTEROS {
 
     export class Control {
+			  private firstLoad = true;
 
         public static hostInit(): void {
             // This is called from index.html's onLoad event via the onDocumentLoad function pointer.
@@ -33,14 +34,12 @@ module WESTEROS {
             // Get a global reference to the canvas.  TODO: Should we move this stuff into a Display Device Driver?
             _Canvas = <HTMLCanvasElement>document.getElementById('display');
 						_Canvas.width = 1000;
-						_Canvas.height = 1000;
 						_Canvas.style.width = "500px";
-						_Canvas.style.height = "500px";
 
             // Get a global reference to the drawing context.
             _DrawingContext = _Canvas.getContext("2d");
 						_DrawingContext.scale(window.devicePixelRatio,window.devicePixelRatio);
-            
+
 						_UserProgramInput = document.getElementById("taProgramInput").value;
 
             // Enable the added-in canvas text functions (see canvastext.ts for provenance and details).
