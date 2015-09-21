@@ -152,7 +152,6 @@ var WESTEROS;
             }
         };
         Console.prototype.advanceLine = function () {
-            console.log(window.devicePixelRatio);
             this.currentXPosition = 0;
             /*
              * Font size measures from the baseline to the highest point in the font.
@@ -165,7 +164,7 @@ var WESTEROS;
             if (this.currentYPosition > _Canvas.height / window.devicePixelRatio) {
                 // if (this.currentYPosition > _Canvas.height){
                 var imgData = _Canvas.getContext('2d').getImageData(0, 0, _Canvas.width, _Canvas.height);
-                _Canvas.height = (this.currentYPosition + 5) * 2;
+                _Canvas.height = (this.currentYPosition + 5) * window.devicePixelRatio;
                 _Canvas.getContext('2d').putImageData(imgData, 0, 0);
                 if (window.devicePixelRatio === 2) {
                     _DrawingContext.scale(window.devicePixelRatio, window.devicePixelRatio);
