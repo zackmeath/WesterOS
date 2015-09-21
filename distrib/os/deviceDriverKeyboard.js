@@ -12,8 +12,8 @@ var __extends = (this && this.__extends) || function (d, b) {
 
    The Kernel Keyboard Device Driver.
    ---------------------------------- */
-var WESTEROS;
-(function (WESTEROS) {
+var TSOS;
+(function (TSOS) {
     // Extends DeviceDriver
     var DeviceDriverKeyboard = (function (_super) {
         __extends(DeviceDriverKeyboard, _super);
@@ -124,6 +124,6 @@ var WESTEROS;
             }
         };
         return DeviceDriverKeyboard;
-    })(WESTEROS.DeviceDriver);
-    WESTEROS.DeviceDriverKeyboard = DeviceDriverKeyboard;
-})(WESTEROS || (WESTEROS = {}));
+    })(TSOS.DeviceDriver);
+    TSOS.DeviceDriverKeyboard = DeviceDriverKeyboard;
+})(TSOS || (TSOS = {}));

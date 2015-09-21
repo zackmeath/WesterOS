@@ -1,5 +1,5 @@
-var WESTEROS;
-(function (WESTEROS) {
+var TSOS;
+(function (TSOS) {
     var ShellCommand = (function () {
         function ShellCommand(func, command, description) {
             if (command === void 0) { command = ""; }
@@ -10,5 +10,5 @@ var WESTEROS;
         }
         return ShellCommand;
     })();
-    WESTEROS.ShellCommand = ShellCommand;
-})(WESTEROS || (WESTEROS = {}));
+    TSOS.ShellCommand = ShellCommand;
+})(TSOS || (TSOS = {}));

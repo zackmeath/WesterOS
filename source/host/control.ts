@@ -23,7 +23,7 @@
 //
 // Control Services
 //
-module WESTEROS {
+module TSOS {
 
     export class Control {
 

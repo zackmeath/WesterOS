@@ -24,7 +24,7 @@ const KEYBOARD_IRQ: number = 1;
 // Global Variables
 // TODO: Make a global object and use that instead of the "_" naming convention in the global namespace.
 //
-var _CPU: WESTEROS.Cpu;  // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
+var _CPU: TSOS.Cpu;  // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
 
 var _OSclock: number = 0;  // Page 23.
 
@@ -42,7 +42,7 @@ var _Trace: boolean = true;  // Default the OS trace to be on.
 var _shouldPrompt = true;
 
 // The OS Kernel and its queues.
-var _Kernel: WESTEROS.Kernel;
+var _Kernel: TSOS.Kernel;
 var _KernelInterruptQueue;          // Initializing this to null (which I would normally do) would then require us to specify the 'any' type, as below.
 var _KernelInputQueue: any = null;  // Is this better? I don't like uninitialized variables. But I also don't like using the type specifier 'any'
 var _KernelBuffers: any[] = null;   // when clearly 'any' is not what we want. There is likely a better way, but what is it?
@@ -52,9 +52,9 @@ var _StdIn;    // Same "to null or not to null" issue as above.
 var _StdOut;
 
 // UI
-var _Console: WESTEROS.Console;
-var _OsShell: WESTEROS.Shell;
-var _CommandHistory: WESTEROS.CommandHistory;
+var _Console: TSOS.Console;
+var _OsShell: TSOS.Shell;
+var _CommandHistory: TSOS.CommandHistory;
 
 // At least this OS is not trying to kill you. (Yet.)
 var _SarcasticMode: boolean = false;
@@ -104,5 +104,5 @@ var onDocumentLoad = function() {
 			 return i;
 		}
     startTime();
-	  WESTEROS.Control.hostInit();
+	  TSOS.Control.hostInit();
 };

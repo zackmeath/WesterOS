@@ -14,7 +14,7 @@
      ------------ */
 
 
-module WESTEROS {
+module TSOS {
 
     export class Kernel {
         //

@@ -3,8 +3,8 @@
 
    Utility functions.
    -------- */
-var WESTEROS;
-(function (WESTEROS) {
+var TSOS;
+(function (TSOS) {
     var Utils = (function () {
         function Utils() {
         }
@@ -55,5 +55,5 @@ var WESTEROS;
         };
         return Utils;
     })();
-    WESTEROS.Utils = Utils;
-})(WESTEROS || (WESTEROS = {}));
+    TSOS.Utils = Utils;
+})(TSOS || (TSOS = {}));

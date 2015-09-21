@@ -1,5 +1,5 @@
-var WESTEROS;
-(function (WESTEROS) {
+var TSOS;
+(function (TSOS) {
     var UserCommand = (function () {
         function UserCommand(command, args) {
             if (command === void 0) { command = ""; }
@@ -9,5 +9,5 @@ var WESTEROS;
         }
         return UserCommand;
     })();
-    WESTEROS.UserCommand = UserCommand;
-})(WESTEROS || (WESTEROS = {}));
+    TSOS.UserCommand = UserCommand;
+})(TSOS || (TSOS = {}));

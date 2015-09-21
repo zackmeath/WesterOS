@@ -11,8 +11,8 @@
      This code references page numbers in the text book:
      Operating System Concepts 8th edition by Silberschatz, Galvin, and Gagne.  ISBN 978-0-470-12872-5
      ------------ */
-var WESTEROS;
-(function (WESTEROS) {
+var TSOS;
+(function (TSOS) {
     var Kernel = (function () {
         function Kernel() {
         }
@@ -20,21 +20,21 @@ var WESTEROS;
         // OS Startup and Shutdown Routines
         //
         Kernel.prototype.krnBootstrap = function () {
-            WESTEROS.Control.hostLog("bootstrap", "host"); // Use hostLog because we ALWAYS want this, even if _Trace is off.
+            TSOS.Control.hostLog("bootstrap", "host"); // Use hostLog because we ALWAYS want this, even if _Trace is off.
             // Initialize our global queues.
-            _KernelInterruptQueue = new WESTEROS.Queue(); // A (currently) non-priority queue for interrupt requests (IRQs).
+            _KernelInterruptQueue = new TSOS.Queue(); // A (currently) non-priority queue for interrupt requests (IRQs).
             _KernelBuffers = new Array(); // Buffers... for the kernel.
-            _KernelInputQueue = new WESTEROS.Queue(); // Where device input lands before being processed out somewhere.
+            _KernelInputQueue = new TSOS.Queue(); // Where device input lands before being processed out somewhere.
             // Initialize the console.
-            _Console = new WESTEROS.Console(); // The command line interface / console I/O device.
+            _Console = new TSOS.Console(); // The command line interface / console I/O device.
             _Console.init();
             // Initialize standard input and output to the _Console.
             _StdIn = _Console;
             _StdOut = _Console;
-            _CommandHistory = new WESTEROS.CommandHistory();
+            _CommandHistory = new TSOS.CommandHistory();
             // Load the Keyboard Device Driver
             this.krnTrace("Loading the keyboard device driver.");
-            _krnKeyboardDriver = new WESTEROS.DeviceDriverKeyboard(); // Construct it.
+            _krnKeyboardDriver = new TSOS.DeviceDriverKeyboard(); // Construct it.
             _krnKeyboardDriver.driverEntry(); // Call the driverEntry() initialization routine.
             this.krnTrace(_krnKeyboardDriver.status);
             //
@@ -45,7 +45,7 @@ var WESTEROS;
             this.krnEnableInterrupts();
             // Launch the shell.
             this.krnTrace("Creating and Launching the shell.");
-            _OsShell = new WESTEROS.Shell();
+            _OsShell = new TSOS.Shell();
             _OsShell.init();
             // Finally, initiate student testing protocol.
             if (_GLaDOS) {
@@ -88,12 +88,12 @@ var WESTEROS;
         //
         Kernel.prototype.krnEnableInterrupts = function () {
             // Keyboard
-            WESTEROS.Devices.hostEnableKeyboardInterrupt();
+            TSOS.Devices.hostEnableKeyboardInterrupt();
             // Put more here.
         };
         Kernel.prototype.krnDisableInterrupts = function () {
             // Keyboard
-            WESTEROS.Devices.hostDisableKeyboardInterrupt();
+            TSOS.Devices.hostDisableKeyboardInterrupt();
             // Put more here.
         };
         Kernel.prototype.krnInterruptHandler = function (irq, params) {
@@ -145,17 +145,17 @@ var WESTEROS;
                     if (_OSclock % 10 == 0) {
                         // Check the CPU_CLOCK_INTERVAL in globals.ts for an
                         // idea of the tick rate and adjust this line accordingly.
-                        WESTEROS.Control.hostLog(msg, "OS");
+                        TSOS.Control.hostLog(msg, "OS");
                     }
                 }
                 else {
-                    WESTEROS.Control.hostLog(msg, "OS");
+                    TSOS.Control.hostLog(msg, "OS");
                 }
             }
         };
         Kernel.prototype.krnTrapError = function (msg) {
             // TODO BSOD not displaying correctly
-            WESTEROS.Control.hostLog("OS ERROR - TRAP: " + msg);
+            TSOS.Control.hostLog("OS ERROR - TRAP: " + msg);
             // Make sure canvas is the same size as the BSOD image
             _Canvas.height = 500;
             _Canvas.width = 500;
@@ -171,5 +171,5 @@ var WESTEROS;
         };
         return Kernel;
     })();
-    WESTEROS.Kernel = Kernel;
-})(WESTEROS || (WESTEROS = {}));
+    TSOS.Kernel = Kernel;
+})(TSOS || (TSOS = {}));

@@ -85,5 +85,5 @@ var onDocumentLoad = function () {
         return i;
     }
     startTime();
-    WESTEROS.Control.hostInit();
+    TSOS.Control.hostInit();
 };

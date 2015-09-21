@@ -13,8 +13,8 @@
      This code references page numbers in the text book:
      Operating System Concepts 8th edition by Silberschatz, Galvin, and Gagne.  ISBN 978-0-470-12872-5
      ------------ */
-var WESTEROS;
-(function (WESTEROS) {
+var TSOS;
+(function (TSOS) {
     var Cpu = (function () {
         function Cpu(PC, Acc, Xreg, Yreg, Zflag, isExecuting) {
             if (PC === void 0) { PC = 0; }
@@ -45,5 +45,5 @@ var WESTEROS;
         };
         return Cpu;
     })();
-    WESTEROS.Cpu = Cpu;
-})(WESTEROS || (WESTEROS = {}));
+    TSOS.Cpu = Cpu;
+})(TSOS || (TSOS = {}));

@@ -1,8 +1,8 @@
 /* ------------
    Interrupt.ts
    ------------ */
-var WESTEROS;
-(function (WESTEROS) {
+var TSOS;
+(function (TSOS) {
     var Interrupt = (function () {
         function Interrupt(irq, params) {
             this.irq = irq;
@@ -10,5 +10,5 @@ var WESTEROS;
         }
         return Interrupt;
     })();
-    WESTEROS.Interrupt = Interrupt;
-})(WESTEROS || (WESTEROS = {}));
+    TSOS.Interrupt = Interrupt;
+})(TSOS || (TSOS = {}));

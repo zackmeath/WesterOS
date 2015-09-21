@@ -4,7 +4,7 @@
      The "base class" for all Device Drivers.
      ------------------------------ */
 
-module WESTEROS {
+module TSOS {
     export class DeviceDriver {
         public version = '0.1';
         public status = 'unloaded';

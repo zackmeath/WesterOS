@@ -17,7 +17,7 @@
  *       That might be fun.
  * ----------------- */
 
-module WESTEROS {
+module TSOS {
 
     export class CanvasTextFunctions {
 

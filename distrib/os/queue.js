@@ -7,8 +7,8 @@
    Look at the push and shift methods, as they are the least obvious here.
 
    ------------ */
-var WESTEROS;
-(function (WESTEROS) {
+var TSOS;
+(function (TSOS) {
     var Queue = (function () {
         function Queue(q) {
             if (q === void 0) { q = new Array(); }
@@ -39,5 +39,5 @@ var WESTEROS;
         };
         return Queue;
     })();
-    WESTEROS.Queue = Queue;
-})(WESTEROS || (WESTEROS = {}));
+    TSOS.Queue = Queue;
+})(TSOS || (TSOS = {}));

@@ -21,8 +21,8 @@
 //
 // Control Services
 //
-var WESTEROS;
-(function (WESTEROS) {
+var TSOS;
+(function (TSOS) {
     var Control = (function () {
         function Control() {
         }
@@ -37,7 +37,7 @@ var WESTEROS;
             _DrawingContext.scale(window.devicePixelRatio, window.devicePixelRatio);
             _UserProgramInput = document.getElementById("taProgramInput").value;
             // Enable the added-in canvas text functions (see canvastext.ts for provenance and details).
-            WESTEROS.CanvasTextFunctions.enable(_DrawingContext); // Text functionality is now built in to the HTML5 canvas. But this is old-school, and fun, so we'll keep it.
+            TSOS.CanvasTextFunctions.enable(_DrawingContext); // Text functionality is now built in to the HTML5 canvas. But this is old-school, and fun, so we'll keep it.
             // Clear the log text box.
             // Use the TypeScript cast to HTMLInputElement
             document.getElementById("taHostLog").value = "";
@@ -78,12 +78,12 @@ var WESTEROS;
             // .. set focus on the OS console display ...
             document.getElementById("display").focus();
             // ... Create and initialize the CPU (because it's part of the hardware)  ...
-            _CPU = new WESTEROS.Cpu(); // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
+            _CPU = new TSOS.Cpu(); // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
             _CPU.init(); //       There's more to do, like dealing with scheduling and such, but this would be a start. Pretty cool.
             // ... then set the host clock pulse ...
-            _hardwareClockID = setInterval(WESTEROS.Devices.hostClockPulse, CPU_CLOCK_INTERVAL);
+            _hardwareClockID = setInterval(TSOS.Devices.hostClockPulse, CPU_CLOCK_INTERVAL);
             // .. and call the OS Kernel Bootstrap routine.
-            _Kernel = new WESTEROS.Kernel();
+            _Kernel = new TSOS.Kernel();
             _Kernel.krnBootstrap(); // _GLaDOS.afterStartup() will get called in there, if configured.
         };
         Control.hostBtnHaltOS_click = function (btn) {
@@ -104,5 +104,5 @@ var WESTEROS;
         };
         return Control;
     })();
-    WESTEROS.Control = Control;
-})(WESTEROS || (WESTEROS = {}));
+    TSOS.Control = Control;
+})(TSOS || (TSOS = {}));
