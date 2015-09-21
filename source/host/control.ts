@@ -33,12 +33,21 @@ module WESTEROS {
 
             // Get a global reference to the canvas.  TODO: Should we move this stuff into a Display Device Driver?
             _Canvas = <HTMLCanvasElement>document.getElementById('display');
-						_Canvas.width = 1000;
-						_Canvas.style.width = "500px";
+						if(window.devicePixelRatio === 2){
+								_Canvas.width = 1000;
+								_Canvas.style.width = "500px";
+						} else {
+							  _Canvas.width = 500;
+								_Canvas.height = 500;
+								_Canvas.style.width = "500px";
+								_Canvas.style.height = "500px";
+						}
 
             // Get a global reference to the drawing context.
             _DrawingContext = _Canvas.getContext("2d");
-						_DrawingContext.scale(window.devicePixelRatio,window.devicePixelRatio);
+						if(window.devicePixelRatio === 2){
+                _DrawingContext.scale(window.devicePixelRatio,window.devicePixelRatio);
+						}
 
 						_UserProgramInput = document.getElementById("taProgramInput").value;
 

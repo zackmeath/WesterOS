@@ -31,11 +31,21 @@ var WESTEROS;
             // This is called from index.html's onLoad event via the onDocumentLoad function pointer.
             // Get a global reference to the canvas.  TODO: Should we move this stuff into a Display Device Driver?
             _Canvas = document.getElementById('display');
-            _Canvas.width = 1000;
-            _Canvas.style.width = "500px";
+            if (window.devicePixelRatio === 2) {
+                _Canvas.width = 1000;
+                _Canvas.style.width = "500px";
+            }
+            else {
+                _Canvas.width = 500;
+                _Canvas.height = 500;
+                _Canvas.style.width = "500px";
+                _Canvas.style.height = "500px";
+            }
             // Get a global reference to the drawing context.
             _DrawingContext = _Canvas.getContext("2d");
-            _DrawingContext.scale(window.devicePixelRatio, window.devicePixelRatio);
+            if (window.devicePixelRatio === 2) {
+                _DrawingContext.scale(window.devicePixelRatio, window.devicePixelRatio);
+            }
             _UserProgramInput = document.getElementById("taProgramInput").value;
             // Enable the added-in canvas text functions (see canvastext.ts for provenance and details).
             WESTEROS.CanvasTextFunctions.enable(_DrawingContext); // Text functionality is now built in to the HTML5 canvas. But this is old-school, and fun, so we'll keep it.
