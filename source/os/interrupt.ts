@@ -3,8 +3,8 @@
    ------------ */
 
 module TSOS {
-    export class Interrupt {
-        constructor(public irq, public params) {
-        }
+  export class Interrupt {
+    constructor(public irq, public params) {
     }
+  }
 }

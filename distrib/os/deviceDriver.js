@@ -1,8 +1,8 @@
 /* ------------------------------
-     DeviceDriver.ts
+   DeviceDriver.ts
 
-     The "base class" for all Device Drivers.
-     ------------------------------ */
+   The "base class" for all Device Drivers.
+   ------------------------------ */
 var TSOS;
 (function (TSOS) {
     var DeviceDriver = (function () {

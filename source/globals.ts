@@ -17,7 +17,7 @@ const APP_VERSION: string = "5.10";
 const CPU_CLOCK_INTERVAL: number = 100;   // This is in ms (milliseconds) so 1000 = 1 second.
 
 const TIMER_IRQ: number = 0;  // Pages 23 (timer), 9 (interrupts), and 561 (interrupt priority).
-                              // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
+// NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
 const KEYBOARD_IRQ: number = 1;
 
 //
@@ -74,35 +74,35 @@ var _GLaDOS: any = null; // If the above is linked in, this is the instantiated 
 var onlyOnce = true;
 
 var onDocumentLoad = function() {
-    if(onlyOnce){
-			 document.getElementById('display').height = 500 * window.devicePixelRatio;
-			 onlyOnce = false;
-		}
-    function startTime() {
-        var date = new Date();
-				var month = date.getMonth();
-				var day = date.getDate();
-				var year = date.getFullYear();
-        var hours = date.getHours();
-        var minutes = date.getMinutes();
-        var seconds = date.getSeconds();
-				var ampm = 'am';
-        minutes = checkTime(minutes);
-        seconds = checkTime(seconds);
-				if (hours > 12){
-					  hours -= 12;
-						ampm = 'pm';
-				}
-        document.getElementById('timeTA').innerHTML = hours + ":" + minutes + ":" + seconds + ' ' + ampm + '  ' + month + '/' + day + '/' + year;
-        var t = setTimeout(function(){startTime()},500);
-    }
+if(onlyOnce){
+  document.getElementById('display').height = 500 * window.devicePixelRatio;
+  onlyOnce = false;
+}
+function startTime() {
+  var date = new Date();
+  var month = date.getMonth();
+  var day = date.getDate();
+  var year = date.getFullYear();
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var seconds = date.getSeconds();
+  var ampm = 'am';
+  minutes = checkTime(minutes);
+  seconds = checkTime(seconds);
+  if (hours > 12){
+    hours -= 12;
+    ampm = 'pm';
+  }
+  document.getElementById('timeTA').innerHTML = hours + ":" + minutes + ":" + seconds + ' ' + ampm + '  ' + month + '/' + day + '/' + year;
+  var t = setTimeout(function(){startTime()},500);
+}
 
-		function checkTime(i) {
-			 if (i < 10) {
-				 i = "0" + i
-			 };  // add zero in front of numbers < 10
-			 return i;
-		}
-    startTime();
-	  TSOS.Control.hostInit();
+function checkTime(i) {
+  if (i < 10) {
+    i = "0" + i
+  };  // add zero in front of numbers < 10
+  return i;
+}
+startTime();
+TSOS.Control.hostInit();
 };

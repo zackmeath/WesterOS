@@ -2,16 +2,16 @@
 ///<reference path="queue.ts" />
 
 /* ------------
-     Kernel.ts
+   Kernel.ts
 
-     Requires globals.ts
-              queue.ts
+   Requires globals.ts
+   queue.ts
 
-     Routines for the Operating System, NOT the host.
+   Routines for the Operating System, NOT the host.
 
-     This code references page numbers in the text book:
-     Operating System Concepts 8th edition by Silberschatz, Galvin, and Gagne.  ISBN 978-0-470-12872-5
-     ------------ */
+   This code references page numbers in the text book:
+   Operating System Concepts 8th edition by Silberschatz, Galvin, and Gagne.  ISBN 978-0-470-12872-5
+   ------------ */
 
 
 module TSOS {
@@ -35,7 +35,7 @@ module TSOS {
             // Initialize standard input and output to the _Console.
             _StdIn  = _Console;
             _StdOut = _Console;
-						_CommandHistory = new CommandHistory();
+            _CommandHistory = new CommandHistory();
 
             // Load the Keyboard Device Driver
             this.krnTrace("Loading the keyboard device driver.");
@@ -96,9 +96,9 @@ module TSOS {
         }
 
 
-        //
-        // Interrupt Handling
-        //
+            //
+            // Interrupt Handling
+            //
         public krnEnableInterrupts() {
             // Keyboard
             Devices.hostEnableKeyboardInterrupt();
@@ -158,8 +158,8 @@ module TSOS {
         // OS Utility Routines
         //
         public krnTrace(msg: string) {
-             // Check globals to see if trace is set ON.  If so, then (maybe) log the message.
-             if (_Trace) {
+            // Check globals to see if trace is set ON.  If so, then (maybe) log the message.
+            if (_Trace) {
                 if (msg === "Idle") {
                     // We can't log every idle clock pulse because it would lag the browser very quickly.
                     if (_OSclock % 10 == 0) {
@@ -170,26 +170,25 @@ module TSOS {
                 } else {
                     Control.hostLog(msg, "OS");
                 }
-             }
+            }
         }
 
         public krnTrapError(msg) {
-					  // TODO BSOD not displaying correctly
             Control.hostLog("OS ERROR - TRAP: " + msg);
 
-						// Make sure canvas is the same size as the BSOD image
-						_Canvas.height = 500;
-						_Canvas.width = 500;
+            // Make sure canvas is the same size as the BSOD image
+            _Canvas.height = 500;
+            _Canvas.width = 500;
 
-						// Create BSOD image
-						var context = _Canvas.getContext('2d');
-					  var bsod = new Image();
-						bsod.onload = function(){
-							  context.drawImage(bsod,0,0,500,500);
-						}
+            // Create BSOD image
+            var context = _Canvas.getContext('2d');
+            var bsod = new Image();
+            bsod.onload = function(){
+                context.drawImage(bsod,0,0,500,500);
+            }
 
-						// Kill the kernal and draw BSOD
-						bsod.src = 'distrib/images/bsod.png';
+            // Kill the kernal and draw BSOD
+            bsod.src = 'distrib/images/bsod.png';
             this.krnShutdown();
         }
     }

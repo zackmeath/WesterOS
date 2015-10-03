@@ -1,125 +1,125 @@
 <!DOCTYPE HTML>
 <html>
-<head>
-   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-   <meta name="author"             content="Zack Meath" />
-	 <!-- CSS -->
-   <link rel="stylesheet" href="distrib/styles/ice.css" type="text/css" media="screen" id="stylesheet"/>
-	 <!-- <link rel="stylesheet" href="distrib/styles/bootstrap/css/bootstrap.css">
-	 -->
-   <title>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="author"             content="Zack Meath" />
+    <!-- CSS -->
+    <link rel="stylesheet" href="distrib/styles/ice.css" type="text/css" media="screen" id="stylesheet"/>
+    <!-- <link rel="stylesheet" href="distrib/styles/bootstrap/css/bootstrap.css">
+    -->
+    <title>
       WesterOS - a browser-based virtual Operating System in TypeScript
-   </title>
+    </title>
 
-   <!-- Globals CONSTANTS and _Variables. Must included be first. -->
-   <script type="text/javascript" src="distrib/globals.js"></script>
+    <!-- Globals CONSTANTS and _Variables. Must included be first. -->
+    <script type="text/javascript" src="distrib/globals.js"></script>
 
-   <!-- Host (Virtual Machine / Hardware Simulation) Routines -->
-   <script type="text/javascript" src="distrib/host/control.js"></script>
-   <script type="text/javascript" src="distrib/host/devices.js"></script>
-   <script type="text/javascript" src="distrib/host/cpu.js"></script>
+    <!-- Host (Virtual Machine / Hardware Simulation) Routines -->
+    <script type="text/javascript" src="distrib/host/control.js"></script>
+    <script type="text/javascript" src="distrib/host/devices.js"></script>
+    <script type="text/javascript" src="distrib/host/cpu.js"></script>
 
-   <!-- Virtual OS Routines: Make sure Kernel code is last, since it needs those above it. -->
-   <script type="text/javascript" src="distrib/os/interrupt.js"></script>
-   <script type="text/javascript" src="distrib/os/canvastext.js"></script>
-   <script type="text/javascript" src="distrib/os/console.js"></script>
-   <script type="text/javascript" src="distrib/os/deviceDriver.js"></script>
-   <script type="text/javascript" src="distrib/os/deviceDriverKeyboard.js"></script>
-   <script type="text/javascript" src="distrib/os/queue.js"></script>
-   <script type="text/javascript" src="distrib/os/shell.js"></script>
-   <script type="text/javascript" src="distrib/os/shellCommand.js"></script>
-   <script type="text/javascript" src="distrib/os/userCommand.js"></script>
-   <script type="text/javascript" src="distrib/os/kernel.js"></script>
+    <!-- Virtual OS Routines: Make sure Kernel code is last, since it needs those above it. -->
+    <script type="text/javascript" src="distrib/os/interrupt.js"></script>
+    <script type="text/javascript" src="distrib/os/canvastext.js"></script>
+    <script type="text/javascript" src="distrib/os/console.js"></script>
+    <script type="text/javascript" src="distrib/os/deviceDriver.js"></script>
+    <script type="text/javascript" src="distrib/os/deviceDriverKeyboard.js"></script>
+    <script type="text/javascript" src="distrib/os/queue.js"></script>
+    <script type="text/javascript" src="distrib/os/shell.js"></script>
+    <script type="text/javascript" src="distrib/os/shellCommand.js"></script>
+    <script type="text/javascript" src="distrib/os/userCommand.js"></script>
+    <script type="text/javascript" src="distrib/os/kernel.js"></script>
 
-   <!-- Other Routines -->
-   <script type="text/javascript" src="distrib/utils.js"></script>
-   <!-- Uncomment this line below to enable GLaDOS testing -->
-   <script type="text/javascript" src="http://www.labouseur.com/courses/os/projects/glados.js"></script>
-	 
-</head>
+    <!-- Other Routines -->
+    <script type="text/javascript" src="distrib/utils.js"></script>
+    <!-- Uncomment this line below to enable GLaDOS testing -->
+    <!--<script type="text/javascript" src="http://www.labouseur.com/courses/os/projects/glados.js"></script>
+    -->
+  </head>
 
-<body onload="onDocumentLoad()">
+  <body onload="onDocumentLoad()">
 
-<h1>WESTEROS</h1>
-<div id="divMain" style="width:100%;">
+    <h1>WESTEROS</h1>
+    <div id="divMain" style="width:100%;">
 
-   <div id="divButtonBar" style="margin:4px;">
-      <input type="button"
-             id = "btnStartOS"
-             name="brnStartOS"
-             class="normal_button"
-             value="Start"
-             tabindex="0"
-             onclick="TSOS.Control.hostBtnStartOS_click(this);">
+      <div id="divButtonBar" style="margin:4px;">
+	<input type="button"
+	id = "btnStartOS"
+	name="brnStartOS"
+ class="normal_button"
+ value="Start"
+ tabindex="0"
+ onclick="TSOS.Control.hostBtnStartOS_click(this);">
 
-      <input type="button"
-             id = "btnHaltOS"
-             name="brnHaltOS"
-             class="normal_button"
-             disabled="disabled"
-             value="Halt"
-             tabindex="1"
-             onclick="TSOS.Control.hostBtnHaltOS_click(this);">
+	<input type="button"
+	id = "btnHaltOS"
+	name="brnHaltOS"
+ class="normal_button"
+ disabled="disabled"
+ value="Halt"
+ tabindex="1"
+ onclick="TSOS.Control.hostBtnHaltOS_click(this);">
 
-      <input type="button"
-             id = "btnReset"
-             name="brnReset"
-             class="normal_button"
-             disabled="disabled"
-             value="Reset"
-             tabindex="2"
-             onclick="TSOS.Control.hostBtnReset_click(this);">
-   </div>
+	<input type="button"
+	id = "btnReset"
+	name="brnReset"
+ class="normal_button"
+ disabled="disabled"
+ value="Reset"
+ tabindex="2"
+ onclick="TSOS.Control.hostBtnReset_click(this);">
+      </div>
 
-   <div id="divConsole" style="margin:4px; width:504px; height:504px; float:left;">
-      <canvas id="display"
-              width="1000px"
-              height="1000px"
-              tabindex="3">
-      </canvas>
-   </div>
+      <div id="divConsole" style="margin:4px; width:504px; height:504px; float:left;">
+	<canvas id="display"
+	 width="1000px"
+  height="1000px"
+  tabindex="3">
+	</canvas>
+      </div>
 
-   <div id="divLog" style="margin-left:520px;">
-      <label>
-         Host Log
-         <br>
-         <textarea name="taHostLog"
-                   id  ="taHostLog"
-                   rows="26"
-                   cols="48"
-         ></textarea>
-      </label>
-   </div>
+      <div id="divLog" style="margin-left:520px;">
+	<label>
+	  Host Log
+	  <br>
+	  <textarea name="taHostLog"
+	     id  ="taHostLog"
+	     rows="26"
+      cols="48"
+      ></textarea>
+	</label>
+      </div>
 
-   <div id="divUserProgramInput" style="margin-left:520px;">
-      <label>
-         User Program Input
-         <br>
-         <textarea name="taProgramInput"
-                   id  ="taProgramInput"
-                   rows="8"
-                   cols="48"
-         ></textarea>
-      </label>
-   </div>
-</div>
+      <div id="divUserProgramInput" style="margin-left:520px;">
+	<label>
+	  User Program Input
+	  <br>
+	  <textarea name="taProgramInput"
+	     id  ="taProgramInput"
+	     rows="8"
+      cols="48"
+      ></textarea>
+	</label>
+      </div>
+    </div>
 
-<p></p>
-<div id="status">
-  <textarea style="text-align:center;" name="statusTA" id="statusTA" rows="1" cols="30">Status: Normal</textarea>
-</div>
+    <p></p>
+    <div id="status">
+      <textarea style="text-align:center;" name="statusTA" id="statusTA" rows="1" cols="30">Status: Normal</textarea>
+    </div>
 
 
-<div id="time">
-  <textarea style="text-align:center;" name="timeTA" id="timeTA" rows="1" cols="30">time</textarea>
-</div>
-<p class="footerText" style="clear:both;">
-   <br>
-   Copyright &copy; 2008 - 2015 No Rights Reserved.
-   <br>
-   Reproduction is inhibited without the express written consent of
-   Ted Codd, Stevie Ray Vaughan, and Ian Fleming.
-</p>
+    <div id="time">
+      <textarea style="text-align:center;" name="timeTA" id="timeTA" rows="1" cols="30">time</textarea>
+    </div>
+    <p class="footerText" style="clear:both;">
+    <br>
+    Copyright &copy; 2008 - 2015 No Rights Reserved.
+    <br>
+    Reproduction is inhibited without the express written consent of
+    George R.R. Martin, David Benioff, and D.B. Weiss
+    </p>
 
-</body>
+  </body>
 </html>

@@ -36,7 +36,11 @@ var TSOS;
             _Kernel.krnTrace("Key code:" + keyCode + " shifted:" + isShifted);
             var chr = "";
             // Check to see if we even want to deal with the key that was pressed.
-            if (((keyCode >= 65) && (keyCode <= 90)) ||
+            if (keyCode === 38) {
+                chr = 'upArrow';
+                _KernelInputQueue.enqueue(chr);
+            }
+            else if (((keyCode >= 65) && (keyCode <= 90)) ||
                 ((keyCode >= 97) && (keyCode <= 123))) {
                 // Determine the character we want to display.
                 // Assume it's lowercase...
@@ -55,34 +59,34 @@ var TSOS;
                 if (isShifted) {
                     switch (keyCode) {
                         case 48:
-                            chr = String.fromCharCode(41);
+                            chr = ')';
                             break;
                         case 49:
-                            chr = String.fromCharCode(33);
+                            chr = '!';
                             break;
                         case 50:
-                            chr = String.fromCharCode(64);
+                            chr = '@';
                             break;
                         case 51:
-                            chr = String.fromCharCode(35);
+                            chr = '#';
                             break;
                         case 52:
-                            chr = String.fromCharCode(36);
+                            chr = '$';
                             break;
                         case 53:
-                            chr = String.fromCharCode(37);
+                            chr = '%';
                             break;
                         case 54:
-                            chr = String.fromCharCode(94);
+                            chr = '^';
                             break;
                         case 55:
-                            chr = String.fromCharCode(38);
+                            chr = '&';
                             break;
                         case 56:
-                            chr = String.fromCharCode(42);
+                            chr = '*';
                             break;
                         case 57:
-                            chr = String.fromCharCode(40);
+                            chr = '(';
                             break;
                     }
                 }

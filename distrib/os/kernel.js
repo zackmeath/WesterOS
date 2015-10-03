@@ -1,16 +1,16 @@
 ///<reference path="../globals.ts" />
 ///<reference path="queue.ts" />
 /* ------------
-     Kernel.ts
+   Kernel.ts
 
-     Requires globals.ts
-              queue.ts
+   Requires globals.ts
+   queue.ts
 
-     Routines for the Operating System, NOT the host.
+   Routines for the Operating System, NOT the host.
 
-     This code references page numbers in the text book:
-     Operating System Concepts 8th edition by Silberschatz, Galvin, and Gagne.  ISBN 978-0-470-12872-5
-     ------------ */
+   This code references page numbers in the text book:
+   Operating System Concepts 8th edition by Silberschatz, Galvin, and Gagne.  ISBN 978-0-470-12872-5
+   ------------ */
 var TSOS;
 (function (TSOS) {
     var Kernel = (function () {
@@ -154,7 +154,6 @@ var TSOS;
             }
         };
         Kernel.prototype.krnTrapError = function (msg) {
-            // TODO BSOD not displaying correctly
             TSOS.Control.hostLog("OS ERROR - TRAP: " + msg);
             // Make sure canvas is the same size as the BSOD image
             _Canvas.height = 500;

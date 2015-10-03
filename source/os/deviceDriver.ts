@@ -1,17 +1,17 @@
 /* ------------------------------
-     DeviceDriver.ts
+   DeviceDriver.ts
 
-     The "base class" for all Device Drivers.
-     ------------------------------ */
+   The "base class" for all Device Drivers.
+   ------------------------------ */
 
 module TSOS {
-    export class DeviceDriver {
-        public version = '0.1';
-        public status = 'unloaded';
-        public preemptable = false;
+  export class DeviceDriver {
+    public version = '0.1';
+    public status = 'unloaded';
+    public preemptable = false;
 
-        constructor(public driverEntry = null,
-                    public isr = null) {
-        }
+    constructor(public driverEntry = null,
+    public isr = null) {
     }
+  }
 }

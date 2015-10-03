@@ -1,12 +1,12 @@
 ///<reference path="../globals.ts" />
 /* ------------
-     Console.ts
+   Console.ts
 
-     Requires globals.ts
+   Requires globals.ts
 
-     The OS Console - stdIn and stdOut by default.
-     Note: This is not the Shell. The Shell is the "command line interface" (CLI) or interpreter for this console.
-     ------------ */
+   The OS Console - stdIn and stdOut by default.
+   Note: This is not the Shell. The Shell is the "command line interface" (CLI) or interpreter for this console.
+   ------------ */
 var TSOS;
 (function (TSOS) {
     var CommandHistory = (function () {
@@ -81,6 +81,7 @@ var TSOS;
                     this.buffer = "";
                 }
                 else if (chr === String.fromCharCode(8)) {
+                    // TODO Backspace on line wrapping
                     if (this.buffer.length > 0) {
                         var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer[this.buffer.length - 1]);
                         var charHeight = _DefaultFontSize + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize);
@@ -90,18 +91,15 @@ var TSOS;
                     }
                 }
                 else if (chr === String.fromCharCode(9)) {
-                    // Tab
                     for (var i = 0; i < _OsShell.commandList.length; i++) {
                         var command = _OsShell.commandList[i];
                         if (command.command.indexOf(this.buffer) === 0 && command.command.length !== this.buffer.length) {
                             this.buffer = command.command;
-                            _StdOut.advanceLine();
-                            _OsShell.putPrompt();
-                            _StdOut.putText(this.buffer);
+                            this.changeCommand(command.command);
                         }
                     }
                 }
-                else if (chr === String.fromCharCode(38)) {
+                else if (chr === 'upArrow') {
                     _CommandHistory.upArrow();
                     this.changeCommand(_CommandHistory.getCurrentPointerCommand());
                 }
