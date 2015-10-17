@@ -75,33 +75,33 @@ var onlyOnce = true;
 
 var onDocumentLoad = function() {
 if(onlyOnce){
-  document.getElementById('display').height = 500 * window.devicePixelRatio;
-  onlyOnce = false;
+    document.getElementById('display').height = 500 * window.devicePixelRatio;
+    onlyOnce = false;
 }
 function startTime() {
-  var date = new Date();
-  var month = date.getMonth();
-  var day = date.getDate();
-  var year = date.getFullYear();
-  var hours = date.getHours();
-  var minutes = date.getMinutes();
-  var seconds = date.getSeconds();
-  var ampm = 'am';
-  minutes = checkTime(minutes);
-  seconds = checkTime(seconds);
-  if (hours > 12){
-    hours -= 12;
-    ampm = 'pm';
-  }
-  document.getElementById('timeTA').innerHTML = hours + ":" + minutes + ":" + seconds + ' ' + ampm + '  ' + month + '/' + day + '/' + year;
-  var t = setTimeout(function(){startTime()},500);
+    var date = new Date();
+    var month = date.getMonth();
+    var day = date.getDate();
+    var year = date.getFullYear();
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var seconds = date.getSeconds();
+    var ampm = 'am';
+    minutes = checkTime(minutes);
+    seconds = checkTime(seconds);
+    if (hours > 12){
+        hours -= 12;
+        ampm = 'pm';
+    }
+    document.getElementById('timeTA').innerHTML = hours + ":" + minutes + ":" + seconds + ' ' + ampm + '  ' + month + '/' + day + '/' + year;
+    var t = setTimeout(function(){startTime()},500);
 }
 
 function checkTime(i) {
-  if (i < 10) {
-    i = "0" + i
-  };  // add zero in front of numbers < 10
-  return i;
+    if (i < 10) {
+        i = "0" + i
+    };  // add zero in front of numbers < 10
+    return i;
 }
 startTime();
 TSOS.Control.hostInit();
