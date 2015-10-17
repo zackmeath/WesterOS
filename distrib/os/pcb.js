@@ -11,7 +11,6 @@ var TSOS;
                 this.programCounter = proc.programCounter;
                 this.processState = TSOS.ProcessState.New;
                 this.priority = proc.priority;
-                this.memory = proc.memory.toUpperCase();
             }
             else {
             }

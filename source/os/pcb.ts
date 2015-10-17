@@ -9,7 +9,6 @@ module TSOS {
                 programCounter: number,          // Location of current program execution
                 processState: TSOS.ProcessState, // Enum of 'NEW', 'READY', 'WAITING', 'HALTED', 'RUNNING', 'TERMINATED'
                 priority: number,                // Importance
-                memory: string,                  // Actual program
                 })
         {
             if(!this.validateProc(proc)){
@@ -21,7 +20,6 @@ module TSOS {
                 this.programCounter = proc.programCounter;
                 this.processState   = ProcessState.New;
                 this.priority       = proc.priority;
-                this.memory         = proc.memory.toUpperCase();
             } else {
                 // TODO Add error handling in case proc is invalid
             }
@@ -34,9 +32,8 @@ module TSOS {
         public YRegister:      number;
         public ZFlag:          number; 
         public programCounter: number;
-        public processState:   string;
+        public processState:   ProcessState;
         public priority:       number;
-        public memory:         string;
 
         private validateProc(proc){
             var pID           = proc.hasOwnProperty('processID');

@@ -15,7 +15,6 @@
 
 
 module TSOS {
-
     export class Kernel {
         //
         // OS Startup and Shutdown Routines
@@ -42,10 +41,6 @@ module TSOS {
             _krnKeyboardDriver = new DeviceDriverKeyboard();     // Construct it.
             _krnKeyboardDriver.driverEntry();                    // Call the driverEntry() initialization routine.
             this.krnTrace(_krnKeyboardDriver.status);
-
-            //
-            // ... more?
-            //
 
             // Enable the OS Interrupts.  (Not the CPU clock interrupt, as that is done in the hardware sim.)
             this.krnTrace("Enabling the interrupts.");
@@ -96,19 +91,17 @@ module TSOS {
         }
 
 
-            //
             // Interrupt Handling
-            //
         public krnEnableInterrupts() {
-            // Keyboard
-            Devices.hostEnableKeyboardInterrupt();
-            // Put more here.
+                // Keyboard
+                Devices.hostEnableKeyboardInterrupt();
+                // Put more here.
         }
 
         public krnDisableInterrupts() {
-            // Keyboard
-            Devices.hostDisableKeyboardInterrupt();
-            // Put more here.
+                // Keyboard
+                Devices.hostDisableKeyboardInterrupt();
+                // Put more here.
         }
 
         public krnInterruptHandler(irq, params) {
