@@ -24,6 +24,7 @@ const KEYBOARD_IRQ: number = 1;
 var _CPU: TSOS.Cpu;  // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
 
 var _Memory: TSOS.Memory;
+var _ProcessManager: TSOS.ProcessManager;
 
 var _OSclock: number = 0;  // Page 23.
 
@@ -39,6 +40,7 @@ var _FontHeightMargin: number = 4;              // Additional space added to fon
 
 var _Trace: boolean = true;  // Default the OS trace to be on.
 var _shouldPrompt = true;
+var _ProcessIdValue = 1;
 
 // The OS Kernel and its queues.
 var _Kernel: TSOS.Kernel;

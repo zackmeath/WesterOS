@@ -281,7 +281,17 @@ module TSOS {
                 if (!isLegal){
                     _StdOut.putText("Invalid user progrom");
                 } else {
-                    // Valid input
+                    var programString = '';
+                    var programArray = _UserProgramInput.split(' ');
+                    for(var i = 0; i < programArray.length; i++){
+                        programString += programArray[i];
+                    }
+                    var chars = programString.split('');
+                    var doubles = [];
+                    for(var i = 0; i < chars.length; i += 2){
+                        doubles.push(chars[i] + chars[i+1]);
+                    }
+                    _ProcessManager.load(doubles, 1);
                 }
             }
 

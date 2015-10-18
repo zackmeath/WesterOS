@@ -20,20 +20,31 @@ var TSOS;
         Queue.prototype.isEmpty = function () {
             return (this.q.length == 0);
         };
-        Queue.prototype.enqueue = function (element) {
-            this.q.push(element);
+        Queue.prototype.enqueue = function (element, priority) {
+            var insertObject = { value: element, priority: priority };
+            var inserted = false;
+            for (var i = 0; i < this.getSize(); i++) {
+                if (this.q[i].priority > priority) {
+                    this.q.splice(i, 0, insertObject);
+                    inserted = true;
+                    break;
+                }
+            }
+            if (!inserted) {
+                this.q[this.getSize()] = insertObject;
+            }
         };
         Queue.prototype.dequeue = function () {
             var retVal = null;
             if (this.q.length > 0) {
-                retVal = this.q.shift();
+                retVal = this.q.shift().value;
             }
             return retVal;
         };
         Queue.prototype.toString = function () {
             var retVal = "";
             for (var i in this.q) {
-                retVal += "[" + this.q[i] + "] ";
+                retVal += "[" + this.q[i].value + "] ";
             }
             return retVal;
         };

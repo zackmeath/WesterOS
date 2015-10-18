@@ -38,7 +38,7 @@ var TSOS;
             // Check to see if we even want to deal with the key that was pressed.
             if (keyCode === 38) {
                 chr = 'upArrow';
-                _KernelInputQueue.enqueue(chr);
+                _KernelInputQueue.enqueue(chr, 1);
             }
             else if (((keyCode >= 65) && (keyCode <= 90)) ||
                 ((keyCode >= 97) && (keyCode <= 123))) {
@@ -50,7 +50,7 @@ var TSOS;
                     chr = String.fromCharCode(keyCode);
                 }
                 // TODO: Check for caps-lock and handle as shifted if so.
-                _KernelInputQueue.enqueue(chr);
+                _KernelInputQueue.enqueue(chr, 1);
             }
             else if (((keyCode >= 48) && (keyCode <= 57)) ||
                 (keyCode == 32) ||
@@ -90,7 +90,7 @@ var TSOS;
                             break;
                     }
                 }
-                _KernelInputQueue.enqueue(chr);
+                _KernelInputQueue.enqueue(chr, 1);
             }
             else {
                 var regularMappings = {
@@ -119,11 +119,11 @@ var TSOS;
                 };
                 if (regularMappings[keyCode] !== undefined) {
                     chr = String.fromCharCode(isShifted ? shiftedMappings[keyCode] : regularMappings[keyCode]);
-                    _KernelInputQueue.enqueue(chr);
+                    _KernelInputQueue.enqueue(chr, 1);
                 }
                 else {
                     chr = String.fromCharCode(keyCode);
-                    _KernelInputQueue.enqueue(chr);
+                    _KernelInputQueue.enqueue(chr, 1);
                 }
             }
         };

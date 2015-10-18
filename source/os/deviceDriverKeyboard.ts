@@ -37,7 +37,7 @@ module TSOS {
             // Check to see if we even want to deal with the key that was pressed.
             if(keyCode === 38){
                 chr = 'upArrow';
-                _KernelInputQueue.enqueue(chr);
+                _KernelInputQueue.enqueue(chr, 1);
             } else if (((keyCode >= 65) && (keyCode <= 90)) ||   // A..Z
                     ((keyCode >= 97) && (keyCode <= 123))) {  // a..z {
                 // Determine the character we want to display.
@@ -48,7 +48,7 @@ module TSOS {
                     chr = String.fromCharCode(keyCode);
                 }
                 // TODO: Check for caps-lock and handle as shifted if so.
-                _KernelInputQueue.enqueue(chr);
+                _KernelInputQueue.enqueue(chr, 1);
             } else if (((keyCode >= 48) && (keyCode <= 57)) ||   // digits
                     (keyCode == 32)                     ||   // space
                     (keyCode == 13)) {                       // enter
@@ -87,7 +87,7 @@ module TSOS {
                             break;
                     }
                 }
-                _KernelInputQueue.enqueue(chr);
+                _KernelInputQueue.enqueue(chr, 1);
             } else {
                 var regularMappings = {
                 189: 45,
@@ -115,10 +115,10 @@ module TSOS {
                 };
                 if (regularMappings[keyCode] !== undefined){
                     chr = String.fromCharCode(isShifted ? shiftedMappings[keyCode] : regularMappings[keyCode]);
-                    _KernelInputQueue.enqueue(chr);
+                    _KernelInputQueue.enqueue(chr, 1);
                 } else {
                     chr = String.fromCharCode(keyCode);
-                    _KernelInputQueue.enqueue(chr);
+                    _KernelInputQueue.enqueue(chr, 1);
                 }
             }
             }
