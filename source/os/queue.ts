@@ -37,19 +37,19 @@ module TSOS {
         }
 
     public dequeue() {
-        var retVal = null;
+        var returnValue = null;
         if (this.q.length > 0) {
-            retVal = this.q.shift().value;
+            returnValue = this.q.shift().value;
         }
-        return retVal;
+        return returnValue;
     }
 
     public toString() {
-        var retVal = "";
+        var returnValue = "";
         for (var i in this.q) {
-            retVal += "[" + this.q[i].value + "] ";
+            returnValue += "[" + this.q[i].value + "] ";
         }
-        return retVal;
+        return returnValue;
     }
   }
 }

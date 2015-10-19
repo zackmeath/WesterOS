@@ -35,18 +35,18 @@ var TSOS;
             }
         };
         Queue.prototype.dequeue = function () {
-            var retVal = null;
+            var returnValue = null;
             if (this.q.length > 0) {
-                retVal = this.q.shift().value;
+                returnValue = this.q.shift().value;
             }
-            return retVal;
+            return returnValue;
         };
         Queue.prototype.toString = function () {
-            var retVal = "";
+            var returnValue = "";
             for (var i in this.q) {
-                retVal += "[" + this.q[i].value + "] ";
+                returnValue += "[" + this.q[i].value + "] ";
             }
-            return retVal;
+            return returnValue;
         };
         return Queue;
     })();
