@@ -27,6 +27,11 @@ module TSOS {
             _KernelBuffers = new Array();         // Buffers... for the kernel.
             _KernelInputQueue = new Queue();      // Where device input lands before being processed out somewhere.
 
+            _ProcessManager = new ProcessManager(1);
+            _ProcessManager.init();
+            _MemoryManager = new MemoryManager();
+            _MemoryManager.init();
+
             // Initialize the console.
             _Console = new Console();          // The command line interface / console I/O device.
             _Console.init();
@@ -88,101 +93,101 @@ module TSOS {
             } else {                      // If there are no interrupts and there is nothing being executed then just be idle. {
                 this.krnTrace("Idle");
             }
-        }
+            }
 
 
             // Interrupt Handling
-        public krnEnableInterrupts() {
+            public krnEnableInterrupts() {
                 // Keyboard
                 Devices.hostEnableKeyboardInterrupt();
                 // Put more here.
-        }
+            }
 
-        public krnDisableInterrupts() {
+            public krnDisableInterrupts() {
                 // Keyboard
                 Devices.hostDisableKeyboardInterrupt();
                 // Put more here.
-        }
-
-        public krnInterruptHandler(irq, params) {
-            // This is the Interrupt Handler Routine.  See pages 8 and 560.
-            // Trace our entrance here so we can compute Interrupt Latency by analyzing the log file later on. Page 766.
-            this.krnTrace("Handling IRQ~" + irq);
-
-            // Invoke the requested Interrupt Service Routine via Switch/Case rather than an Interrupt Vector.
-            // TODO: Consider using an Interrupt Vector in the future.
-            // Note: There is no need to "dismiss" or acknowledge the interrupts in our design here.
-            //       Maybe the hardware simulation will grow to support/require that in the future.
-            switch (irq) {
-                case TIMER_IRQ:
-                    this.krnTimerISR();              // Kernel built-in routine for timers (not the clock).
-                    break;
-                case KEYBOARD_IRQ:
-                    _krnKeyboardDriver.isr(params);   // Kernel mode device driver
-                    _StdIn.handleInput();
-                    break;
-                default:
-                    this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");
             }
-        }
 
-        public krnTimerISR() {
-            // The built-in TIMER (not clock) Interrupt Service Routine (as opposed to an ISR coming from a device driver). {
-            // Check multiprogramming parameters and enforce quanta here. Call the scheduler / context switch here if necessary.
-        }
+            public krnInterruptHandler(irq, params) {
+                // This is the Interrupt Handler Routine.  See pages 8 and 560.
+                // Trace our entrance here so we can compute Interrupt Latency by analyzing the log file later on. Page 766.
+                this.krnTrace("Handling IRQ~" + irq);
 
-        //
-        // System Calls... that generate software interrupts via tha Application Programming Interface library routines.
-        //
-        // Some ideas:
-        // - ReadConsole
-        // - WriteConsole
-        // - CreateProcess
-        // - ExitProcess
-        // - WaitForProcessToExit
-        // - CreateFile
-        // - OpenFile
-        // - ReadFile
-        // - WriteFile
-        // - CloseFile
-
-
-        //
-        // OS Utility Routines
-        //
-        public krnTrace(msg: string) {
-            // Check globals to see if trace is set ON.  If so, then (maybe) log the message.
-            if (_Trace) {
-                if (msg === "Idle") {
-                    // We can't log every idle clock pulse because it would lag the browser very quickly.
-                    if (_OSclock % 10 == 0) {
-                        // Check the CPU_CLOCK_INTERVAL in globals.ts for an
-                        // idea of the tick rate and adjust this line accordingly.
-                        Control.hostLog(msg, "OS");
-                    }
-                } else {
-                    Control.hostLog(msg, "OS");
+                // Invoke the requested Interrupt Service Routine via Switch/Case rather than an Interrupt Vector.
+                // TODO: Consider using an Interrupt Vector in the future.
+                // Note: There is no need to "dismiss" or acknowledge the interrupts in our design here.
+                //       Maybe the hardware simulation will grow to support/require that in the future.
+                switch (irq) {
+                    case TIMER_IRQ:
+                        this.krnTimerISR();              // Kernel built-in routine for timers (not the clock).
+                        break;
+                    case KEYBOARD_IRQ:
+                        _krnKeyboardDriver.isr(params);   // Kernel mode device driver
+                        _StdIn.handleInput();
+                        break;
+                    default:
+                        this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");
                 }
             }
-        }
 
-        public krnTrapError(msg) {
-            Control.hostLog("OS ERROR - TRAP: " + msg);
-
-            // Make sure canvas is the same size as the BSOD image
-            _Canvas.height = 500;
-            _Canvas.width = 500;
-
-            // Create BSOD image
-            var context = _Canvas.getContext('2d');
-            var bsod = new Image();
-            bsod.onload = function(){
-                context.drawImage(bsod,0,0,500,500);
+            public krnTimerISR() {
+                // The built-in TIMER (not clock) Interrupt Service Routine (as opposed to an ISR coming from a device driver). {
+                // Check multiprogramming parameters and enforce quanta here. Call the scheduler / context switch here if necessary.
             }
 
-            // Kill the kernal and draw BSOD
-            bsod.src = 'distrib/images/bsod.png';
-            this.krnShutdown();
-        }
-    }
-}
+            //
+            // System Calls... that generate software interrupts via tha Application Programming Interface library routines.
+            //
+            // Some ideas:
+            // - ReadConsole
+            // - WriteConsole
+            // - CreateProcess
+            // - ExitProcess
+            // - WaitForProcessToExit
+            // - CreateFile
+            // - OpenFile
+            // - ReadFile
+            // - WriteFile
+            // - CloseFile
+
+
+            //
+            // OS Utility Routines
+            //
+            public krnTrace(msg: string) {
+                // Check globals to see if trace is set ON.  If so, then (maybe) log the message.
+                if (_Trace) {
+                    if (msg === "Idle") {
+                        // We can't log every idle clock pulse because it would lag the browser very quickly.
+                        if (_OSclock % 10 == 0) {
+                            // Check the CPU_CLOCK_INTERVAL in globals.ts for an
+                            // idea of the tick rate and adjust this line accordingly.
+                            Control.hostLog(msg, "OS");
+                        }
+                    } else {
+                        Control.hostLog(msg, "OS");
+                    }
+                }
+            }
+
+            public krnTrapError(msg) {
+                Control.hostLog("OS ERROR - TRAP: " + msg);
+
+                // Make sure canvas is the same size as the BSOD image
+                _Canvas.height = 500;
+                _Canvas.width = 500;
+
+                // Create BSOD image
+                var context = _Canvas.getContext('2d');
+                var bsod = new Image();
+                bsod.onload = function(){
+                    context.drawImage(bsod,0,0,500,500);
+                }
+
+                // Kill the kernal and draw BSOD
+                bsod.src = 'distrib/images/bsod.png';
+                this.krnShutdown();
+            }
+            }
+            }

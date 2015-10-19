@@ -5,16 +5,13 @@ var TSOS;
             this.maxProcesses = maxProcesses;
         }
         ProcessManager.prototype.init = function () {
-            this.processes = [null];
+            this.processes = [];
         };
         ProcessManager.prototype.load = function (program, priority) {
             var pcb = new TSOS.PCB(priority);
             if (this.processes.length <= this.maxProcesses) {
                 this.processes[pcb.processId] = pcb;
             }
-            else {
-            }
-            _MemoryManager.allocateMemory(pcb, program);
         };
         return ProcessManager;
     })();

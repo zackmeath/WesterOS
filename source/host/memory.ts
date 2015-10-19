@@ -2,17 +2,11 @@ module TSOS {
     export class Memory {
         private memory;
         constructor(size: number){
-            this.memory = new Array(size);
+            this.memory = new Array(size/2);
         }
         public init(): void {
             for(var i = 0; i < this.memory.length; i++){
                 this.memory[i] = '00';
-            }
-        }
-        public loadProgram(program: Array<String>, offset: number): void {
-            for(var i = 0; i < program.length; i++){
-                var code = program[i];
-                this.memory[offset + i] = (code !== undefined) ? code : '00';
             }
         }
         public clearAllMemory(): void {
@@ -20,10 +14,16 @@ module TSOS {
                 this.memory[i] = '00';
             }
         }
-        public clearProgramBlock(offset: number): void {
-            for(var i = 0; i < this.memory.length; i++){
-                this.memory[offset + i] = '00';
+        public clearRange(start: number, end: number): void {
+            for(var i = 0; i < end; i++){
+                this.memory[start + i] = '00';
             }
+        }
+        public getByte(loc: number): string {
+            return this.memory[loc];
+        }
+        public setByte(loc: number, data: string): void {
+            this.memory[loc] = data;
         }
     }
 }
