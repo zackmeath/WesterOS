@@ -26,6 +26,17 @@ var TSOS;
     var Control = (function () {
         function Control() {
         }
+        Control.updateProcessDisplay = function (pcb) {
+            var display = document.getElementById('processTable');
+            display.innerHTML = '<tr><th>PC</th><th>Acc</th><th>X</th><th>Y</th><th>Z</th></tr>';
+            display.innerHTML += '<tr>';
+            display.innerHTML += '<td>' + pcb.programCounter + '</td>';
+            display.innerHTML += '<td>' + pcb.acc + '</td>';
+            display.innerHTML += '<td>' + pcb.XRegister + '</td>';
+            display.innerHTML += '<td>' + pcb.YRegister + '</td>';
+            display.innerHTML += '<td>' + pcb.ZFlag + '</td>';
+            display.innerHTML += '</tr>';
+        };
         Control.hostInit = function () {
             // This is called from index.html's onLoad event via the onDocumentLoad function pointer.
             // Get a global reference to the canvas.  TODO: Should we move this stuff into a Display Device Driver?

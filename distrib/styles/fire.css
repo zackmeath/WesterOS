@@ -42,16 +42,6 @@ h3 {
   cursor: default;
 }
 
-#taHostLog {
-	color:black;
-	background-color:#EE6600;
-}
-
-#taProgramInput{
-	color:black;
-	background-color:#EE6600;
-}
-
 .normal_button {
   width: 100px;
 }

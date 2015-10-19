@@ -1,132 +1,211 @@
 <!DOCTYPE HTML>
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-    <meta name="author"             content="Zack Meath" />
-    <!-- CSS -->
-    <link rel="stylesheet" href="distrib/styles/ice.css" type="text/css" media="screen" id="stylesheet"/>
-    <!-- <link rel="stylesheet" href="distrib/styles/bootstrap/css/bootstrap.css">
-    -->
-    <title>
-      WesterOS - a browser-based virtual Operating System in TypeScript
-    </title>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+        <meta name="author"             content="Zack Meath" />
+        <!-- CSS -->
+        <link rel="stylesheet" href="distrib/styles/bootstrap/css/bootstrap.css">
+        <!-- -->
+        <link rel="stylesheet" href="distrib/styles/ice.css" type="text/css" media="screen" id="stylesheet"/>
+        <title>
+            WesterOS - a browser-based virtual Operating System in TypeScript
+        </title>
 
-    <!-- Globals CONSTANTS and _Variables. Must included be first. -->
-    <script type="text/javascript" src="distrib/globals.js"></script>
-    <script type="text/javascript" src="distrib/enumerations.js"></script>
+        <!-- Globals CONSTANTS and _Variables. Must included be first. -->
+        <script type="text/javascript" src="distrib/globals.js"></script>
+        <script type="text/javascript" src="distrib/enumerations.js"></script>
 
-    <!-- Host (Virtual Machine / Hardware Simulation) Routines -->
-    <script type="text/javascript" src="distrib/host/control.js"></script>
-    <script type="text/javascript" src="distrib/host/devices.js"></script>
-    <script type="text/javascript" src="distrib/host/cpu.js"></script>
-    <script type="text/javascript" src="distrib/host/memory.js"></script>
+        <!-- Host (Virtual Machine / Hardware Simulation) Routines -->
+        <script type="text/javascript" src="distrib/host/control.js"></script>
+        <script type="text/javascript" src="distrib/host/devices.js"></script>
+        <script type="text/javascript" src="distrib/host/cpu.js"></script>
+        <script type="text/javascript" src="distrib/host/memory.js"></script>
 
-    <!-- Virtual OS Routines: Make sure Kernel code is last, since it needs those above it. -->
-    <script type="text/javascript" src="distrib/os/interrupt.js"></script>
-    <script type="text/javascript" src="distrib/os/canvastext.js"></script>
-    <script type="text/javascript" src="distrib/os/console.js"></script>
-    <script type="text/javascript" src="distrib/os/deviceDriver.js"></script>
-    <script type="text/javascript" src="distrib/os/deviceDriverKeyboard.js"></script>
-    <script type="text/javascript" src="distrib/os/queue.js"></script>
-    <script type="text/javascript" src="distrib/os/shell.js"></script>
-    <script type="text/javascript" src="distrib/os/shellCommand.js"></script>
-    <script type="text/javascript" src="distrib/os/userCommand.js"></script>
-    <script type="text/javascript" src="distrib/os/kernel.js"></script>
-    <script type="text/javascript" src="distrib/os/pcb.js"></script>
-    <script type="text/javascript" src="distrib/os/memoryManager.js"></script>
-    <script type="text/javascript" src="distrib/os/processManager.js"></script>
-    <script type="text/javascript" src="distrib/enumerations.js"></script>
-
-
-    <!-- Other Routines -->
-    <script type="text/javascript" src="distrib/utils.js"></script>
-    <!-- Uncomment this line below to enable GLaDOS testing -->
-    <!--<script type="text/javascript" src="http://www.labouseur.com/courses/os/projects/glados.js"></script>
-    -->
-  </head>
-
-  <body onload="onDocumentLoad()">
-
-    <h1>WESTEROS</h1>
-    <div id="divMain" style="width:100%;">
-
-      <div id="divButtonBar" style="margin:4px;">
-	<input type="button"
-	id = "btnStartOS"
-	name="brnStartOS"
- class="normal_button"
- value="Start"
- tabindex="0"
- onclick="TSOS.Control.hostBtnStartOS_click(this);">
-
-	<input type="button"
-	id = "btnHaltOS"
-	name="brnHaltOS"
- class="normal_button"
- disabled="disabled"
- value="Halt"
- tabindex="1"
- onclick="TSOS.Control.hostBtnHaltOS_click(this);">
-
-	<input type="button"
-	id = "btnReset"
-	name="brnReset"
- class="normal_button"
- disabled="disabled"
- value="Reset"
- tabindex="2"
- onclick="TSOS.Control.hostBtnReset_click(this);">
-      </div>
-
-      <div id="divConsole" style="margin:4px; width:504px; height:504px; float:left;">
-	<canvas id="display"
-	 width="1000px"
-  height="1000px"
-  tabindex="3">
-	</canvas>
-      </div>
-
-      <div id="divLog" style="margin-left:520px;">
-	<label>
-	  Host Log
-	  <br>
-	  <textarea name="taHostLog"
-	     id  ="taHostLog"
-	     rows="26"
-      cols="48"
-      ></textarea>
-	</label>
-      </div>
-
-      <div id="divUserProgramInput" style="margin-left:520px;">
-	<label>
-	  User Program Input
-	  <br>
-	  <textarea name="taProgramInput"
-	     id  ="taProgramInput"
-	     rows="8"
-      cols="48"
-      ></textarea>
-	</label>
-      </div>
-    </div>
-
-    <p></p>
-    <div id="status">
-      <textarea style="text-align:center;" name="statusTA" id="statusTA" rows="1" cols="30">Status: Normal</textarea>
-    </div>
+        <!-- Virtual OS Routines: Make sure Kernel code is last, since it needs those above it. -->
+        <script type="text/javascript" src="distrib/os/interrupt.js"></script>
+        <script type="text/javascript" src="distrib/os/canvastext.js"></script>
+        <script type="text/javascript" src="distrib/os/console.js"></script>
+        <script type="text/javascript" src="distrib/os/deviceDriver.js"></script>
+        <script type="text/javascript" src="distrib/os/deviceDriverKeyboard.js"></script>
+        <script type="text/javascript" src="distrib/os/queue.js"></script>
+        <script type="text/javascript" src="distrib/os/shell.js"></script>
+        <script type="text/javascript" src="distrib/os/shellCommand.js"></script>
+        <script type="text/javascript" src="distrib/os/userCommand.js"></script>
+        <script type="text/javascript" src="distrib/os/kernel.js"></script>
+        <script type="text/javascript" src="distrib/os/pcb.js"></script>
+        <script type="text/javascript" src="distrib/os/memoryManager.js"></script>
+        <script type="text/javascript" src="distrib/os/processManager.js"></script>
+        <script type="text/javascript" src="distrib/enumerations.js"></script>
 
 
-    <div id="time">
-      <textarea style="text-align:center;" name="timeTA" id="timeTA" rows="1" cols="30">time</textarea>
-    </div>
-    <p class="footerText" style="clear:both;">
-    <br>
-    Copyright &copy; 2008 - 2015 No Rights Reserved.
-    <br>
-    Reproduction is inhibited without the express written consent of
-    George R.R. Martin, David Benioff, and D.B. Weiss
-    </p>
+        <!-- Other Routines -->
+        <script type="text/javascript" src="distrib/utils.js"></script>
+        <!-- Uncomment this line below to enable GLaDOS testing -->
+        <!--<script type="text/javascript" src="http://www.labouseur.com/courses/os/projects/glados.js"></script>
+        -->
+    </head>
 
-  </body>
+    <body onload="onDocumentLoad()">
+
+        <h1>WESTEROS</h1>
+        <div id="divMain" style="width:100%;">
+
+            <div id="content" class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div id="divButtonBar" style="margin:4px;">
+                            <input type="button"
+                                   id = "btnStartOS"
+                                   name="brnStartOS"
+                                   class="btn btn-success"
+                                   value="Start"
+                                   tabindex="0"
+                                   onclick="TSOS.Control.hostBtnStartOS_click(this);">
+
+                            <input type="button"
+                                   id = "btnHaltOS"
+                                   name="brnHaltOS"
+                                   class="btn btn-danger"
+                                   disabled="disabled"
+                                   value="Halt"
+                                   tabindex="1"
+                                   onclick="TSOS.Control.hostBtnHaltOS_click(this);">
+
+                            <input type="button"
+                                   id = "btnReset"
+                                   name="brnReset"
+                                   class="btn btn-info"
+                                   disabled="disabled"
+                                   value="Reset"
+                                   tabindex="2"
+                                   onclick="TSOS.Control.hostBtnReset_click(this);">
+                        </div>
+
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div id="divConsole" style="margin:4px; width:504px; height:504px;">
+                            <canvas id="display"
+                                    width="1000px"
+                                    height="1000px"
+                                    tabindex="3">
+                            </canvas>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div id="status">
+                                    <textarea style="text-align:center;" name="statusTA" id="statusTA" rows="1" cols="22">Status: Normal</textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div id="time">
+                                    <textarea style="text-align:center;" name="timeTA" id="timeTA" rows="1" cols="22">time</textarea>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <!--
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h6 class="panel-title">Log</h6>
+                            </div>
+                            <div id="taHostLog" class="panel-body">
+                                entry
+                            </div>
+                        </div>
+                        -->
+                        <div id="divLog">
+                            <label>
+                                Host Log
+                            </label>
+                                <textarea name="taHostLog"
+                                          id  ="taHostLog"
+                                          rows="10"
+                                          class="form-control"
+                                          ></textarea>
+                        </div>
+                        <p></p>
+                            <label>
+                                CPU Statistics
+                            </label>
+                            <div class="panel panel-default">
+                                <!--
+                                    <div id="taHostLog" class="panel-body">
+                                    </div>
+                                -->
+                                <table id="processTable" class="table">
+                                    <tr>
+                                        <th>PC</th>
+                                        <th>Acc</th>
+                                        <th>X</th>
+                                        <th>Y</th>
+                                        <th>Z</th>
+                                    </tr>
+
+                                    <tr>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                            <p></p>
+                            <label>
+                                Program Input
+                            </label>
+                            <textarea id="taProgramInput" class="well form-control">A9 03 8D 41 00 A9 01 8D 40 00 AC 40 00 A2 01 FF EE 40 00 AE 40 00 EC 41 00 D0 EF A9 44 8D 42 00 A9 4F 8D 43 00 A9 4E 8D 44 00 A9 45 8D 45 00 A9 00 8D 46 00 A2 02 A0 42 FF 00</textarea>
+                            <!--
+                            <textarea id="taProgramInput" class="well form-control">AD 05 00 00 02 00</textarea>
+                            -->
+                            <!--
+                                <div id="divLog" style="margin-left:520px;">
+                                <label>
+                                Host Log
+                                <br>
+                                <textarea name="taHostLog"
+                                id  ="taHostLog"
+                                rows="10"
+                                cols="48"
+                                ></textarea>
+                                </label>
+                                </div>
+
+                                <div id="divUserProgramInput" style="margin-left:520px;">
+                                <label>
+                                User Program Input
+                                <br>
+                                <textarea name="taProgramInput"
+                                id  ="taProgramInput"
+                                rows="8"
+                                cols="48"
+                                ></textarea>
+                                </label>
+                                </div>
+                            -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <p></p>
+        <p class="footerText" style="clear:both;">
+        <br>
+        Copyright &copy; 2008 - 2015 No Rights Reserved.
+        <br>
+        Reproduction is inhibited without the express written consent of
+        George R.R. Martin, David Benioff, and D.B. Weiss
+        </p>
+
+    </body>
 </html>

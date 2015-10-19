@@ -40,6 +40,9 @@ var TSOS;
             // load
             sc = new TSOS.ShellCommand(this.shellLoad, "load", "- Loads program from input text area");
             this.commandList[this.commandList.length] = sc;
+            // Run
+            sc = new TSOS.ShellCommand(this.shellRun, "run", "<pid> - Runs process with <pid>");
+            this.commandList[this.commandList.length] = sc;
             // date
             sc = new TSOS.ShellCommand(this.shellDate, "date", "- Displays the current date and time");
             this.commandList[this.commandList.length] = sc;
@@ -226,7 +229,25 @@ var TSOS;
                 for (var i = 0; i < chars.length; i += 2) {
                     doubles.push(chars[i] + chars[i + 1]);
                 }
-                _ProcessManager.load(doubles, 1);
+                var num = _ProcessManager.load(doubles, 1);
+                _StdOut.putText('Process ID: ' + num);
+            }
+        };
+        Shell.prototype.shellRun = function (args) {
+            if (args.length === 0) {
+                _StdOut.putText("Must provide a valid pid");
+            }
+            else {
+                var pid = parseInt(args[0]);
+                if (isNaN(pid)) {
+                    _StdOut.putText("Must provide a valid number");
+                }
+                else if (!_ProcessManager.doesProcessExist(pid)) {
+                    _StdOut.putText("pid does not match a program currently in memory");
+                }
+                else {
+                    _CPU.runProcess(parseInt(pid));
+                }
             }
         };
         Shell.prototype.shellDate = function (args) {
@@ -365,6 +386,9 @@ var TSOS;
                         break;
                     case "load":
                         _StdOut.putText("Loads the current user program");
+                        break;
+                    case "run":
+                        _StdOut.putText("run <pid> wuns the program with process id: <pid>");
                         break;
                     case "shutdown":
                         _StdOut.putText("Shuts down the virtual OS, but keeps underlying host running");

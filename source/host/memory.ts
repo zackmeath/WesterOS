@@ -2,7 +2,7 @@ module TSOS {
     export class Memory {
         private memory;
         constructor(size: number){
-            this.memory = new Array(size/2);
+            this.memory = new Array(size);
         }
         public init(): void {
             for(var i = 0; i < this.memory.length; i++){
@@ -24,6 +24,12 @@ module TSOS {
         }
         public setByte(loc: number, data: string): void {
             this.memory[loc] = data;
+        }
+        public getSize(): number {
+            return this.memory.length;
+        }
+        public printMem(){
+            console.log(this.memory);
         }
     }
 }

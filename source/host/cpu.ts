@@ -33,6 +33,20 @@ module TSOS {
         public init(): void {
         }
 
+        private loadFromPCB(): void {
+            this.PC = this.currentPCB.programCounter;
+            this.Acc = this.currentPCB.acc;
+            this.Xreg = this.currentPCB.XRegister;
+            this.Yreg = this.currentPCB.YRegister;
+            this.Zflag = this.currentPCB.ZFlag;
+        }
+
+        public runProcess(pid: number):void {
+            this.currentPCB = _ProcessManager.getPCB(pid);
+            this.loadFromPCB();
+            this.isExecuting = true;
+        }
+
         public loadProgram(pcb: TSOS.PCB): void {
             this.currentPCB = pcb;
             this.Acc = pcb.acc;
@@ -43,7 +57,10 @@ module TSOS {
         }
 
         public updatePCB(): void {
-            this.currentPCB.update(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
+            if(this.currentPCB !== null){
+                TSOS.Control.updateProcessDisplay(this.currentPCB);
+                this.currentPCB.update(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
+            }
         }
 
         public cycle(): void {
@@ -111,7 +128,9 @@ module TSOS {
                     case 'D0': // Branch N bytes if z flag = 0 (byte = N) 
                         this.PC++;
                         if(this.Zflag === 0){
-                            this.PC += parseInt(_MemoryManager.read(this.currentPCB, this.PC), 16);
+                            var hex = _MemoryManager.read(this.currentPCB, this.PC);
+                            var jump = parseInt(hex, 16);
+                            this.PC += jump;
                         } else {
                             this.PC++;
                         }
@@ -129,11 +148,18 @@ module TSOS {
                         // if 1 in X register, print byte in Y register
                         // else if 2 in X register, print 00 terminated string at addr stored in Y register
                         if (this.Xreg === 1){
-                            _StdOut.putText(this.Yreg);
+                            _StdOut.putText(this.Yreg + '');
                         } else {
                             var addr = parseInt(_MemoryManager.read(this.currentPCB, this.PC), 16);
                             this.PC++;
-                            _StdOut.putText(parseInt(_MemoryManager.read(this.currentPCB, this.Yreg), 16));
+                            var code = _MemoryManager.read(this.currentPCB, this.Yreg);
+                            while(code != '00'){
+                                var letter = String.fromCharCode(parseInt(code,16));
+                                _StdOut.putText(letter);
+                                addr++;
+                                var code = _MemoryManager.read(this.currentPCB, this.Yreg);
+                            }
+                            _StdOut.putText('' + parseInt(_MemoryManager.read(this.currentPCB, this.Yreg), 16));
                         }
                         this.PC++;
                         break;
@@ -141,14 +167,26 @@ module TSOS {
                         this.PC++;
                         break;
                     case '00': // BREAK PROGRAM (sys call)
-                        this.PC++;
+                        this.isExecuting = false;
+                        _MemoryManager.deallocateMemory(this.currentPCB);
+                        this.currentPCB.processState = ProcessState.Terminated;
+                        this.updatePCB();
+                        this.currentPCB = null;
+                        this.Acc = 0;
+                        this.Xreg = 0;
+                        this.Yreg = 0;
+                        this.Zflag = 0;
+                        this.PC = 0;
                         break;
                     default:
-                        alert('Illegal instruction: ' + _MemoryManager.read(this.currentPCB, this.PC));
+                        alert('Illegal instruction: ' + _MemoryManager.read(this.currentPCB, this.PC) + ', PC = ' + this.PC);
                         this.PC++;
                         break;
                 }
             }
-        }
+            if(this.pcb !== null){
+                this.updatePCB();
+            }
+        } // End of cycle
     }
 }

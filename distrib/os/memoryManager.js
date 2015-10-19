@@ -1,7 +1,13 @@
 var TSOS;
 (function (TSOS) {
     var MemoryManager = (function () {
-        function MemoryManager() {
+        function MemoryManager(maxProcesses) {
+            this.memorySize = _Memory.getSize();
+            this.numOfBlocks = this.memorySize / maxProcesses;
+            this.allocated = new Array(maxProcesses);
+            for (var i = 0; i < this.allocated.length; i++) {
+                this.allocated[i] = -1;
+            }
         }
         MemoryManager.prototype.init = function () {
         };
@@ -20,10 +26,30 @@ var TSOS;
             }
         };
         MemoryManager.prototype.allocateMemory = function (pcb, program) {
-            // TODO Set base and limit register for pcb
+            for (var i = 0; i < this.allocated.length; i++) {
+                if (this.allocated[i] === -1) {
+                    this.allocated[i] = pcb.processID;
+                    pcb.baseRegister = i * 256;
+                    pcb.limitRegister = pcb.baseRegister + 255;
+                    break;
+                }
+            }
+            if (pcb.baseRegister === -1) {
+                // TODO Error handling no more space to allocate
+                alert("BASE REGISTER NOT SET");
+            }
             for (var i = 0; i < 256; i++) {
                 var code = program[i];
                 _Memory.setByte(pcb.baseRegister + i, (code !== undefined) ? code : '00');
+            }
+        };
+        MemoryManager.prototype.deallocateMemory = function (pcb) {
+            for (var i = 0; i < this.allocated.length; i++) {
+                if (this.allocated[i] === pcb.processID) {
+                    this.allocated[i] = -1;
+                    _Memory.clearRange(pcb.baseRegister, pcb.limitRegister);
+                    break;
+                }
             }
         };
         return MemoryManager;
