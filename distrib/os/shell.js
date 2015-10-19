@@ -246,7 +246,7 @@ var TSOS;
                     _StdOut.putText("pid does not match a program currently in memory");
                 }
                 else {
-                    _CPU.runProcess(parseInt(pid));
+                    _CPU.runProcess(pid);
                 }
             }
         };

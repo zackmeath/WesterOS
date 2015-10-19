@@ -64,9 +64,11 @@ module TSOS {
         }
 
         public cycle(): void {
+            this.PC = this.PC % (this.currentPCB.limitRegister - this.currentPCB.baseRegister);
             _Kernel.krnTrace('CPU cycle');
             // TODO: Accumulate CPU usage and profiling statistics here.
             if(this.currentPCB !== null && this.isExecuting){
+                // console.log(_MemoryManager.read(this.currentPCB, this.PC) + ', ' + _MemoryManager.read(this.currentPCB, this.PC+1) );
                 switch(_MemoryManager.read(this.currentPCB, this.PC)){
                     case 'A9': // Load acc with constant 
                         this.PC++;
@@ -149,17 +151,18 @@ module TSOS {
                         // else if 2 in X register, print 00 terminated string at addr stored in Y register
                         if (this.Xreg === 1){
                             _StdOut.putText(this.Yreg + '');
+                            _StdOut.advanceLine();
                         } else {
-                            var addr = parseInt(_MemoryManager.read(this.currentPCB, this.PC), 16);
                             this.PC++;
-                            var code = _MemoryManager.read(this.currentPCB, this.Yreg);
-                            while(code != '00'){
+                            var addr = this.Yreg;
+                            var code = _MemoryManager.read(this.currentPCB, addr);
+                            while(code !== '00'){
                                 var letter = String.fromCharCode(parseInt(code,16));
                                 _StdOut.putText(letter);
                                 addr++;
-                                var code = _MemoryManager.read(this.currentPCB, this.Yreg);
+                                var code = _MemoryManager.read(this.currentPCB, addr);
                             }
-                            _StdOut.putText('' + parseInt(_MemoryManager.read(this.currentPCB, this.Yreg), 16));
+                            _StdOut.advanceLine();
                         }
                         this.PC++;
                         break;
@@ -184,7 +187,7 @@ module TSOS {
                         break;
                 }
             }
-            if(this.pcb !== null){
+            if(this.currentPCB !== null){
                 this.updatePCB();
             }
         } // End of cycle
