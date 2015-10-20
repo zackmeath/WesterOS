@@ -19,6 +19,8 @@ module TSOS {
 
     export class Cpu {
 
+        public static singleStep: boolean;
+
         constructor(
                 public PC:          number   = 0,
                 public Acc:         number   = 0,
@@ -28,6 +30,7 @@ module TSOS {
                 public isExecuting: boolean  = false,
                 public currentPCB:  TSOS.PCB = null
                 ) {
+            TSOS.Cpu.singleStep = false;
         }
 
         public init(): void {
@@ -69,12 +72,11 @@ module TSOS {
         }
 
         public cycle(): void {
-            this.PC = this.PC % (this.currentPCB.limitRegister - this.currentPCB.baseRegister);
             TSOS.Control.updateMemoryDisplay();
             _Kernel.krnTrace('CPU cycle');
             // TODO: Accumulate CPU usage and profiling statistics here.
             if(this.currentPCB !== null && this.isExecuting){
-                // console.log(_MemoryManager.read(this.currentPCB, this.PC) + ', ' + _MemoryManager.read(this.currentPCB, this.PC+1) );
+                this.PC = this.PC % (this.currentPCB.limitRegister - this.currentPCB.baseRegister);
                 switch(_MemoryManager.read(this.currentPCB, this.PC)){
                     case 'A9': // Load acc with constant 
                         this.PC++;
@@ -197,6 +199,9 @@ module TSOS {
             }
             if(this.currentPCB !== null){
                 this.updatePCB();
+            }
+            if(this.currentPCB !== null && this.isExecuting && TSOS.Cpu.singleStep){
+                this.isExecuting = false;
             }
         } // End of cycle
     }

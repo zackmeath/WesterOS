@@ -20,7 +20,7 @@ var TSOS;
             this.YRegister = YReg;
             this.ZFlag = Zflag;
         };
-        PCB.currentProcessId = 1;
+        PCB.currentProcessId = 0;
         return PCB;
     })();
     TSOS.PCB = PCB; // End of Process class

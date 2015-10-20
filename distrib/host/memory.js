@@ -23,6 +23,9 @@ var TSOS;
             return this.memory[loc];
         };
         Memory.prototype.setByte = function (loc, data) {
+            if (data.length === 1) {
+                data = '0' + data;
+            }
             this.memory[loc] = data;
         };
         Memory.prototype.getSize = function () {

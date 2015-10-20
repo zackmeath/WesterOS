@@ -77,22 +77,24 @@ module TSOS {
             var clock: number = _OSclock;
 
             // Note the REAL clock in milliseconds since January 1, 1970.
-            var now: number = new Date().getTime();
+            var now = new Date();
+            var hours = now.getHours() % 12;
+            if(hours === 0){
+                hours = 12;
+            }
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
 
             // Build the log string.
-            var str: string = "({ clock:" + clock + ", source:" + source + ", msg:" + msg + ", now:" + now  + " })"  + "\n";
+            var str: string = " " + hours + ':' + minutes + ':' + seconds + ": " + "Pulse: " + clock + "  Source: " + source + "  Msg: " + msg + "\n";
 
             // Update the log console.
             var taLog = <HTMLInputElement> document.getElementById("taHostLog");
             taLog.value= str + taLog.value;
-
-            // TODO in the future: Optionally update a log database or some streaming service.
         }
 
 
-        //
         // Host Events
-        //
         public static hostBtnStartOS_click(btn): void {
             // Disable the (passed-in) start button...
             btn.disabled = true;
@@ -100,6 +102,8 @@ module TSOS {
             // .. enable the Halt and Reset buttons ...
             (<HTMLButtonElement>document.getElementById("btnHaltOS")).disabled = false;
             (<HTMLButtonElement>document.getElementById("btnReset")).disabled = false;
+            (<HTMLButtonElement>document.getElementById("btnSingleStep")).disabled = false;
+            (<HTMLButtonElement>document.getElementById("btnStep")).disabled = false;
 
             // .. set focus on the OS console display ...
             document.getElementById("display").focus();
@@ -118,13 +122,23 @@ module TSOS {
         }
 
         public static hostBtnHaltOS_click(btn): void {
+            (<HTMLButtonElement>document.getElementById("btnSingleStep")).disabled = true;
+            (<HTMLButtonElement>document.getElementById("btnStep")).disabled = true;
             Control.hostLog("Emergency halt", "host");
             Control.hostLog("Attempting Kernel shutdown.", "host");
             // Call the OS shutdown routine.
             _Kernel.krnShutdown();
             // Stop the interval that's simulating our clock pulse.
             clearInterval(_hardwareClockID);
-            // TODO: Is there anything else we need to do here?
+        }
+
+        public static hostBtnSingleStep_click(btn): void {
+            TSOS.Cpu.singleStep = !(TSOS.Cpu.singleStep);
+            (<HTMLButtonElement>document.getElementById("btnStep")).disabled = !TSOS.Cpu.singleStep;
+        }
+
+        public static hostBtnStep_click(btn): void {
+            _CPU.isExecuting = true;
         }
 
         public static hostBtnReset_click(btn): void {

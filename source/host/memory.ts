@@ -23,6 +23,9 @@ module TSOS {
             return this.memory[loc];
         }
         public setByte(loc: number, data: string): void {
+            if(data.length === 1){
+                data = '0' + data;
+            }
             this.memory[loc] = data;
         }
         public getSize(): number {

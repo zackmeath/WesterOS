@@ -16,9 +16,8 @@
 
 module TSOS {
     export class Kernel {
-        //
+
         // OS Startup and Shutdown Routines
-        //
         public krnBootstrap() {      // Page 8. {
             Control.hostLog("bootstrap", "host");  // Use hostLog because we ALWAYS want this, even if _Trace is off.
 

@@ -11,7 +11,7 @@ module TSOS {
         public baseRegister:   number;           // Where memory access starts
         public limitRegister:  number;           // Where memory access ends
         
-        static currentProcessId: number = 1;
+        static currentProcessId: number = 0;
         constructor(priority: number){
          this.priority = priority;
          this.processID = PCB.currentProcessId++;

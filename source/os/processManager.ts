@@ -3,7 +3,7 @@ module TSOS {
         constructor(private maxProcesses: number){
         }
         public init(): void {
-            this.processes = [null];
+            this.processes = [];
         }
         public load(program: Array<string>, priority: number): number {
             var pcb = new PCB(priority);

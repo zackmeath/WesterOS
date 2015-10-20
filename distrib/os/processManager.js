@@ -5,7 +5,7 @@ var TSOS;
             this.maxProcesses = maxProcesses;
         }
         ProcessManager.prototype.init = function () {
-            this.processes = [null];
+            this.processes = [];
         };
         ProcessManager.prototype.load = function (program, priority) {
             var pcb = new TSOS.PCB(priority);

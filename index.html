@@ -41,7 +41,8 @@
         <!-- Other Routines -->
         <script type="text/javascript" src="distrib/utils.js"></script>
         <!-- Uncomment this line below to enable GLaDOS testing -->
-        <!--<script type="text/javascript" src="http://www.labouseur.com/courses/os/projects/glados.js"></script>
+        <!--
+            <script type="text/javascript" src="http://www.labouseur.com/courses/os/projects/glados.js"></script>
         -->
     </head>
 
@@ -79,6 +80,22 @@
                                    value="Reset"
                                    tabindex="2"
                                    onclick="TSOS.Control.hostBtnReset_click(this);">
+                            <input type="button"
+                                   id = "btnSingleStep"
+                                   name="btnSingleStep"
+                                   class="btn btn-primary"
+                                   disabled="disabled"
+                                   value="Single-step Execution"
+                                   tabindex="2"
+                                   onclick="TSOS.Control.hostBtnSingleStep_click(this);">
+                            <input type="button"
+                                   id = "btnStep"
+                                   name="btnStep"
+                                   class="btn btn-primary"
+                                   disabled="disabled"
+                                   value="Step"
+                                   tabindex="2"
+                                   onclick="TSOS.Control.hostBtnStep_click(this);">
                         </div>
 
                         <div class="col-md-6">
