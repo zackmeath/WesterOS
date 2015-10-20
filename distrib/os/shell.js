@@ -247,6 +247,9 @@ var TSOS;
                     _StdOut.putText("pid does not match a program currently in memory");
                 }
                 else {
+                    if (TSOS.Cpu.singleStep) {
+                        document.getElementById("btnStep").disabled = false;
+                    }
                     _CPU.runProcess(pid);
                 }
             }

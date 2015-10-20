@@ -80,6 +80,8 @@ if(onlyOnce){
     document.getElementById('display').height = 500 * window.devicePixelRatio;
     onlyOnce = false;
 }
+
+
 function startTime() {
     var date = new Date();
     var month = date.getMonth();

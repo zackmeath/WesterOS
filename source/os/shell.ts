@@ -313,6 +313,9 @@ module TSOS {
                     } else if(!_ProcessManager.doesProcessExist(pid)){
                         _StdOut.putText("pid does not match a program currently in memory");
                     } else {
+                        if(TSOS.Cpu.singleStep){
+                            (<HTMLButtonElement>document.getElementById("btnStep")).disabled = false;
+                        }
                         _CPU.runProcess(pid);
                     }
                 }

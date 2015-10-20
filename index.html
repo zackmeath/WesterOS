@@ -43,7 +43,7 @@
         <!-- Uncomment this line below to enable GLaDOS testing -->
         <!--
             <script type="text/javascript" src="http://www.labouseur.com/courses/os/projects/glados.js"></script>
-        -->
+            -->
     </head>
 
     <body onload="onDocumentLoad()">
@@ -129,16 +129,6 @@
                     </div>
 
                     <div class="col-md-6">
-                        <!--
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
-                                <h6 class="panel-title">Log</h6>
-                            </div>
-                            <div id="taHostLog" class="panel-body">
-                                entry
-                            </div>
-                        </div>
-                        -->
                         <div id="divLog">
                             <label>
                                 Host Log
@@ -156,6 +146,7 @@
                             <div class="panel panel-default">
                                 <table id="processTable" class="table">
                                     <tr>
+                                        <th>Instr</th>
                                         <th>PC</th>
                                         <th>Acc</th>
                                         <th>X</th>
@@ -164,6 +155,7 @@
                                     </tr>
 
                                     <tr>
+                                        <td>N/A</td>
                                         <td>0</td>
                                         <td>0</td>
                                         <td>0</td>
@@ -177,44 +169,20 @@
                             <label>
                                 Process Memory
                             </label>
-                                <textarea name="memoryLog"
-                                          id  ="memoryLog"
-                                          rows="5"
-                                          class="form-control"
-                                          ></textarea>
+                            <div class="panel panel-default" >
+                                <div class="panel-body" style="height:160px;overflow-y:auto;">
+                                    <table id="memoryTable" class="table">
+                                    </table>
+                                </div>
+                            </div>
                             <p></p>
 
                             <label>
                                 Program Input
                             </label>
-                            <textarea id="taProgramInput" class="well form-control">A9 03 8D 41 00 A9 01 8D 40 00 AC 40 00 A2 01 FF EE 40 00 AE 40 00 EC 41 00 D0 EF A9 44 8D 42 00 A9 4F 8D 43 00 A9 4E 8D 44 00 A9 45 8D 45 00 A9 00 8D 46 00 A2 02 A0 42 FF 00</textarea>
+                                <textarea id="taProgramInput" class="well form-control">A9 03 8D 41 00 A9 01 8D 40 00 AC 40 00 A2 01 FF EE 40 00 AE 40 00 EC 41 00 D0 EF A9 44 8D 42 00 A9 4F 8D 43 00 A9 4E 8D 44 00 A9 45 8D 45 00 A9 00 8D 46 00 A2 02 A0 42 FF 00</textarea>
                             <!--
-                            <textarea id="taProgramInput" class="well form-control">AD 05 00 00 02 00</textarea>
-                            -->
-                            <!--
-                                <div id="divLog" style="margin-left:520px;">
-                                <label>
-                                Host Log
-                                <br>
-                                <textarea name="taHostLog"
-                                id  ="taHostLog"
-                                rows="10"
-                                cols="48"
-                                ></textarea>
-                                </label>
-                                </div>
-
-                                <div id="divUserProgramInput" style="margin-left:520px;">
-                                <label>
-                                User Program Input
-                                <br>
-                                <textarea name="taProgramInput"
-                                id  ="taProgramInput"
-                                rows="8"
-                                cols="48"
-                                ></textarea>
-                                </label>
-                                </div>
+                            <textarea id="taProgramInput" class="well form-control">A9 00 8D 00 00 A9 00 8D 4B 00 A9 00 8D 4B 00 A2 03 EC 4B 00 D0 07 A2 01 EC 00 00 D0 05 A2 00 EC 00 00 D0 26 A0 4C A2 02 FF AC 4B 00 A2 01 FF A9 01 6D 4B 00 8D 4B 00 A2 02 EC 4B 00 D0 05 A0 55 A2 02 FF A2 01 EC 00 00 D0 C5 00 00 63 6F 75 6E 74 69 6E 67 00 68 65 6C 6C 6F 20 77 6F 72 6C 64 00</textarea>
                             -->
                     </div>
                 </div>

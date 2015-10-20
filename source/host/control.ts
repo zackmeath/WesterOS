@@ -27,14 +27,47 @@ module TSOS {
 
     export class Control {
 
-        public static updateProcessDisplay(pcb: TSOS.PCB): void {
+        public static updateProcessDisplay(pcb: TSOS.PCB, instruction: string): void {
             var display = document.getElementById('processTable');
-            display.innerHTML = '<tr><th>PC</th><th>Acc</th><th>X</th><th>Y</th><th>Z</th></tr>' + '<tr>' + '<td>' + pcb.programCounter + '</td>' + '<td>' + pcb.acc + '</td>' + '<td>' + pcb.XRegister + '</td>' + '<td>' + pcb.YRegister + '</td>' + '<td>' + pcb.ZFlag + '</td>' + '</tr>';
+            display.innerHTML = '<tr><th>Instr</th><th>PC</th><th>Acc</th><th>X</th><th>Y</th><th>Z</th></tr>' + '<tr>' +'<td>' + instruction + '</td>' + '<td>' + pcb.programCounter + '</td>' + '<td>' + pcb.acc + '</td>' + '<td>' + pcb.XRegister + '</td>' + '<td>' + pcb.YRegister + '</td>' + '<td>' + pcb.ZFlag + '</td>' + '</tr>';
+        }
+
+        public static initMemoryDisplay(): void {
+            var display = document.getElementById('memoryTable');
+            var htmlString = '';
+            for(var i = 0; i < 256; i += 8){
+                var iStr = i.toString();
+                if(i < 10){
+                    iStr = '0' + iStr;
+                }
+                if(i < 100){
+                    iStr = '0' + iStr;
+                }
+                htmlString += '<tr>' + '<th>0x' + iStr + '</th>' + '<th>00</th>' + '<th>00</th>' + '<th>00</th>' + '<th>00</th>';
+                htmlString += '<th>00</th>' + '<th>00</th>' + '<th>00</th>' + '<th>00</th>' + '</tr>' ;
+            }
+            display.innerHTML = htmlString;
         }
 
         public static updateMemoryDisplay(): void {
-            var display = document.getElementById('memoryLog');
-            display.value = _Memory.toString();
+            var display = document.getElementById('memoryTable');
+            var htmlString = '';
+            var memArr = _Memory.toString().split(' ');
+            var memPointer = 0;
+            for(var i = 0; i < 256; i += 8){
+                var iStr = i.toString();
+                if(i < 10){
+                    iStr = '0' + iStr;
+                }
+                if(i < 100){
+                    iStr = '0' + iStr;
+                }
+                htmlString += '<tr>' + '<th>0x' + iStr + '</th>' + '<th>' + memArr[memPointer++] + '</th>' + '<th>' + memArr[memPointer++];
+                htmlString += '</th>' + '<th>' + memArr[memPointer++] + '</th>' + '<th>' + memArr[memPointer++] + '</th>';
+                htmlString += '<th>' + memArr[memPointer++] + '</th>' + '<th>' + memArr[memPointer++] + '</th>' + '<th>' + memArr[memPointer++];
+                htmlString += '</th>' + '<th>' + memArr[memPointer++] + '</th>' + '</tr>' ;
+            }
+            display.innerHTML = htmlString;
         }
 
         public static hostInit(): void {
@@ -62,6 +95,8 @@ module TSOS {
             // Use the TypeScript cast to HTMLInputElement
             (<HTMLInputElement> document.getElementById("btnStartOS")).focus();
 
+            this.initMemoryDisplay();
+
             // Check for our testing and enrichment core, which
             // may be referenced here (from index.html) as function Glados().
             if (typeof Glados === "function") {
@@ -78,15 +113,25 @@ module TSOS {
 
             // Note the REAL clock in milliseconds since January 1, 1970.
             var now = new Date();
-            var hours = now.getHours() % 12;
-            if(hours === 0){
-                hours = 12;
+            var hours = (now.getHours() % 12).toString();
+            if(hours === '0'){
+                hours = '12';
             }
-            var minutes = now.getMinutes();
-            var seconds = now.getSeconds();
+            hours = hours.toString();
+            var minutes = now.getMinutes().toString();
+            var seconds = now.getSeconds().toString();
 
+            if(seconds.length === 1){
+                seconds = '0' + seconds;
+            }
+            if(minutes.length === 1){
+                minutes = '0' + minutes;
+            }
+            if(hours.length === 1){
+                hours = '0' + hours;
+            }
             // Build the log string.
-            var str: string = " " + hours + ':' + minutes + ':' + seconds + ": " + "Pulse: " + clock + "  Source: " + source + "  Msg: " + msg + "\n";
+            var str: string = " " + hours + ':' + minutes + ':' + seconds + " - " + "Pulse: " + clock + "  Source: " + source + "  Msg: " + msg + "\n";
 
             // Update the log console.
             var taLog = <HTMLInputElement> document.getElementById("taHostLog");
@@ -103,7 +148,6 @@ module TSOS {
             (<HTMLButtonElement>document.getElementById("btnHaltOS")).disabled = false;
             (<HTMLButtonElement>document.getElementById("btnReset")).disabled = false;
             (<HTMLButtonElement>document.getElementById("btnSingleStep")).disabled = false;
-            (<HTMLButtonElement>document.getElementById("btnStep")).disabled = false;
 
             // .. set focus on the OS console display ...
             document.getElementById("display").focus();
@@ -134,7 +178,9 @@ module TSOS {
 
         public static hostBtnSingleStep_click(btn): void {
             TSOS.Cpu.singleStep = !(TSOS.Cpu.singleStep);
-            (<HTMLButtonElement>document.getElementById("btnStep")).disabled = !TSOS.Cpu.singleStep;
+            if(!TSOS.Cpu.singleStep && !_CPU.isExecuting){
+                _CPU.isExecuting = true;
+            }
         }
 
         public static hostBtnStep_click(btn): void {

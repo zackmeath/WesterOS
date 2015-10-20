@@ -64,20 +64,22 @@ module TSOS {
             this.Zflag = pcb.ZFlag;
         }
 
-        public updatePCB(): void {
+        public updatePCB(instruction: string): void {
             if(this.currentPCB !== null){
-                TSOS.Control.updateProcessDisplay(this.currentPCB);
                 this.currentPCB.update(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
+                TSOS.Control.updateProcessDisplay(this.currentPCB, instruction);
             }
         }
 
         public cycle(): void {
             TSOS.Control.updateMemoryDisplay();
             _Kernel.krnTrace('CPU cycle');
+            var instruction = 'N/A';
             // TODO: Accumulate CPU usage and profiling statistics here.
             if(this.currentPCB !== null && this.isExecuting){
-                this.PC = this.PC % (this.currentPCB.limitRegister - this.currentPCB.baseRegister);
-                switch(_MemoryManager.read(this.currentPCB, this.PC)){
+                this.PC = this.PC % (this.currentPCB.limitRegister - this.currentPCB.baseRegister + 1);
+                instruction = _MemoryManager.read(this.currentPCB, this.PC);
+                switch(instruction){
                     case 'A9': // Load acc with constant 
                         this.PC++;
                         this.Acc = parseInt(_MemoryManager.read(this.currentPCB, this.PC), 16);
@@ -139,6 +141,8 @@ module TSOS {
                         this.PC++;
                         if(this.Zflag === 0){
                             var hex = _MemoryManager.read(this.currentPCB, this.PC);
+                            console.log(hex);
+                            this.PC++; // Account for the byte to tell us how far to jump
                             var jump = parseInt(hex, 16);
                             this.PC += jump;
                         } else {
@@ -162,7 +166,6 @@ module TSOS {
                             _StdOut.advanceLine();
                             _OsShell.putPrompt();
                         } else {
-                            this.PC++;
                             var addr = this.Yreg;
                             var code = _MemoryManager.read(this.currentPCB, addr);
                             while(code !== '00'){
@@ -183,22 +186,23 @@ module TSOS {
                         this.isExecuting = false;
                         _MemoryManager.deallocateMemory(this.currentPCB);
                         this.currentPCB.processState = ProcessState.Terminated;
-                        this.updatePCB();
+                        this.updatePCB(instruction);
                         this.currentPCB = null;
                         this.Acc = 0;
                         this.Xreg = 0;
                         this.Yreg = 0;
                         this.Zflag = 0;
                         this.PC = 0;
+                        (<HTMLButtonElement>document.getElementById("btnStep")).disabled = true;
                         break;
                     default:
                         alert('Illegal instruction: ' + _MemoryManager.read(this.currentPCB, this.PC) + ', PC = ' + this.PC);
-                        this.PC++;
+                        this.isExecuting = false;
                         break;
                 }
             }
             if(this.currentPCB !== null){
-                this.updatePCB();
+                this.updatePCB(instruction);
             }
             if(this.currentPCB !== null && this.isExecuting && TSOS.Cpu.singleStep){
                 this.isExecuting = false;
