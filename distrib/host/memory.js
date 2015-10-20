@@ -31,6 +31,13 @@ var TSOS;
         Memory.prototype.printMem = function () {
             console.log(this.memory);
         };
+        Memory.prototype.toString = function () {
+            var output = '';
+            for (var i = 0; i < this.memory.length; i++) {
+                output += this.memory[i] + ' ';
+            }
+            return output;
+        };
         return Memory;
     })();
     TSOS.Memory = Memory;

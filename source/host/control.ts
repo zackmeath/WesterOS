@@ -29,14 +29,12 @@ module TSOS {
 
         public static updateProcessDisplay(pcb: TSOS.PCB): void {
             var display = document.getElementById('processTable');
-            display.innerHTML = '<tr><th>PC</th><th>Acc</th><th>X</th><th>Y</th><th>Z</th></tr>';
-            display.innerHTML += '<tr>';
-            display.innerHTML += '<td>' + pcb.programCounter + '</td>';
-            display.innerHTML += '<td>' + pcb.acc + '</td>';
-            display.innerHTML += '<td>' + pcb.XRegister + '</td>';
-            display.innerHTML += '<td>' + pcb.YRegister + '</td>';
-            display.innerHTML += '<td>' + pcb.ZFlag + '</td>';
-            display.innerHTML += '</tr>';
+            display.innerHTML = '<tr><th>PC</th><th>Acc</th><th>X</th><th>Y</th><th>Z</th></tr>' + '<tr>' + '<td>' + pcb.programCounter + '</td>' + '<td>' + pcb.acc + '</td>' + '<td>' + pcb.XRegister + '</td>' + '<td>' + pcb.YRegister + '</td>' + '<td>' + pcb.ZFlag + '</td>' + '</tr>';
+        }
+
+        public static updateMemoryDisplay(): void {
+            var display = document.getElementById('memoryLog');
+            display.value = _Memory.toString();
         }
 
         public static hostInit(): void {

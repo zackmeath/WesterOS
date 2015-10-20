@@ -300,6 +300,7 @@ module TSOS {
                     var num = _ProcessManager.load(doubles, 1);
                     _StdOut.putText('Process ID: ' + num);
                 }
+            TSOS.Control.updateMemoryDisplay();
             }
 
             public shellRun(args){

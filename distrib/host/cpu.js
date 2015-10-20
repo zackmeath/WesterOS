@@ -43,8 +43,14 @@ var TSOS;
         };
         Cpu.prototype.runProcess = function (pid) {
             this.currentPCB = _ProcessManager.getPCB(pid);
-            this.loadFromPCB();
-            this.isExecuting = true;
+            if (this.currentPCB.processState === TSOS.ProcessState.Terminated) {
+                _StdOut.putText('This process has already been terminated');
+            }
+            else {
+                this.currentPCB.processState = TSOS.ProcessState.Running;
+                this.loadFromPCB();
+                this.isExecuting = true;
+            }
         };
         Cpu.prototype.loadProgram = function (pcb) {
             this.currentPCB = pcb;
@@ -62,6 +68,7 @@ var TSOS;
         };
         Cpu.prototype.cycle = function () {
             this.PC = this.PC % (this.currentPCB.limitRegister - this.currentPCB.baseRegister);
+            TSOS.Control.updateMemoryDisplay();
             _Kernel.krnTrace('CPU cycle');
             // TODO: Accumulate CPU usage and profiling statistics here.
             if (this.currentPCB !== null && this.isExecuting) {
@@ -150,6 +157,7 @@ var TSOS;
                         if (this.Xreg === 1) {
                             _StdOut.putText(this.Yreg + '');
                             _StdOut.advanceLine();
+                            _OsShell.putPrompt();
                         }
                         else {
                             this.PC++;
@@ -162,6 +170,7 @@ var TSOS;
                                 var code = _MemoryManager.read(this.currentPCB, addr);
                             }
                             _StdOut.advanceLine();
+                            _OsShell.putPrompt();
                         }
                         this.PC++;
                         break;

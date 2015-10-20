@@ -43,8 +43,13 @@ module TSOS {
 
         public runProcess(pid: number):void {
             this.currentPCB = _ProcessManager.getPCB(pid);
-            this.loadFromPCB();
-            this.isExecuting = true;
+            if(this.currentPCB.processState === ProcessState.Terminated){
+                _StdOut.putText('This process has already been terminated');
+            } else {
+                this.currentPCB.processState = ProcessState.Running;
+                this.loadFromPCB();
+                this.isExecuting = true;
+            }
         }
 
         public loadProgram(pcb: TSOS.PCB): void {
@@ -65,6 +70,7 @@ module TSOS {
 
         public cycle(): void {
             this.PC = this.PC % (this.currentPCB.limitRegister - this.currentPCB.baseRegister);
+            TSOS.Control.updateMemoryDisplay();
             _Kernel.krnTrace('CPU cycle');
             // TODO: Accumulate CPU usage and profiling statistics here.
             if(this.currentPCB !== null && this.isExecuting){
@@ -152,6 +158,7 @@ module TSOS {
                         if (this.Xreg === 1){
                             _StdOut.putText(this.Yreg + '');
                             _StdOut.advanceLine();
+                            _OsShell.putPrompt();
                         } else {
                             this.PC++;
                             var addr = this.Yreg;
@@ -163,6 +170,7 @@ module TSOS {
                                 var code = _MemoryManager.read(this.currentPCB, addr);
                             }
                             _StdOut.advanceLine();
+                            _OsShell.putPrompt();
                         }
                         this.PC++;
                         break;

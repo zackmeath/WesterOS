@@ -28,14 +28,11 @@ var TSOS;
         }
         Control.updateProcessDisplay = function (pcb) {
             var display = document.getElementById('processTable');
-            display.innerHTML = '<tr><th>PC</th><th>Acc</th><th>X</th><th>Y</th><th>Z</th></tr>';
-            display.innerHTML += '<tr>';
-            display.innerHTML += '<td>' + pcb.programCounter + '</td>';
-            display.innerHTML += '<td>' + pcb.acc + '</td>';
-            display.innerHTML += '<td>' + pcb.XRegister + '</td>';
-            display.innerHTML += '<td>' + pcb.YRegister + '</td>';
-            display.innerHTML += '<td>' + pcb.ZFlag + '</td>';
-            display.innerHTML += '</tr>';
+            display.innerHTML = '<tr><th>PC</th><th>Acc</th><th>X</th><th>Y</th><th>Z</th></tr>' + '<tr>' + '<td>' + pcb.programCounter + '</td>' + '<td>' + pcb.acc + '</td>' + '<td>' + pcb.XRegister + '</td>' + '<td>' + pcb.YRegister + '</td>' + '<td>' + pcb.ZFlag + '</td>' + '</tr>';
+        };
+        Control.updateMemoryDisplay = function () {
+            var display = document.getElementById('memoryLog');
+            display.value = _Memory.toString();
         };
         Control.hostInit = function () {
             // This is called from index.html's onLoad event via the onDocumentLoad function pointer.

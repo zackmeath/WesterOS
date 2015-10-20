@@ -232,6 +232,7 @@ var TSOS;
                 var num = _ProcessManager.load(doubles, 1);
                 _StdOut.putText('Process ID: ' + num);
             }
+            TSOS.Control.updateMemoryDisplay();
         };
         Shell.prototype.shellRun = function (args) {
             if (args.length === 0) {

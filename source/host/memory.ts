@@ -31,5 +31,12 @@ module TSOS {
         public printMem(){
             console.log(this.memory);
         }
+        public toString(){
+            var output = '';
+            for(var i = 0; i < this.memory.length; i++){
+                output += this.memory[i] + ' ';
+            }
+            return output;
+        }
     }
 }
