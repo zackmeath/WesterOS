@@ -31,9 +31,6 @@ var TSOS;
         Memory.prototype.getSize = function () {
             return this.memory.length;
         };
-        Memory.prototype.printMem = function () {
-            console.log(this.memory);
-        };
         Memory.prototype.toString = function () {
             var output = '';
             for (var i = 0; i < this.memory.length; i++) {

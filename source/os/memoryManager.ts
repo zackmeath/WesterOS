@@ -1,8 +1,10 @@
 module TSOS {
     export class MemoryManager {
+
         private memorySize;
         private allocated;
         private numOfBlocks;
+
         constructor(maxProcesses: number){
             this.memorySize = _Memory.getSize();
             this.numOfBlocks = this.memorySize/maxProcesses;
@@ -16,18 +18,24 @@ module TSOS {
         }
 
         public read(pcb: TSOS.PCB, loc: number): string {
-            if(loc >= 0 && loc < 256){
+            if(loc >= 0 && loc < this.numOfBlocks){
                 return _Memory.getByte(pcb.baseRegister + loc);
             } else {
                 // TODO Throw memory access error
+                alert('Memory access error');
             }
         }
 
         public write(pcb: TSOS.PCB, loc: number, data: string): void {
             if(loc >= 0 && loc < 256){
-                return _Memory.setByte(pcb.baseRegister + loc, data);
+                if(parseInt(data, 16) > 255){
+                    // TODO Can't store more than FF
+                } else {
+                    _Memory.setByte(pcb.baseRegister + loc, data);
+                }
             } else {
                 // TODO Throw memory access error
+                alert('Memory access error');
             }
         }
 

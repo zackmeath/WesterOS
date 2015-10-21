@@ -29,12 +29,15 @@ module TSOS {
 
         public static updateProcessDisplay(pcb: TSOS.PCB, instruction: string): void {
             var display = document.getElementById('processTable');
+            // Update the table to show the current instruction and the pcb
             display.innerHTML = '<tr><th>Instr</th><th>PC</th><th>Acc</th><th>X</th><th>Y</th><th>Z</th></tr>' + '<tr>' +'<td>' + instruction + '</td>' + '<td>' + pcb.programCounter + '</td>' + '<td>' + pcb.acc + '</td>' + '<td>' + pcb.XRegister + '</td>' + '<td>' + pcb.YRegister + '</td>' + '<td>' + pcb.ZFlag + '</td>' + '</tr>';
         }
 
         public static initMemoryDisplay(): void {
             var display = document.getElementById('memoryTable');
             var htmlString = '';
+
+            // For each row in the table, generate each column
             for(var i = 0; i < 256; i += 8){
                 var iStr = i.toString();
                 if(i < 10){
@@ -54,6 +57,8 @@ module TSOS {
             var htmlString = '';
             var memArr = _Memory.toString().split(' ');
             var memPointer = 0;
+
+            // For each row in the table, generate each column
             for(var i = 0; i < 256; i += 8){
                 var iStr = i.toString();
                 if(i < 10){
@@ -111,7 +116,7 @@ module TSOS {
             // Note the OS CLOCK.
             var clock: number = _OSclock;
 
-            // Note the REAL clock in milliseconds since January 1, 1970.
+            // Parse the time into a readable format
             var now = new Date();
             var hours = (now.getHours() % 12).toString();
             if(hours === '0'){
@@ -120,7 +125,6 @@ module TSOS {
             hours = hours.toString();
             var minutes = now.getMinutes().toString();
             var seconds = now.getSeconds().toString();
-
             if(seconds.length === 1){
                 seconds = '0' + seconds;
             }
@@ -130,6 +134,7 @@ module TSOS {
             if(hours.length === 1){
                 hours = '0' + hours;
             }
+
             // Build the log string.
             var str: string = " " + hours + ':' + minutes + ':' + seconds + " - " + "Pulse: " + clock + "  Source: " + source + "  Msg: " + msg + "\n";
 
@@ -144,7 +149,7 @@ module TSOS {
             // Disable the (passed-in) start button...
             btn.disabled = true;
 
-            // .. enable the Halt and Reset buttons ...
+            // .. enable the Halt, Reset, and Single-step  buttons ...
             (<HTMLButtonElement>document.getElementById("btnHaltOS")).disabled = false;
             (<HTMLButtonElement>document.getElementById("btnReset")).disabled = false;
             (<HTMLButtonElement>document.getElementById("btnSingleStep")).disabled = false;
@@ -152,7 +157,7 @@ module TSOS {
             // .. set focus on the OS console display ...
             document.getElementById("display").focus();
 
-            // ... Create and initialize the CPU (because it's part of the hardware)  ...
+            // ... Create and initialize the CPU and memory (because it's part of the hardware)  ...
             _CPU = new Cpu();  // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
             _CPU.init();       //       There's more to do, like dealing with scheduling and such, but this would be a start. Pretty cool.
             _Memory = new Memory(256);
@@ -177,13 +182,20 @@ module TSOS {
         }
 
         public static hostBtnSingleStep_click(btn): void {
+            // Toggle single step mode
             TSOS.Cpu.singleStep = !(TSOS.Cpu.singleStep);
-            if(!TSOS.Cpu.singleStep && !_CPU.isExecuting){
+
+            // Start executing if we are in the middle of a program
+            if(!TSOS.Cpu.singleStep && !_CPU.isExecuting && _CPU.PC !== 0){
                 _CPU.isExecuting = true;
             }
+
+            // Change the text on the button to display the current mode
+            btn.value = (TSOS.Cpu.singleStep) ? 'Single-step Execution: On ' : 'Single-step Execution: Off';
         }
 
         public static hostBtnStep_click(btn): void {
+            // Execute the next step in the program
             _CPU.isExecuting = true;
         }
 

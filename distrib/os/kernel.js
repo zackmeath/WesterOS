@@ -23,6 +23,7 @@ var TSOS;
             _KernelInterruptQueue = new TSOS.Queue(); // A (currently) non-priority queue for interrupt requests (IRQs).
             _KernelBuffers = new Array(); // Buffers... for the kernel.
             _KernelInputQueue = new TSOS.Queue(); // Where device input lands before being processed out somewhere.
+            // Initialize the Process and memory managers with number of allowable processes
             _ProcessManager = new TSOS.ProcessManager(1);
             _MemoryManager = new TSOS.MemoryManager(1);
             _ProcessManager.init();
@@ -57,10 +58,7 @@ var TSOS;
             // ... Disable the Interrupts.
             this.krnTrace("Disabling the interrupts.");
             this.krnDisableInterrupts();
-            //
             // Unload the Device Drivers?
-            // More?
-            //
             this.krnTrace("end shutdown OS");
         };
         Kernel.prototype.krnOnCPUClockPulse = function () {
@@ -71,7 +69,6 @@ var TSOS;
             // Check for an interrupt, are any. Page 560
             if (_KernelInterruptQueue.getSize() > 0) {
                 // Process the first interrupt on the interrupt queue.
-                // TODO: Implement a priority queue based on the IRQ number/id to enforce interrupt priority.
                 var interrupt = _KernelInterruptQueue.dequeue();
                 this.krnInterruptHandler(interrupt.irq, interrupt.params);
             }
@@ -109,17 +106,21 @@ var TSOS;
                     _krnKeyboardDriver.isr(params); // Kernel mode device driver
                     _StdIn.handleInput();
                     break;
+                case SYSCALL_IRQ:
+                    _StdOut.putText(params.output + '');
+                    _StdOut.advanceLine();
+                    _OsShell.putPrompt();
+                    break;
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");
+                    break;
             }
         };
         Kernel.prototype.krnTimerISR = function () {
-            // The built-in TIMER (not clock) Interrupt Service Routine (as opposed to an ISR coming from a device driver). {
+            // The built-in TIMER (not clock) Interrupt Service Routine (as opposed to an ISR coming from a device driver).
             // Check multiprogramming parameters and enforce quanta here. Call the scheduler / context switch here if necessary.
         };
-        //
         // System Calls... that generate software interrupts via tha Application Programming Interface library routines.
-        //
         // Some ideas:
         // - ReadConsole
         // - WriteConsole
@@ -131,9 +132,7 @@ var TSOS;
         // - ReadFile
         // - WriteFile
         // - CloseFile
-        //
         // OS Utility Routines
-        //
         Kernel.prototype.krnTrace = function (msg) {
             // Check globals to see if trace is set ON.  If so, then (maybe) log the message.
             if (_Trace) {

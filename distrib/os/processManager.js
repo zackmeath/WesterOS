@@ -16,7 +16,7 @@ var TSOS;
             return pcb.processID;
         };
         ProcessManager.prototype.doesProcessExist = function (pid) {
-            return (this.processes[pid] !== undefined || this.processes[pid] !== null);
+            return (this.processes[pid] !== undefined && this.processes[pid] !== null);
         };
         ProcessManager.prototype.getPCB = function (pid) {
             return this.processes[pid];

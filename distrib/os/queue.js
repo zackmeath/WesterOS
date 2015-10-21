@@ -21,6 +21,7 @@ var TSOS;
             return (this.q.length == 0);
         };
         Queue.prototype.enqueue = function (element, priority) {
+            // Store as an object to keep track of priority
             var insertObject = { value: element, priority: priority };
             var inserted = false;
             for (var i = 0; i < this.getSize(); i++) {
@@ -30,6 +31,7 @@ var TSOS;
                     break;
                 }
             }
+            // Insert at the end if it is the worst priority
             if (!inserted) {
                 this.q[this.getSize()] = insertObject;
             }

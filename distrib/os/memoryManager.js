@@ -12,17 +12,25 @@ var TSOS;
         MemoryManager.prototype.init = function () {
         };
         MemoryManager.prototype.read = function (pcb, loc) {
-            if (loc >= 0 && loc < 256) {
+            if (loc >= 0 && loc < this.numOfBlocks) {
                 return _Memory.getByte(pcb.baseRegister + loc);
             }
             else {
+                // TODO Throw memory access error
+                alert('Memory access error');
             }
         };
         MemoryManager.prototype.write = function (pcb, loc, data) {
             if (loc >= 0 && loc < 256) {
-                return _Memory.setByte(pcb.baseRegister + loc, data);
+                if (parseInt(data, 16) > 255) {
+                }
+                else {
+                    _Memory.setByte(pcb.baseRegister + loc, data);
+                }
             }
             else {
+                // TODO Throw memory access error
+                alert('Memory access error');
             }
         };
         MemoryManager.prototype.allocateMemory = function (pcb, program) {

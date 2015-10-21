@@ -141,21 +141,20 @@ module TSOS {
         }
 
         public handleInput(buffer) {
+            // Output a trace
             _Kernel.krnTrace("Shell Command~" + buffer);
+
             // Track the command history
             _CommandHistory.addCommand(buffer);
-            //
+
             // Parse the input...
-            //
             var userCommand = this.parseInput(buffer);
-            // ... and assign the command and args to local variables.
+
+            // Assign the command and args to local variables.
             var cmd = userCommand.command;
             var args = userCommand.args;
 
             // Determine the command and execute it.
-             
-            // TypeScript/JavaScript may not support associative arrays in all browsers so we have to iterate over the
-            // command list in attempt to find a match.  TODO: Is there a better way? Probably. Someone work it out and tell me in class.
             var index: number = 0;
             var found: boolean = false;
             var fn = undefined;
@@ -224,10 +223,8 @@ module TSOS {
                 return retVal;
             }
 
-            //
             // Shell Command Functions.  Kinda not part of Shell() class exactly, but
             // called from here, so kept here to avoid violating the law of least astonishment.
-            //
             public shellInvalidCommand() {
                 _StdOut.putText("Invalid Command. ");
                 if (_SarcasticMode) {
@@ -245,10 +242,12 @@ module TSOS {
             }
 
             public shellFire() {
+                // Switch out the style sheets
                 document.getElementById('stylesheet').href='distrib/styles/fire.css';
             }
 
             public shellIce() {
+                // Switch out the style sheets
                 document.getElementById('stylesheet').href='distrib/styles/ice.css';
             }
 
@@ -273,10 +272,10 @@ module TSOS {
             }
 
             public shellLoad(args){
+                // Make sure the hex code is valid
                 var legalChars = ['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f',' ']; 
                 _UserProgramInput = document.getElementById("taProgramInput").value.trim();
                 var isLegal = (_UserProgramInput.length > 0);
-
                 for (var i = 0; i < _UserProgramInput.length; i++) {
                     var character = _UserProgramInput[i];
                     if( legalChars.indexOf(character.toLowerCase()) === -1 ){
@@ -287,6 +286,7 @@ module TSOS {
                 if (!isLegal){
                     _StdOut.putText("Invalid user progrom");
                 } else {
+                    // Legal program
                     var programString = '';
                     var programArray = _UserProgramInput.split(' ');
                     for(var i = 0; i < programArray.length; i++){
@@ -300,22 +300,29 @@ module TSOS {
                     var num = _ProcessManager.load(doubles, 1);
                     _StdOut.putText('Process ID: ' + num);
                 }
-            TSOS.Control.updateMemoryDisplay();
+                // Update the display to reflect the program
+                TSOS.Control.updateMemoryDisplay();
             }
 
             public shellRun(args){
+                // Make sure we have a pid
                 if(args.length === 0){
                     _StdOut.putText("Must provide a valid pid");
-                } else{
+                } else {
                     var pid = parseInt(args[0]);
+                    // Make sure the pid is a number
                     if(isNaN(pid)){
                         _StdOut.putText("Must provide a valid number");
+                    // Make sure the pid is actually a program
                     } else if(!_ProcessManager.doesProcessExist(pid)){
                         _StdOut.putText("pid does not match a program currently in memory");
                     } else {
+                        // Valid pid
                         if(TSOS.Cpu.singleStep){
+                            // Enable the step button
                             (<HTMLButtonElement>document.getElementById("btnStep")).disabled = false;
                         }
+                        // Run the process
                         _CPU.runProcess(pid);
                     }
                 }
@@ -412,8 +419,12 @@ module TSOS {
                 'Davos Seaworth',
                 'Doran Martell',
                 ];
+
+                // Randomize these arrays
                 Utils.shuffle(locations);
                 Utils.shuffle(people);
+
+                // Pop off for random combinations
                 _StdOut.putText(locations.pop() + ' with ' + people.pop());
             }
 
