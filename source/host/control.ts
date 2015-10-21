@@ -190,6 +190,9 @@ module TSOS {
                 _CPU.isExecuting = true;
             }
 
+            // Enable the Step button
+            (<HTMLButtonElement>document.getElementById("btnStep")).disabled = !TSOS.Cpu.singleStep;
+
             // Change the text on the button to display the current mode
             btn.value = (TSOS.Cpu.singleStep) ? 'Single-step Execution: On ' : 'Single-step Execution: Off';
         }

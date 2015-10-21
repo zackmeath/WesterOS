@@ -163,6 +163,8 @@ var TSOS;
             if (!TSOS.Cpu.singleStep && !_CPU.isExecuting && _CPU.PC !== 0) {
                 _CPU.isExecuting = true;
             }
+            // Enable the Step button
+            document.getElementById("btnStep").disabled = !TSOS.Cpu.singleStep;
             // Change the text on the button to display the current mode
             btn.value = (TSOS.Cpu.singleStep) ? 'Single-step Execution: On ' : 'Single-step Execution: Off';
         };
