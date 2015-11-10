@@ -3,20 +3,22 @@ var TSOS;
     var MemoryManager = (function () {
         function MemoryManager(maxProcesses) {
             this.memorySize = _Memory.getSize();
-            this.numOfBlocks = this.memorySize / maxProcesses;
+            this.programSize = this.memorySize / maxProcesses;
             this.allocated = new Array(maxProcesses);
             for (var i = 0; i < this.allocated.length; i++) {
                 this.allocated[i] = -1;
             }
         }
-        MemoryManager.prototype.init = function () {
+        MemoryManager.prototype.clearMemory = function () {
+            _Memory.clearAllMemory();
         };
         MemoryManager.prototype.read = function (pcb, loc) {
-            if (loc >= 0 && loc < this.numOfBlocks) {
+            if (loc >= 0 && loc < this.programSize) {
                 return _Memory.getByte(pcb.baseRegister + loc);
             }
             else {
                 // TODO Throw memory access error
+                _ProcessManager.killProcess(pcb.processID);
                 alert('Memory access error');
             }
         };
@@ -30,6 +32,7 @@ var TSOS;
             }
             else {
                 // TODO Throw memory access error
+                _ProcessManager.killProcess(pcb.processID);
                 alert('Memory access error');
             }
         };

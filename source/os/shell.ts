@@ -43,6 +43,42 @@ module TSOS {
             "- Changes the current theme to fire");
             this.commandList[this.commandList.length] = sc;
 
+            // clearmem
+            sc = new ShellCommand(this.shellClearMem,
+            "clearmem",
+            "- Clears all of the memory");
+            this.commandList[this.commandList.length] = sc;
+
+            // runall
+            sc = new ShellCommand(this.shellRunall,
+            "runall",
+            "- Runs all of the processes in memory");
+            this.commandList[this.commandList.length] = sc;
+
+            // quantum
+            sc = new ShellCommand(this.shellQuantum,
+            "quantum",
+            "<num> - Sets the quantum for round robin scheduling to <num>");
+            this.commandList[this.commandList.length] = sc;
+
+            // ps
+            sc = new ShellCommand(this.shellPs,
+            "ps",
+            "- Lists all of the processes currently running");
+            this.commandList[this.commandList.length] = sc;
+
+            // kill
+            sc = new ShellCommand(this.shellKill,
+            "kill",
+            "<pid> - Kills the process running with pid <pid>");
+            this.commandList[this.commandList.length] = sc;
+
+            // killall
+            sc = new ShellCommand(this.shellKillall,
+            "killall",
+            "- Kills all of the processes");
+            this.commandList[this.commandList.length] = sc;
+
             // ver
             sc = new ShellCommand(this.shellVer,
             "ver",
@@ -266,6 +302,63 @@ module TSOS {
                 _StdOut.putText(APP_NAME + " version " + APP_VERSION);
             }
 
+            public shellClearMem(args) {
+                _MemoryManager.clearMemory();
+                TSOS.Control.updateMemoryDisplay();
+            }
+
+            public shellRunall(args) {
+            }
+
+            public shellQuantum(args) {
+                if(args.length === 0){
+                    _StdOut.putText("Must provide a quantum");
+                } else {
+                    var quantum = parseInt(args[0]);
+                    if(isNaN(quantum)){
+                    _StdOut.putText("Quantum must be an integer");
+                    } else {
+                        _CpuScheduler.setQuantum(quantum);
+                    }
+                }
+            }
+
+            public shellPs(args) {
+                var processes = _ProcessManager.getAllRunningProcesses();
+                if(processes.length === 0){
+                    _StdOut.putText("There are no running processes");
+                } else {
+                    for(var process in processes){
+                        _StdOut.putText(process.processID + "");
+                        _StdOut.advanceLine();
+                    }
+                }
+            }
+
+            public shellKill(args) {
+                if(args.length === 0){
+                    _StdOut.putText("Must provide a pid to kill");
+                } else {
+                    var pid = parseInt(args[0]);
+                    if(isNaN(pid)){
+                        _StdOut.putText("pid must be an integer");
+                    } else {
+                        if(!_ProcessManager.doesProcessExist(pid)){
+                        _StdOut.putText("pid: " + pid + " does not exist");
+                        } else {
+                            _ProcessManager.killProcess(pid);
+                        }
+                    }
+                }
+            }
+
+            public shellKillall(args) {
+                var processes = _ProcessManager.getAllRunningProcesses();
+                for(var process in processes){
+                    _ProcessManager.kill(process.processID);
+                }
+            }
+
             public shellBsod(args){
                 _shouldPrompt = false;
                 _Kernel.krnTrapError('BSOD test');
@@ -313,7 +406,7 @@ module TSOS {
                     // Make sure the pid is a number
                     if(isNaN(pid)){
                         _StdOut.putText("Must provide a valid number");
-                    // Make sure the pid is actually a program
+                        // Make sure the pid is actually a program
                     } else if(!_ProcessManager.doesProcessExist(pid)){
                         _StdOut.putText("pid does not match a program currently in memory");
                     } else {
@@ -323,7 +416,7 @@ module TSOS {
                             (<HTMLButtonElement>document.getElementById("btnStep")).disabled = false;
                         }
                         // Run the process
-                        _CPU.runProcess(pid);
+                        _ProcessManager.runProcess(pid);
                     }
                 }
             }
@@ -467,6 +560,24 @@ module TSOS {
                             break;
                         case "ver":
                             _StdOut.putText("Displays the current version of WesterOS");
+                            break;
+                        case "clearmem":
+                            _StdOut.putText("Clears the memory in all memory partitions");
+                            break;
+                        case "runall":
+                            _StdOut.putText("Runs all of the waiting processes in the ready queue");
+                            break;
+                        case "quantum":
+                            _StdOut.putText("<num> - sets the quantum used in round robin scheduling to <num>");
+                            break;
+                        case "ps":
+                            _StdOut.putText("Lists all of the processes currently executing");
+                            break;
+                        case "kill":
+                            _StdOut.putText("<pid> - Kills the process with pid <pid>");
+                            break;
+                        case "killall":
+                            _StdOut.putText("Kills all of the currently running processes");
                             break;
                         case "bsod":
                             _StdOut.putText("Displays the blue screen of death");

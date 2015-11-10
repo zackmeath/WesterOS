@@ -31,6 +31,24 @@ var TSOS;
             // fire
             sc = new TSOS.ShellCommand(this.shellFire, "fire", "- Changes the current theme to fire");
             this.commandList[this.commandList.length] = sc;
+            // clearmem
+            sc = new TSOS.ShellCommand(this.shellClearMem, "clearmem", "- Clears all of the memory");
+            this.commandList[this.commandList.length] = sc;
+            // runall
+            sc = new TSOS.ShellCommand(this.shellRunall, "runall", "- Runs all of the processes in memory");
+            this.commandList[this.commandList.length] = sc;
+            // quantum
+            sc = new TSOS.ShellCommand(this.shellQuantum, "quantum", "<num> - Sets the quantum for round robin scheduling to <num>");
+            this.commandList[this.commandList.length] = sc;
+            // ps
+            sc = new TSOS.ShellCommand(this.shellPs, "ps", "- Lists all of the processes currently running");
+            this.commandList[this.commandList.length] = sc;
+            // kill
+            sc = new TSOS.ShellCommand(this.shellKill, "kill", "<pid> - Kills the process running with pid <pid>");
+            this.commandList[this.commandList.length] = sc;
+            // killall
+            sc = new TSOS.ShellCommand(this.shellKillall, "killall", "- Kills all of the processes");
+            this.commandList[this.commandList.length] = sc;
             // ver
             sc = new TSOS.ShellCommand(this.shellVer, "ver", "- Displays the current version.");
             this.commandList[this.commandList.length] = sc;
@@ -197,6 +215,63 @@ var TSOS;
         Shell.prototype.shellVer = function (args) {
             _StdOut.putText(APP_NAME + " version " + APP_VERSION);
         };
+        Shell.prototype.shellClearMem = function (args) {
+            _MemoryManager.clearMemory();
+            TSOS.Control.updateMemoryDisplay();
+        };
+        Shell.prototype.shellRunall = function (args) {
+        };
+        Shell.prototype.shellQuantum = function (args) {
+            if (args.length === 0) {
+                _StdOut.putText("Must provide a quantum");
+            }
+            else {
+                var quantum = parseInt(args[0]);
+                if (isNaN(quantum)) {
+                    _StdOut.putText("Quantum must be an integer");
+                }
+                else {
+                    _CpuScheduler.setQuantum(quantum);
+                }
+            }
+        };
+        Shell.prototype.shellPs = function (args) {
+            var processes = _ProcessManager.getAllRunningProcesses();
+            if (processes.length === 0) {
+                _StdOut.putText("There are no running processes");
+            }
+            else {
+                for (var process in processes) {
+                    _StdOut.putText(process.processID + "");
+                    _StdOut.advanceLine();
+                }
+            }
+        };
+        Shell.prototype.shellKill = function (args) {
+            if (args.length === 0) {
+                _StdOut.putText("Must provide a pid to kill");
+            }
+            else {
+                var pid = parseInt(args[0]);
+                if (isNaN(pid)) {
+                    _StdOut.putText("pid must be an integer");
+                }
+                else {
+                    if (!_ProcessManager.doesProcessExist(pid)) {
+                        _StdOut.putText("pid: " + pid + " does not exist");
+                    }
+                    else {
+                        _ProcessManager.killProcess(pid);
+                    }
+                }
+            }
+        };
+        Shell.prototype.shellKillall = function (args) {
+            var processes = _ProcessManager.getAllRunningProcesses();
+            for (var process in processes) {
+                _ProcessManager.kill(process.processID);
+            }
+        };
         Shell.prototype.shellBsod = function (args) {
             _shouldPrompt = false;
             _Kernel.krnTrapError('BSOD test');
@@ -255,7 +330,7 @@ var TSOS;
                         document.getElementById("btnStep").disabled = false;
                     }
                     // Run the process
-                    _CPU.runProcess(pid);
+                    _ProcessManager.runProcess(pid);
                 }
             }
         };
@@ -391,6 +466,24 @@ var TSOS;
                         break;
                     case "ver":
                         _StdOut.putText("Displays the current version of WesterOS");
+                        break;
+                    case "clearmem":
+                        _StdOut.putText("Clears the memory in all memory partitions");
+                        break;
+                    case "runall":
+                        _StdOut.putText("Runs all of the waiting processes in the ready queue");
+                        break;
+                    case "quantum":
+                        _StdOut.putText("<num> - sets the quantum used in round robin scheduling to <num>");
+                        break;
+                    case "ps":
+                        _StdOut.putText("Lists all of the processes currently executing");
+                        break;
+                    case "kill":
+                        _StdOut.putText("<pid> - Kills the process with pid <pid>");
+                        break;
+                    case "killall":
+                        _StdOut.putText("Kills all of the currently running processes");
                         break;
                     case "bsod":
                         _StdOut.putText("Displays the blue screen of death");

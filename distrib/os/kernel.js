@@ -24,10 +24,9 @@ var TSOS;
             _KernelBuffers = new Array(); // Buffers... for the kernel.
             _KernelInputQueue = new TSOS.Queue(); // Where device input lands before being processed out somewhere.
             // Initialize the Process and memory managers with number of allowable processes
-            _ProcessManager = new TSOS.ProcessManager(1);
-            _MemoryManager = new TSOS.MemoryManager(1);
-            _ProcessManager.init();
-            _MemoryManager.init();
+            _ProcessManager = new TSOS.ProcessManager(3);
+            _MemoryManager = new TSOS.MemoryManager(3);
+            _CpuScheduler = new TSOS.CpuScheduler();
             // Initialize the console.
             _Console = new TSOS.Console(); // The command line interface / console I/O device.
             _Console.init();

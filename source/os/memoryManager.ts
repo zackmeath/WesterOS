@@ -3,25 +3,27 @@ module TSOS {
 
         private memorySize;
         private allocated;
-        private numOfBlocks;
+        private programSize;
 
         constructor(maxProcesses: number){
             this.memorySize = _Memory.getSize();
-            this.numOfBlocks = this.memorySize/maxProcesses;
+            this.programSize = this.memorySize/maxProcesses;
             this.allocated = new Array(maxProcesses);
             for(var i = 0; i < this.allocated.length; i++){
                 this.allocated[i] = -1;
             }
         }
 
-        public init(): void {
+        public clearMemory(): void {
+            _Memory.clearAllMemory();
         }
 
         public read(pcb: TSOS.PCB, loc: number): string {
-            if(loc >= 0 && loc < this.numOfBlocks){
+            if(loc >= 0 && loc < this.programSize){
                 return _Memory.getByte(pcb.baseRegister + loc);
             } else {
                 // TODO Throw memory access error
+                _ProcessManager.killProcess(pcb.processID);
                 alert('Memory access error');
             }
         }
@@ -35,6 +37,7 @@ module TSOS {
                 }
             } else {
                 // TODO Throw memory access error
+                _ProcessManager.killProcess(pcb.processID);
                 alert('Memory access error');
             }
         }

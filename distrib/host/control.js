@@ -29,7 +29,7 @@ var TSOS;
         Control.updateProcessDisplay = function (pcb, instruction) {
             var display = document.getElementById('processTable');
             // Update the table to show the current instruction and the pcb
-            display.innerHTML = '<tr><th>Instr</th><th>PC</th><th>Acc</th><th>X</th><th>Y</th><th>Z</th></tr>' + '<tr>' + '<td>' + instruction + '</td>' + '<td>' + pcb.programCounter + '</td>' + '<td>' + pcb.acc + '</td>' + '<td>' + pcb.XRegister + '</td>' + '<td>' + pcb.YRegister + '</td>' + '<td>' + pcb.ZFlag + '</td>' + '</tr>';
+            display.innerHTML = '<tr><th>Instr</th><th>PC</th><th>Acc</th><th>X</th><th>Y</th><th>Z</th></tr>' + '<tr>' + '<td>' + instruction + '</td>' + '<td>' + pcb.programCounter + '</td>' + '<td>' + pcb.acc.toString(16) + '</td>' + '<td>' + pcb.XRegister.toString(16) + '</td>' + '<td>' + pcb.YRegister.toString(16) + '</td>' + '<td>' + pcb.ZFlag + '</td>' + '</tr>';
         };
         Control.initMemoryDisplay = function () {
             var display = document.getElementById('memoryTable');
@@ -138,7 +138,7 @@ var TSOS;
             // ... Create and initialize the CPU and memory (because it's part of the hardware)  ...
             _CPU = new TSOS.Cpu(); // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
             _CPU.init(); //       There's more to do, like dealing with scheduling and such, but this would be a start. Pretty cool.
-            _Memory = new TSOS.Memory(256);
+            _Memory = new TSOS.Memory(768);
             _Memory.init();
             // ... then set the host clock pulse ...
             _hardwareClockID = setInterval(TSOS.Devices.hostClockPulse, CPU_CLOCK_INTERVAL);

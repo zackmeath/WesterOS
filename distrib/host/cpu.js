@@ -76,8 +76,6 @@ var TSOS;
             if (this.currentPCB !== null && this.isExecuting) {
                 // Trace the cycle
                 _Kernel.krnTrace('CPU cycle');
-                // If the program counter goes past memory, loop back on itself
-                this.PC = this.PC % (this.currentPCB.limitRegister - this.currentPCB.baseRegister + 1);
                 // Get the next instruction
                 this.instruction = _MemoryManager.read(this.currentPCB, this.PC);
                 // Decide what to do with the instruction
@@ -130,6 +128,8 @@ var TSOS;
                         break;
                 }
             }
+            // If the program counter goes past memory, loop back on itself
+            this.PC = this.PC % (this.currentPCB.limitRegister - this.currentPCB.baseRegister + 1);
             // Keep the pcb up to date with the cpu
             if (this.currentPCB !== null) {
                 this.updatePCB();
