@@ -46,23 +46,10 @@ module TSOS {
             this.Zflag = this.currentPCB.ZFlag;
         }
 
-        // Run the process with pid
-        public runProcess(pid: number):void {
-            this.currentPCB = _ProcessManager.getPCB(pid);
-
-            // Have we already run this?
-            if(this.currentPCB.processState === ProcessState.Terminated){
-                _StdOut.putText('This process has already been terminated');
-            } else {
-                this.currentPCB.processState = ProcessState.Running;
-                this.loadFromPCB();
-                this.isExecuting = true;
-            }
-        }
-
         // Load the program by setting the current pcb and updateing the cpu registers
         public loadProgram(pcb: TSOS.PCB): void {
             this.currentPCB = pcb;
+            this.currentPCB.processState = TSOS.ProcessState.Running;
             this.loadFromPCB();
         }
 
@@ -74,7 +61,6 @@ module TSOS {
             }
         }
 
-
         public cycle(): void {
             // TODO: Accumulate CPU usage and profiling statistics here.
 
@@ -85,6 +71,9 @@ module TSOS {
 
                 // Get the next instruction
                 this.instruction = _MemoryManager.read(this.currentPCB, this.PC);
+
+                // Executing an instruction
+                _CpuScheduler.incrementCounter();
 
                 // Decide what to do with the instruction
                 switch(this.instruction){
@@ -132,13 +121,16 @@ module TSOS {
                         break;
                     default:
                         alert('Illegal instruction: ' + _MemoryManager.read(this.currentPCB, this.PC) + ', PC = ' + this.PC);
+                        this.currentPCB.processState = TSOS.ProcessState.Halted;
+                        this.currentPCB = null;
+                        _CpuScheduler.setExecutingPCB(null);
                         this.isExecuting = false;
                         break;
                 }
             }
 
             // If the program counter goes past memory, loop back on itself
-            this.PC = this.PC % (this.currentPCB.limitRegister - this.currentPCB.baseRegister + 1);
+            this.PC = this.PC % 256;
 
             // Keep the pcb up to date with the cpu
             if(this.currentPCB !== null){
@@ -254,17 +246,20 @@ module TSOS {
             this.PC++;
         }
         private breakOP() {
-            this.isExecuting = false;
-            _MemoryManager.deallocateMemory(this.currentPCB);
-            this.currentPCB.processState = ProcessState.Terminated;
             this.updatePCB();
+            this.currentPCB.processState = ProcessState.Terminated;
+            _MemoryManager.deallocateMemory(this.currentPCB);
             this.currentPCB = null;
+            _CpuScheduler.setExecutingPCB(null);
             this.Acc = 0;
             this.Xreg = 0;
             this.Yreg = 0;
             this.Zflag = 0;
             this.PC = 0;
             (<HTMLButtonElement>document.getElementById("btnStep")).disabled = true;
+            if(_ProcessManager.readyQueue.getSize() === 0){
+                this.isExecuting = false;
+            }
         }
     }
 }

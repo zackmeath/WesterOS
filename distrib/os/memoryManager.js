@@ -19,7 +19,8 @@ var TSOS;
             else {
                 // TODO Throw memory access error
                 _ProcessManager.killProcess(pcb.processID);
-                alert('Memory access error');
+                // alert('Memory read error: Accessing loc(' + loc + ')');
+                console.log('Memory read error: Accessing loc(' + loc + ')');
             }
         };
         MemoryManager.prototype.write = function (pcb, loc, data) {
@@ -33,7 +34,8 @@ var TSOS;
             else {
                 // TODO Throw memory access error
                 _ProcessManager.killProcess(pcb.processID);
-                alert('Memory access error');
+                // alert('Memory write error: Accessing loc(' + loc + ')');
+                console.log('Memory write error: Accessing loc(' + loc + ')');
             }
         };
         MemoryManager.prototype.allocateMemory = function (pcb, program) {

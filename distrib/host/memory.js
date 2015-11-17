@@ -3,12 +3,10 @@ var TSOS;
     var Memory = (function () {
         function Memory(size) {
             this.memory = new Array(size);
-        }
-        Memory.prototype.init = function () {
             for (var i = 0; i < this.memory.length; i++) {
                 this.memory[i] = '00';
             }
-        };
+        }
         Memory.prototype.clearAllMemory = function () {
             for (var i = 0; i < this.memory.length; i++) {
                 this.memory[i] = '00';

@@ -10,11 +10,11 @@ var TSOS;
     })(TSOS.ProcessState || (TSOS.ProcessState = {}));
     var ProcessState = TSOS.ProcessState;
     ;
-    (function (Mode) {
-        Mode[Mode["ROUND_ROBIN"] = 0] = "ROUND_ROBIN";
-        Mode[Mode["FCFS"] = 1] = "FCFS";
-        Mode[Mode["PRIORITY"] = 2] = "PRIORITY";
-    })(TSOS.Mode || (TSOS.Mode = {}));
-    var Mode = TSOS.Mode;
+    (function (SchedulingMode) {
+        SchedulingMode[SchedulingMode["ROUND_ROBIN"] = 0] = "ROUND_ROBIN";
+        SchedulingMode[SchedulingMode["FCFS"] = 1] = "FCFS";
+        SchedulingMode[SchedulingMode["PRIORITY"] = 2] = "PRIORITY";
+    })(TSOS.SchedulingMode || (TSOS.SchedulingMode = {}));
+    var SchedulingMode = TSOS.SchedulingMode;
     ;
 })(TSOS || (TSOS = {}));

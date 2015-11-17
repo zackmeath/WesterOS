@@ -8,7 +8,7 @@ module TSOS {
         Terminated
     };
     
-    export enum Mode {
+    export enum SchedulingMode {
         ROUND_ROBIN,
         FCFS,
         PRIORITY

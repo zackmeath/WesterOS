@@ -220,6 +220,7 @@ var TSOS;
             TSOS.Control.updateMemoryDisplay();
         };
         Shell.prototype.shellRunall = function (args) {
+            _ProcessManager.runall();
         };
         Shell.prototype.shellQuantum = function (args) {
             if (args.length === 0) {
@@ -241,9 +242,9 @@ var TSOS;
                 _StdOut.putText("There are no running processes");
             }
             else {
+                _StdOut.putText("Running processes: ");
                 for (var process in processes) {
-                    _StdOut.putText(process.processID + "");
-                    _StdOut.advanceLine();
+                    _StdOut.putText(processes[process].processID + " ");
                 }
             }
         };
@@ -269,7 +270,7 @@ var TSOS;
         Shell.prototype.shellKillall = function (args) {
             var processes = _ProcessManager.getAllRunningProcesses();
             for (var process in processes) {
-                _ProcessManager.kill(process.processID);
+                _ProcessManager.killProcess(processes[process].processID);
             }
         };
         Shell.prototype.shellBsod = function (args) {

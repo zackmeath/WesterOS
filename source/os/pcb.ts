@@ -1,5 +1,8 @@
 module TSOS {
     export class PCB {
+
+        static currentProcessId: number = 0;
+
         public priority:       number;           // Importance
         public processID:      number;           // Int
         public acc:            number;           // Number from 0-255
@@ -10,8 +13,7 @@ module TSOS {
         public processState:   TSOS.ProcessState; // Enum of 'NEW', 'READY', 'WAITING', 'HALTED', 'RUNNING', 'TERMINATED'
         public baseRegister:   number;           // Where memory access starts
         public limitRegister:  number;           // Where memory access ends
-        
-        static currentProcessId: number = 0;
+
         constructor(priority: number){
          this.priority = priority;
          this.processID = PCB.currentProcessId++;

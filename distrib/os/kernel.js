@@ -65,7 +65,9 @@ var TSOS;
                This is NOT the same as a TIMER, which causes an interrupt and is handled like other interrupts.
                This, on the other hand, is the clock pulse from the hardware / VM / host that tells the kernel
                that it has to look for interrupts and process them if it finds any.                           */
-            // Check for an interrupt, are any. Page 560
+            if (_ProcessManager.readyQueue.getSize() > 0) {
+                _CpuScheduler.schedule();
+            }
             if (_KernelInterruptQueue.getSize() > 0) {
                 // Process the first interrupt on the interrupt queue.
                 var interrupt = _KernelInterruptQueue.dequeue();
@@ -109,6 +111,9 @@ var TSOS;
                     _StdOut.putText(params.output + '');
                     _StdOut.advanceLine();
                     _OsShell.putPrompt();
+                    break;
+                case CONTEXT_SWITCH_IRQ:
+                    _CpuScheduler.contextSwitch();
                     break;
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");

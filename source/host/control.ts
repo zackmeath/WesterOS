@@ -38,7 +38,7 @@ module TSOS {
             var htmlString = '';
 
             // For each row in the table, generate each column
-            for(var i = 0; i < 256; i += 8){
+            for(var i = 0; i < 768; i += 8){
                 var iStr = i.toString();
                 if(i < 10){
                     iStr = '0' + iStr;
@@ -59,7 +59,7 @@ module TSOS {
             var memPointer = 0;
 
             // For each row in the table, generate each column
-            for(var i = 0; i < 256; i += 8){
+            for(var i = 0; i < 768; i += 8){
                 var iStr = i.toString();
                 if(i < 10){
                     iStr = '0' + iStr;
@@ -161,7 +161,6 @@ module TSOS {
             _CPU = new Cpu();  // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
             _CPU.init();       //       There's more to do, like dealing with scheduling and such, but this would be a start. Pretty cool.
             _Memory = new Memory(768);
-            _Memory.init();
 
             // ... then set the host clock pulse ...
             _hardwareClockID = setInterval(Devices.hostClockPulse, CPU_CLOCK_INTERVAL);

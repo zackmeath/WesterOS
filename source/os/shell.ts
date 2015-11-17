@@ -308,6 +308,7 @@ module TSOS {
             }
 
             public shellRunall(args) {
+                _ProcessManager.runall();
             }
 
             public shellQuantum(args) {
@@ -328,9 +329,9 @@ module TSOS {
                 if(processes.length === 0){
                     _StdOut.putText("There are no running processes");
                 } else {
+                    _StdOut.putText("Running processes: ");
                     for(var process in processes){
-                        _StdOut.putText(process.processID + "");
-                        _StdOut.advanceLine();
+                        _StdOut.putText(processes[process].processID + " ");
                     }
                 }
             }
@@ -355,7 +356,7 @@ module TSOS {
             public shellKillall(args) {
                 var processes = _ProcessManager.getAllRunningProcesses();
                 for(var process in processes){
-                    _ProcessManager.kill(process.processID);
+                    _ProcessManager.killProcess(processes[process].processID);
                 }
             }
 

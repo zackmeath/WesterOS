@@ -3,9 +3,6 @@ module TSOS {
         private memory;
         constructor(size: number){
             this.memory = new Array(size);
-        }
-
-        public init(): void {
             for(var i = 0; i < this.memory.length; i++){
                 this.memory[i] = '00';
             }

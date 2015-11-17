@@ -45,22 +45,10 @@ var TSOS;
             this.Yreg = this.currentPCB.YRegister;
             this.Zflag = this.currentPCB.ZFlag;
         };
-        // Run the process with pid
-        Cpu.prototype.runProcess = function (pid) {
-            this.currentPCB = _ProcessManager.getPCB(pid);
-            // Have we already run this?
-            if (this.currentPCB.processState === TSOS.ProcessState.Terminated) {
-                _StdOut.putText('This process has already been terminated');
-            }
-            else {
-                this.currentPCB.processState = TSOS.ProcessState.Running;
-                this.loadFromPCB();
-                this.isExecuting = true;
-            }
-        };
         // Load the program by setting the current pcb and updateing the cpu registers
         Cpu.prototype.loadProgram = function (pcb) {
             this.currentPCB = pcb;
+            this.currentPCB.processState = TSOS.ProcessState.Running;
             this.loadFromPCB();
         };
         // Change the pcb to reflect what the CPU registers currently are
@@ -78,6 +66,8 @@ var TSOS;
                 _Kernel.krnTrace('CPU cycle');
                 // Get the next instruction
                 this.instruction = _MemoryManager.read(this.currentPCB, this.PC);
+                // Executing an instruction
+                _CpuScheduler.incrementCounter();
                 // Decide what to do with the instruction
                 switch (this.instruction) {
                     case 'A9':
@@ -124,12 +114,15 @@ var TSOS;
                         break;
                     default:
                         alert('Illegal instruction: ' + _MemoryManager.read(this.currentPCB, this.PC) + ', PC = ' + this.PC);
+                        this.currentPCB.processState = TSOS.ProcessState.Halted;
+                        this.currentPCB = null;
+                        _CpuScheduler.setExecutingPCB(null);
                         this.isExecuting = false;
                         break;
                 }
             }
             // If the program counter goes past memory, loop back on itself
-            this.PC = this.PC % (this.currentPCB.limitRegister - this.currentPCB.baseRegister + 1);
+            this.PC = this.PC % 256;
             // Keep the pcb up to date with the cpu
             if (this.currentPCB !== null) {
                 this.updatePCB();
@@ -241,17 +234,20 @@ var TSOS;
             this.PC++;
         };
         Cpu.prototype.breakOP = function () {
-            this.isExecuting = false;
-            _MemoryManager.deallocateMemory(this.currentPCB);
-            this.currentPCB.processState = TSOS.ProcessState.Terminated;
             this.updatePCB();
+            this.currentPCB.processState = TSOS.ProcessState.Terminated;
+            _MemoryManager.deallocateMemory(this.currentPCB);
             this.currentPCB = null;
+            _CpuScheduler.setExecutingPCB(null);
             this.Acc = 0;
             this.Xreg = 0;
             this.Yreg = 0;
             this.Zflag = 0;
             this.PC = 0;
             document.getElementById("btnStep").disabled = true;
+            if (_ProcessManager.readyQueue.getSize() === 0) {
+                this.isExecuting = false;
+            }
         };
         return Cpu;
     })();
