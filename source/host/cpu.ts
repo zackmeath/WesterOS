@@ -145,6 +145,9 @@ module TSOS {
             // Update the memory display to reflect command
             TSOS.Control.updateMemoryDisplay();
 
+            // Update resident table
+            TSOS.Control.updateResidentDisplay();
+
         } // End of cycle
 
 

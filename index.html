@@ -42,7 +42,9 @@
         <!-- Other Routines -->
         <script type="text/javascript" src="distrib/utils.js"></script>
         <!-- Uncomment this line below to enable GLaDOS testing -->
+        <!--
             <script type="text/javascript" src="http://www.labouseur.com/courses/os/projects/glados.js"></script>
+            -->
     </head>
 
     <body onload="onDocumentLoad()">
@@ -171,6 +173,27 @@
                             <div class="panel panel-default" >
                                 <div class="panel-body" style="height:170px;overflow-y:auto;">
                                     <table id="memoryTable" class="table">
+                                    </table>
+                                </div>
+                            </div>
+                            <p></p>
+
+                            <label>
+                                Resident List
+                            </label>
+                            <div class="panel panel-default" >
+                                <div class="panel-body" style="height:170px;overflow-y:auto;">
+                                    <table id="residentTable" class="table">
+                                        <tr>
+                                            <th>PID</th>
+                                            <th>State</th>
+                                            <th>Program Counter</th>
+                                        </tr>
+                                        <tr>
+                                            <td>N/A</td>
+                                            <td>N/A</td>
+                                            <td>N/A</td>
+                                        </tr>
                                     </table>
                                 </div>
                             </div>

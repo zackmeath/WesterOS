@@ -396,6 +396,7 @@ module TSOS {
                 }
                 // Update the display to reflect the program
                 TSOS.Control.updateMemoryDisplay();
+                TSOS.Control.updateResidentDisplay();
             }
 
             public shellRun(args){

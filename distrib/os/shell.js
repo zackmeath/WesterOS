@@ -309,6 +309,7 @@ var TSOS;
             }
             // Update the display to reflect the program
             TSOS.Control.updateMemoryDisplay();
+            TSOS.Control.updateResidentDisplay();
         };
         Shell.prototype.shellRun = function (args) {
             // Make sure we have a pid

@@ -26,7 +26,6 @@ module TSOS {
             _CPU.updatePCB();
 
             var nextProgram = _ProcessManager.readyQueue.dequeue();
-            console.log('Switching to program: ' + nextProgram.processID);
             nextProgram.processState = TSOS.ProcessState.Running;
 
             this.executingPCB.processState = TSOS.ProcessState.Waiting;

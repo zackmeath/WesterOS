@@ -75,6 +75,40 @@ module TSOS {
             display.innerHTML = htmlString;
         }
 
+        public static updateResidentDisplay(): void {
+            var display = document.getElementById('residentTable');
+            var htmlString = '<tr><th>PID</th><th>State</th><th>Program Counter</th></tr>';
+            for(var i = 0; i < _ProcessManager.residentList.length; i++){
+                var pcb = _ProcessManager.residentList[i];
+                var statusString = 'N/A';
+                switch (pcb.processState){
+                    case TSOS.ProcessState.New:
+                        statusString = 'New';
+                        break;
+                    case TSOS.ProcessState.Ready:
+                        statusString = 'Ready';
+                        break;
+                    case TSOS.ProcessState.Waiting:
+                        statusString = 'Waiting';
+                        break;
+                    case TSOS.ProcessState.Halted:
+                        statusString = 'Halted';
+                        break;
+                    case TSOS.ProcessState.Running:
+                        statusString = 'Running';
+                        break;
+                    case TSOS.ProcessState.Terminated:
+                        statusString = 'Terminated';
+                        break;
+                }
+                htmlString += '<tr><td>' + pcb.processID + '</td><td>' + statusString + '</td><td>' + pcb.programCounter + '</td></tr>';
+            }
+            if(_ProcessManager.residentList.length === 0){
+                htmlString += '<tr><td>N/A</td><td>N/A</td><td>N/A</td></tr>';
+            }
+            display.innerHTML = htmlString;
+        }
+
         public static hostInit(): void {
             // This is called from index.html's onLoad event via the onDocumentLoad function pointer.
 
