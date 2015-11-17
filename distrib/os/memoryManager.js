@@ -17,10 +17,8 @@ var TSOS;
                 return _Memory.getByte(pcb.baseRegister + loc);
             }
             else {
-                // TODO Throw memory access error
                 _ProcessManager.killProcess(pcb.processID);
-                // alert('Memory read error: Accessing loc(' + loc + ')');
-                console.log('Memory read error: Accessing loc(' + loc + ')');
+                alert('Memory read error: Accessing loc(' + loc + ')');
             }
         };
         MemoryManager.prototype.write = function (pcb, loc, data) {
@@ -32,10 +30,8 @@ var TSOS;
                 }
             }
             else {
-                // TODO Throw memory access error
                 _ProcessManager.killProcess(pcb.processID);
-                // alert('Memory write error: Accessing loc(' + loc + ')');
-                console.log('Memory write error: Accessing loc(' + loc + ')');
+                alert('Memory write error: Accessing loc(' + loc + ')');
             }
         };
         MemoryManager.prototype.allocateMemory = function (pcb, program) {

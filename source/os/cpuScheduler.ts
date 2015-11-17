@@ -11,6 +11,7 @@ module TSOS {
 
         private counter: number;
         public incrementCounter(): void {  this.counter++;  }
+        public resetCounter(): void {  this.counter = 1;  }
 
         private executingPCB: TSOS.PCB;
         public setExecutingPCB(pbc: TSOS.PCB) {  this.executingPCB = pbc  }
@@ -23,17 +24,25 @@ module TSOS {
         }
 
         public contextSwitch(): void {
-            _CPU.updatePCB();
 
-            var nextProgram = _ProcessManager.readyQueue.dequeue();
-            nextProgram.processState = TSOS.ProcessState.Running;
+            if(_CPU.currentPCB === null && _ProcessManager.readyQueue.getSize() > 0){
+                var nextProgram = _ProcessManager.readyQueue.dequeue();
+                nextProgram.processState = TSOS.ProcessState.Running;
+                this.executingPCB = nextProgram;
+                _CPU.loadProgram(this.executingPCB);
+            } else if(_ProcessManager.readyQueue.getSize() > 0){
+                _CPU.updatePCB();
+                var nextProgram = _ProcessManager.readyQueue.dequeue();
+                nextProgram.processState = TSOS.ProcessState.Running;
 
-            this.executingPCB.processState = TSOS.ProcessState.Waiting;
-            _ProcessManager.readyQueue.enqueue(this.executingPCB);
+                this.executingPCB.processState = TSOS.ProcessState.Waiting;
+                _ProcessManager.readyQueue.enqueue(this.executingPCB);
 
-            this.executingPCB = nextProgram;
-
-            _CPU.loadProgram(this.executingPCB);
+                this.executingPCB = nextProgram;
+                _CPU.loadProgram(this.executingPCB);
+            } else {
+                console.log('Empty context switch');
+            }
         }
 
         public schedule():void {
@@ -51,16 +60,18 @@ module TSOS {
         }
 
         private scheduleRoundRobin(): void {
-            if (this.executingPCB === null){
+            if (this.executingPCB === null && _ProcessManager.readyQueue.getSize() > 0){
                 this.executingPCB = _ProcessManager.readyQueue.dequeue();
                 this.executingPCB.processState = TSOS.ProcessState.Running;
                 _CPU.loadProgram(this.executingPCB);
                 _CPU.isExecuting = true;
-            } else {
+            } else if (_ProcessManager.readyQueue.getSize() > 0){
                 if(this.counter >= this.quantum){
                     this.counter = 1;
                     _Kernel.krnInterruptHandler(CONTEXT_SWITCH_IRQ);
+                    _CPU.isExecuting = true;
                 }
+            } else {
             }
         }
 

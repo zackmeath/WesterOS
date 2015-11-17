@@ -241,6 +241,7 @@ var TSOS;
             _MemoryManager.deallocateMemory(this.currentPCB);
             this.currentPCB = null;
             _CpuScheduler.setExecutingPCB(null);
+            _CpuScheduler.resetCounter();
             this.Acc = 0;
             this.Xreg = 0;
             this.Yreg = 0;

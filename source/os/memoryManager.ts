@@ -22,10 +22,8 @@ module TSOS {
             if(loc >= 0 && loc < this.programSize){
                 return _Memory.getByte(pcb.baseRegister + loc);
             } else {
-                // TODO Throw memory access error
                 _ProcessManager.killProcess(pcb.processID);
-                // alert('Memory read error: Accessing loc(' + loc + ')');
-                console.log('Memory read error: Accessing loc(' + loc + ')');
+                alert('Memory read error: Accessing loc(' + loc + ')');
             }
         }
 
@@ -37,10 +35,8 @@ module TSOS {
                     _Memory.setByte(pcb.baseRegister + loc, data);
                 }
             } else {
-                // TODO Throw memory access error
                 _ProcessManager.killProcess(pcb.processID);
-                // alert('Memory write error: Accessing loc(' + loc + ')');
-                console.log('Memory write error: Accessing loc(' + loc + ')');
+                alert('Memory write error: Accessing loc(' + loc + ')');
             }
         }
 

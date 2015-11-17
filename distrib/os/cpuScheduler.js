@@ -11,15 +11,27 @@ var TSOS;
         CpuScheduler.prototype.setQuantum = function (q) { this.quantum = q; };
         CpuScheduler.prototype.setSchedulingMode = function (m) { this.mode = m; };
         CpuScheduler.prototype.incrementCounter = function () { this.counter++; };
+        CpuScheduler.prototype.resetCounter = function () { this.counter = 1; };
         CpuScheduler.prototype.setExecutingPCB = function (pbc) { this.executingPCB = pbc; };
         CpuScheduler.prototype.contextSwitch = function () {
-            _CPU.updatePCB();
-            var nextProgram = _ProcessManager.readyQueue.dequeue();
-            nextProgram.processState = TSOS.ProcessState.Running;
-            this.executingPCB.processState = TSOS.ProcessState.Waiting;
-            _ProcessManager.readyQueue.enqueue(this.executingPCB);
-            this.executingPCB = nextProgram;
-            _CPU.loadProgram(this.executingPCB);
+            if (_CPU.currentPCB === null && _ProcessManager.readyQueue.getSize() > 0) {
+                var nextProgram = _ProcessManager.readyQueue.dequeue();
+                nextProgram.processState = TSOS.ProcessState.Running;
+                this.executingPCB = nextProgram;
+                _CPU.loadProgram(this.executingPCB);
+            }
+            else if (_ProcessManager.readyQueue.getSize() > 0) {
+                _CPU.updatePCB();
+                var nextProgram = _ProcessManager.readyQueue.dequeue();
+                nextProgram.processState = TSOS.ProcessState.Running;
+                this.executingPCB.processState = TSOS.ProcessState.Waiting;
+                _ProcessManager.readyQueue.enqueue(this.executingPCB);
+                this.executingPCB = nextProgram;
+                _CPU.loadProgram(this.executingPCB);
+            }
+            else {
+                console.log('Empty context switch');
+            }
         };
         CpuScheduler.prototype.schedule = function () {
             switch (this.mode) {
@@ -35,17 +47,20 @@ var TSOS;
             }
         };
         CpuScheduler.prototype.scheduleRoundRobin = function () {
-            if (this.executingPCB === null) {
+            if (this.executingPCB === null && _ProcessManager.readyQueue.getSize() > 0) {
                 this.executingPCB = _ProcessManager.readyQueue.dequeue();
                 this.executingPCB.processState = TSOS.ProcessState.Running;
                 _CPU.loadProgram(this.executingPCB);
                 _CPU.isExecuting = true;
             }
-            else {
+            else if (_ProcessManager.readyQueue.getSize() > 0) {
                 if (this.counter >= this.quantum) {
                     this.counter = 1;
                     _Kernel.krnInterruptHandler(CONTEXT_SWITCH_IRQ);
+                    _CPU.isExecuting = true;
                 }
+            }
+            else {
             }
         };
         CpuScheduler.prototype.scheduleFirstComeFirstServe = function () {

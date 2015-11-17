@@ -13,7 +13,7 @@ var TSOS;
             }
         };
         Memory.prototype.clearRange = function (start, end) {
-            for (var i = 0; i < end; i++) {
+            for (var i = 0; i < (end - start); i++) {
                 this.memory[start + i] = '00';
             }
         };

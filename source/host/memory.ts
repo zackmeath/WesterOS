@@ -15,7 +15,7 @@ module TSOS {
         }
 
         public clearRange(start: number, end: number): void {
-            for(var i = 0; i < end; i++){
+            for(var i = 0; i < (end - start); i++){
                 this.memory[start + i] = '00';
             }
         }
