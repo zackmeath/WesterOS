@@ -13,5 +13,12 @@ module TSOS {
         FCFS,
         PRIORITY
     };
+
+    export enum IRQ {
+        TIMER,
+        KEYBOARD,
+        SYSCALL,
+        CONTEXT_SWITCH
+    }
 }
 

@@ -61,7 +61,7 @@ var TSOS;
             else if (_ProcessManager.readyQueue.getSize() > 0) {
                 if (this.counter >= this.quantum) {
                     this.counter = 1;
-                    _Kernel.krnInterruptHandler(CONTEXT_SWITCH_IRQ);
+                    _Kernel.krnInterruptHandler(TSOS.IRQ.CONTEXT_SWITCH);
                 }
             }
             else {
@@ -70,7 +70,7 @@ var TSOS;
         CpuScheduler.prototype.scheduleFirstComeFirstServe = function () {
             // TODO Sort readyQueue by startup time?
             if (this.executingPCB === null && _ProcessManager.readyQueue.getSize() > 0) {
-                _Kernel.krnInterruptHandler(CONTEXT_SWITCH_IRQ);
+                _Kernel.krnInterruptHandler(TSOS.IRQ.CONTEXT_SWITCH);
             }
         };
         CpuScheduler.prototype.schedulePriority = function () {
@@ -78,7 +78,7 @@ var TSOS;
                 return;
             }
             if (_ProcessManager.readyQueue.getSize() === 1 && this.executingPCB === null) {
-                _Kernel.krnInterruptHandler(CONTEXT_SWITCH_IRQ);
+                _Kernel.krnInterruptHandler(TSOS.IRQ.CONTEXT_SWITCH);
                 return;
             }
             // Get the queue into array form
@@ -113,7 +113,7 @@ var TSOS;
             }
             // If current program is done, do next one
             if (this.executingPCB === null && _ProcessManager.readyQueue.getSize() > 0) {
-                _Kernel.krnInterruptHandler(CONTEXT_SWITCH_IRQ);
+                _Kernel.krnInterruptHandler(TSOS.IRQ.CONTEXT_SWITCH);
             }
         };
         return CpuScheduler;

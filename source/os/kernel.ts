@@ -116,19 +116,19 @@ module TSOS {
             // Note: There is no need to "dismiss" or acknowledge the interrupts in our design here.
             //       Maybe the hardware simulation will grow to support/require that in the future.
             switch (irq) {
-                case TIMER_IRQ:
+                case TSOS.IRQ.TIMER:
                     this.krnTimerISR();              // Kernel built-in routine for timers (not the clock).
                     break;
-                case KEYBOARD_IRQ:
+                case TSOS.IRQ.KEYBOARD:
                     _krnKeyboardDriver.isr(params);   // Kernel mode device driver
                     _StdIn.handleInput();
                     break;
-                case SYSCALL_IRQ:
+                case TSOS.IRQ.SYSCALL:
                     _StdOut.putText(params.output + '');
                     _StdOut.advanceLine();
                     _OsShell.putPrompt();
                     break;
-                case CONTEXT_SWITCH_IRQ:
+                case TSOS.IRQ.CONTEXT_SWITCH:
                     _CpuScheduler.contextSwitch();
                     break;
                 default:

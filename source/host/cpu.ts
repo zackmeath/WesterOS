@@ -245,7 +245,7 @@ module TSOS {
                 }
                 var params = { output: output };
             }
-            _KernelInterruptQueue.enqueue(new Interrupt(SYSCALL_IRQ, params));
+            _KernelInterruptQueue.enqueue(new Interrupt(TSOS.IRQ.SYSCALL, params));
             this.PC++;
         }
         private breakOP() {

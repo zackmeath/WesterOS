@@ -17,4 +17,11 @@ var TSOS;
     })(TSOS.SchedulingMode || (TSOS.SchedulingMode = {}));
     var SchedulingMode = TSOS.SchedulingMode;
     ;
+    (function (IRQ) {
+        IRQ[IRQ["TIMER"] = 0] = "TIMER";
+        IRQ[IRQ["KEYBOARD"] = 1] = "KEYBOARD";
+        IRQ[IRQ["SYSCALL"] = 2] = "SYSCALL";
+        IRQ[IRQ["CONTEXT_SWITCH"] = 3] = "CONTEXT_SWITCH";
+    })(TSOS.IRQ || (TSOS.IRQ = {}));
+    var IRQ = TSOS.IRQ;
 })(TSOS || (TSOS = {}));

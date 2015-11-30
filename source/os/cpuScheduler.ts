@@ -72,7 +72,7 @@ module TSOS {
             } else if (_ProcessManager.readyQueue.getSize() > 0){
                 if(this.counter >= this.quantum){
                     this.counter = 1;
-                    _Kernel.krnInterruptHandler(CONTEXT_SWITCH_IRQ);
+                    _Kernel.krnInterruptHandler(TSOS.IRQ.CONTEXT_SWITCH);
                 }
             } else {
                 // Do nothing, we are all set
@@ -82,7 +82,7 @@ module TSOS {
         private scheduleFirstComeFirstServe(): void {
             // TODO Sort readyQueue by startup time?
             if (this.executingPCB === null && _ProcessManager.readyQueue.getSize() > 0){
-                _Kernel.krnInterruptHandler(CONTEXT_SWITCH_IRQ);
+                _Kernel.krnInterruptHandler(TSOS.IRQ.CONTEXT_SWITCH);
             }
         }
 
@@ -91,7 +91,7 @@ module TSOS {
                 return;
             }
             if(_ProcessManager.readyQueue.getSize() === 1 && this.executingPCB === null){
-                _Kernel.krnInterruptHandler(CONTEXT_SWITCH_IRQ);
+                _Kernel.krnInterruptHandler(TSOS.IRQ.CONTEXT_SWITCH);
                 return;
             }
 
@@ -129,7 +129,7 @@ module TSOS {
 
             // If current program is done, do next one
             if (this.executingPCB === null && _ProcessManager.readyQueue.getSize() > 0){
-                _Kernel.krnInterruptHandler(CONTEXT_SWITCH_IRQ);
+                _Kernel.krnInterruptHandler(TSOS.IRQ.CONTEXT_SWITCH);
             }
         }
 
