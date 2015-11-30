@@ -496,7 +496,12 @@ module TSOS {
                         if(args[0] !== undefined){
                             _StdOut.putText('Could not parse <priority> to a number, defaulting to 10');
                         }
-                        priority = 1; // default priority
+                        priority = 10; // default priority
+                    } else {
+                        if (priority < 1){
+                            _StdOut.putText('Priority needs to be higher than 0, defaulting to 10');
+                            priority = 10; // default priority
+                        }
                     }
                     var programString = '';
                     var programArray = _UserProgramInput.split(' ');

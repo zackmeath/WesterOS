@@ -19,6 +19,7 @@ var TSOS;
                 nextProgram.processState = TSOS.ProcessState.Running;
                 this.executingPCB = nextProgram;
                 _CPU.loadProgram(this.executingPCB);
+                _CPU.isExecuting = true;
             }
             else if (_ProcessManager.readyQueue.getSize() > 0) {
                 _CPU.updatePCB();
@@ -28,13 +29,13 @@ var TSOS;
                 _ProcessManager.readyQueue.enqueue(this.executingPCB);
                 this.executingPCB = nextProgram;
                 _CPU.loadProgram(this.executingPCB);
+                _CPU.isExecuting = true;
             }
             else {
                 console.log('Empty context switch');
             }
         };
         CpuScheduler.prototype.schedule = function () {
-            console.log(this.mode);
             switch (this.mode) {
                 case TSOS.SchedulingMode.ROUND_ROBIN:
                     this.scheduleRoundRobin();
@@ -68,10 +69,52 @@ var TSOS;
             }
         };
         CpuScheduler.prototype.scheduleFirstComeFirstServe = function () {
-            // TODO for Project 4
+            if (this.executingPCB === null && _ProcessManager.readyQueue.getSize() > 0) {
+                _Kernel.krnInterruptHandler(CONTEXT_SWITCH_IRQ);
+            }
         };
         CpuScheduler.prototype.schedulePriority = function () {
-            // TODO for Project 4
+            if (_ProcessManager.readyQueue.getSize() === 0) {
+                return;
+            }
+            if (_ProcessManager.readyQueue.getSize() === 1 && this.executingPCB === null) {
+                _Kernel.krnInterruptHandler(CONTEXT_SWITCH_IRQ);
+                return;
+            }
+            // Get the queue into array form
+            var tempArray = [];
+            var size = _ProcessManager.readyQueue.getSize();
+            for (var i = 0; i < size; i++) {
+                tempArray.push(_ProcessManager.readyQueue.dequeue());
+            }
+            // Sort programs so they are in correct order
+            for (var j = 0; j < tempArray.length; j++) {
+                var bestPriority = Infinity;
+                for (var i = 0; i < tempArray.length; i++) {
+                    var currentPCB = tempArray[i];
+                    if (currentPCB === undefined || currentPCB === null) {
+                        continue;
+                    }
+                    if (currentPCB.priority < bestPriority) {
+                        bestPriority = currentPCB.priority;
+                    }
+                }
+                for (var i = 0; i < tempArray.length; i++) {
+                    var currentPCB = tempArray[i];
+                    if (currentPCB === undefined || currentPCB === null) {
+                        continue;
+                    }
+                    if (currentPCB.priority === bestPriority) {
+                        _ProcessManager.readyQueue.enqueue(currentPCB);
+                        delete tempArray[i];
+                        break;
+                    }
+                }
+            }
+            // If current program is done, do next one
+            if (this.executingPCB === null && _ProcessManager.readyQueue.getSize() > 0) {
+                _Kernel.krnInterruptHandler(CONTEXT_SWITCH_IRQ);
+            }
         };
         return CpuScheduler;
     })();
