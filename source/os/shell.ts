@@ -85,6 +85,11 @@ module TSOS {
             "\"rr\" | \"fcfs\" | \"priority\" - Changes the process scheduling algorithm to the input");
             this.commandList[this.commandList.length] = sc;
 
+            // getschedule
+            sc = new ShellCommand(this.shellGetSchedule,
+            "getschedule",
+            "- Prints the current scheduling algorithm: \"Round Robin\" | \"First-Come First-Serve\" | \"Priority\"");
+            this.commandList[this.commandList.length] = sc;
 
             // clearmem
             sc = new ShellCommand(this.shellClearMem,
@@ -405,6 +410,20 @@ module TSOS {
                             _StdOut.putText('Argument given did not match a scheduling algorithm (\"rr\", \"fcfs\", \"priority\")');
                             break;
                     }
+                }
+            }
+
+            public shellGetSchedule(args){
+                switch(_CpuScheduler.getSchedulingMode()){
+                    case TSOS.SchedulingMode.ROUND_ROBIN:
+                        _StdOut.putText("Round Robin");
+                        break;
+                    case TSOS.SchedulingMode.FCFS:
+                        _StdOut.putText("First-Come First-Serve");
+                        break;
+                    case TSOS.SchedulingMode.PRIORITY:
+                        _StdOut.putText("Priority");
+                        break;
                 }
             }
 

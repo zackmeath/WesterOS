@@ -8,6 +8,7 @@ module TSOS {
         
         private mode: TSOS.SchedulingMode;
         public setSchedulingMode(m: TSOS.SchedulingMode){  this.mode = m;  }
+        public getSchedulingMode(){  return this.mode;  }
 
         private counter: number;
         public incrementCounter(): void {  this.counter++;  }

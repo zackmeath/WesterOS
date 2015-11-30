@@ -66,6 +66,7 @@ var _ChessMode: boolean = false;
 
 // Global Device Driver Objects - page 12
 var _krnKeyboardDriver; //  = null;
+var _krnFSDriver; //  = null;
 
 var _hardwareClockID: number = null;
 
