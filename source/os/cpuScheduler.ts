@@ -80,6 +80,7 @@ module TSOS {
         }
 
         private scheduleFirstComeFirstServe(): void {
+            // TODO Sort readyQueue by startup time?
             if (this.executingPCB === null && _ProcessManager.readyQueue.getSize() > 0){
                 _Kernel.krnInterruptHandler(CONTEXT_SWITCH_IRQ);
             }
