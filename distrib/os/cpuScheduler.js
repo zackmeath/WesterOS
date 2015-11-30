@@ -62,7 +62,6 @@ var TSOS;
                 if (this.counter >= this.quantum) {
                     this.counter = 1;
                     _Kernel.krnInterruptHandler(CONTEXT_SWITCH_IRQ);
-                    _CPU.isExecuting = true;
                 }
             }
             else {
