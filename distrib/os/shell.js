@@ -77,7 +77,7 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellBsod, "bsod", "- Displays the blue screen of death.");
             this.commandList[this.commandList.length] = sc;
             // load
-            sc = new TSOS.ShellCommand(this.shellLoad, "load", "- Loads program from input text area");
+            sc = new TSOS.ShellCommand(this.shellLoad, "load", "<priority> - Loads program from input text area, <priority> is optional");
             this.commandList[this.commandList.length] = sc;
             // Run
             sc = new TSOS.ShellCommand(this.shellRun, "run", "<pid> - Runs process with <pid>");
@@ -376,6 +376,13 @@ var TSOS;
             }
             else {
                 // Legal program
+                var priority = parseInt(args[0]);
+                if (isNaN(priority)) {
+                    if (args[0] !== undefined) {
+                        _StdOut.putText('Could not parse <priority> to a number, defaulting to 10');
+                    }
+                    priority = 1; // default priority
+                }
                 var programString = '';
                 var programArray = _UserProgramInput.split(' ');
                 for (var i = 0; i < programArray.length; i++) {
@@ -386,7 +393,7 @@ var TSOS;
                 for (var i = 0; i < chars.length; i += 2) {
                     doubles.push(chars[i] + chars[i + 1]);
                 }
-                var num = _ProcessManager.load(doubles, 1);
+                var num = _ProcessManager.load(doubles, priority);
                 _StdOut.putText('Process ID: ' + num);
             }
             // Update the display to reflect the program

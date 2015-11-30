@@ -137,7 +137,7 @@ module TSOS {
             // load
             sc = new ShellCommand(this.shellLoad,
             "load",
-            "- Loads program from input text area");
+            "<priority> - Loads program from input text area, <priority> is optional");
             this.commandList[this.commandList.length] = sc;
 
             // Run
@@ -491,6 +491,13 @@ module TSOS {
                     _StdOut.putText("Invalid user progrom");
                 } else {
                     // Legal program
+                    var priority = parseInt(args[0]);
+                    if(isNaN(priority)){
+                        if(args[0] !== undefined){
+                            _StdOut.putText('Could not parse <priority> to a number, defaulting to 10');
+                        }
+                        priority = 1; // default priority
+                    }
                     var programString = '';
                     var programArray = _UserProgramInput.split(' ');
                     for(var i = 0; i < programArray.length; i++){
@@ -501,7 +508,7 @@ module TSOS {
                     for(var i = 0; i < chars.length; i += 2){
                         doubles.push(chars[i] + chars[i+1]);
                     }
-                    var num = _ProcessManager.load(doubles, 1);
+                    var num = _ProcessManager.load(doubles, priority);
                     _StdOut.putText('Process ID: ' + num);
                 }
                 // Update the display to reflect the program

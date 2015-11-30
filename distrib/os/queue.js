@@ -18,37 +18,27 @@ var TSOS;
             return this.q.length;
         };
         Queue.prototype.isEmpty = function () {
-            return (this.q.length == 0);
+            return (this.q.length === 0);
         };
-        Queue.prototype.enqueue = function (element, priority) {
-            // Store as an object to keep track of priority
-            var insertObject = { value: element, priority: priority };
-            var inserted = false;
-            for (var i = 0; i < this.getSize(); i++) {
-                if (this.q[i].priority > priority) {
-                    this.q.splice(i, 0, insertObject);
-                    inserted = true;
-                    break;
-                }
-            }
-            // Insert at the end if it is the worst priority
-            if (!inserted) {
-                this.q[this.getSize()] = insertObject;
-            }
+        Queue.prototype.enqueue = function (element) {
+            this.q[this.getSize()] = element;
         };
         Queue.prototype.dequeue = function () {
             var returnValue = null;
             if (this.q.length > 0) {
-                returnValue = this.q.shift().value;
+                returnValue = this.q.shift();
             }
             return returnValue;
         };
         Queue.prototype.toString = function () {
-            var returnValue = "";
+            var returnValue = "[";
             for (var i in this.q) {
-                returnValue += "[" + this.q[i].value + "] ";
+                returnValue += "" + this.q[i];
+                if (i < this.q.length - 1) {
+                    returnValue += ', ';
+                }
             }
-            return returnValue;
+            return returnValue + ']';
         };
         return Queue;
     })();

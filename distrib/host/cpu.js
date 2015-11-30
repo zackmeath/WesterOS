@@ -232,7 +232,7 @@ var TSOS;
                 }
                 var params = { output: output };
             }
-            _KernelInterruptQueue.enqueue(new TSOS.Interrupt(SYSCALL_IRQ, params), 1);
+            _KernelInterruptQueue.enqueue(new TSOS.Interrupt(SYSCALL_IRQ, params));
             this.PC++;
         };
         Cpu.prototype.breakOP = function () {

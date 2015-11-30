@@ -18,41 +18,30 @@ module TSOS {
         }
 
         public isEmpty(){
-            return (this.q.length == 0);
+            return (this.q.length === 0);
         }
 
-        public enqueue(element, priority) {
-            // Store as an object to keep track of priority
-            var insertObject = { value: element, priority: priority };
-
-            var inserted = false;
-            for(var i = 0; i < this.getSize(); i++){
-                if(this.q[i].priority > priority){
-                    this.q.splice(i, 0, insertObject);
-                    inserted = true;
-                    break;
-                }
-            }
-            // Insert at the end if it is the worst priority
-            if(!inserted){
-                this.q[this.getSize()] = insertObject;
-            }
+        public enqueue(element) {
+            this.q[this.getSize()] = element;
         }
 
     public dequeue() {
         var returnValue = null;
         if (this.q.length > 0) {
-            returnValue = this.q.shift().value;
+            returnValue = this.q.shift();
         }
         return returnValue;
     }
 
     public toString() {
-        var returnValue = "";
+        var returnValue = "[";
         for (var i in this.q) {
-            returnValue += "[" + this.q[i].value + "] ";
+            returnValue += "" + this.q[i];
+            if(i < this.q.length-1) {
+                returnValue += ', ';
+            }
         }
-        return returnValue;
+        return returnValue + ']';
     }
   }
 }
