@@ -34,6 +34,7 @@ var TSOS;
             }
         };
         CpuScheduler.prototype.schedule = function () {
+            console.log(this.mode);
             switch (this.mode) {
                 case TSOS.SchedulingMode.ROUND_ROBIN:
                     this.scheduleRoundRobin();
@@ -43,6 +44,9 @@ var TSOS;
                     break;
                 case TSOS.SchedulingMode.PRIORITY:
                     this.schedulePriority();
+                    break;
+                default:
+                    this.scheduleRoundRobin();
                     break;
             }
         };

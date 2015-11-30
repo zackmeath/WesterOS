@@ -43,6 +43,49 @@ module TSOS {
             "- Changes the current theme to fire");
             this.commandList[this.commandList.length] = sc;
 
+            // create
+            sc = new ShellCommand(this.shellCreate,
+            "create",
+            "<filename> - Creates a file with the name <filename>");
+            this.commandList[this.commandList.length] = sc;
+
+            // read
+            sc = new ShellCommand(this.shellRead,
+            "read",
+            "<filename> - Reads the file with the name <filename> and prints the output");
+            this.commandList[this.commandList.length] = sc;
+
+            // write
+            sc = new ShellCommand(this.shellWrite,
+            "write",
+            "<filename> \"data\" - Writes the contents of \"data\" to the file <filename>");
+            this.commandList[this.commandList.length] = sc;
+
+            // delete
+            sc = new ShellCommand(this.shellDelete,
+            "delete",
+            "<filename> - Deletes the file with the name <filename>");
+            this.commandList[this.commandList.length] = sc;
+
+            // format
+            sc = new ShellCommand(this.shellFormat,
+            "format",
+            "- Initializes and formats the hard disk");
+            this.commandList[this.commandList.length] = sc;
+
+            // ls
+            sc = new ShellCommand(this.shellLs,
+            "ls",
+            "- Displays a list of all files from the directory");
+            this.commandList[this.commandList.length] = sc;
+
+            // setschedule
+            sc = new ShellCommand(this.shellSetSchedule,
+            "setschedule",
+            "\"rr\" | \"fcfs\" | \"priority\" - Changes the process scheduling algorithm to the input");
+            this.commandList[this.commandList.length] = sc;
+
+
             // clearmem
             sc = new ShellCommand(this.shellClearMem,
             "clearmem",
@@ -298,6 +341,73 @@ module TSOS {
                 }
             }
 
+            public shellCreate(args) {
+                var fileName = args[0];
+                if(fileName === undefined || fileName === null){
+                    _StdOut.putText("No arguments given for \"create\" command");
+                } else {
+                    // TODO Complete command
+                }
+            }
+
+            public shellRead(args) {
+                var fileName = args[0];
+                if(fileName === undefined || fileName === null){
+                    _StdOut.putText("No arguments given for \"read\" command");
+                } else {
+                    // TODO Complete command
+                }
+            }
+
+            public shellWrite(args) {
+                var fileName = args[0];
+                var data = args[1];
+                if(fileName === undefined || fileName === null || data === undefined || data === null){
+                    _StdOut.putText("Not enough arguments given for \"write\" command");
+                } else {
+                    // TODO Complete command
+                }
+            }
+
+            public shellDelete(args) {
+                var fileName = args[0];
+                if(fileName === undefined || fileName === null){
+                    _StdOut.putText("No arguments given for \"delete\" command");
+                } else {
+                    // TODO Complete command
+                }
+            }
+
+            public shellFormat(args) {
+                // TODO Format disk
+            }
+
+            public shellLs(args) {
+                // TODO List all files from the directory
+            }
+
+            public shellSetSchedule(args) {
+                var algo = args[0];
+                if(algo === undefined || algo === null){
+                    _StdOut.putText("No arguments given for \"delete\" command");
+                } else {
+                    switch (algo) {
+                        case 'rr':
+                            _CpuScheduler.setSchedulingMode(TSOS.SchedulingMode.ROUND_ROBIN);
+                            break;
+                        case 'fcfs':
+                            _CpuScheduler.setSchedulingMode(TSOS.SchedulingMode.FCFS);
+                            break;
+                        case 'priority':
+                            _CpuScheduler.setSchedulingMode(TSOS.SchedulingMode.PRIORITY);
+                            break;
+                        default:
+                            _StdOut.putText('Argument given did not match a scheduling algorithm (\"rr\", \"fcfs\", \"priority\")');
+                            break;
+                    }
+                }
+            }
+
             public shellVer(args) {
                 _StdOut.putText(APP_NAME + " version " + APP_VERSION);
             }
@@ -317,7 +427,7 @@ module TSOS {
                 } else {
                     var quantum = parseInt(args[0]);
                     if(isNaN(quantum)){
-                    _StdOut.putText("Quantum must be an integer");
+                        _StdOut.putText("Quantum must be an integer");
                     } else {
                         _CpuScheduler.setQuantum(quantum);
                     }
@@ -345,7 +455,7 @@ module TSOS {
                         _StdOut.putText("pid must be an integer");
                     } else {
                         if(!_ProcessManager.doesProcessExist(pid)){
-                        _StdOut.putText("pid: " + pid + " does not exist");
+                            _StdOut.putText("pid: " + pid + " does not exist");
                         } else {
                             _ProcessManager.killProcess(pid);
                         }

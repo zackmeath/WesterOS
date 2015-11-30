@@ -46,6 +46,7 @@ module TSOS {
         }
 
         public schedule():void {
+            console.log(this.mode);
             switch (this.mode) {
                 case SchedulingMode.ROUND_ROBIN:
                     this.scheduleRoundRobin();
@@ -55,6 +56,9 @@ module TSOS {
                     break;
                 case SchedulingMode.PRIORITY:
                     this.schedulePriority();
+                    break;
+                default:
+                    this.scheduleRoundRobin();
                     break;
             }
         }

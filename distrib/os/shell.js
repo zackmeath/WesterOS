@@ -31,6 +31,27 @@ var TSOS;
             // fire
             sc = new TSOS.ShellCommand(this.shellFire, "fire", "- Changes the current theme to fire");
             this.commandList[this.commandList.length] = sc;
+            // create
+            sc = new TSOS.ShellCommand(this.shellCreate, "create", "<filename> - Creates a file with the name <filename>");
+            this.commandList[this.commandList.length] = sc;
+            // read
+            sc = new TSOS.ShellCommand(this.shellRead, "read", "<filename> - Reads the file with the name <filename> and prints the output");
+            this.commandList[this.commandList.length] = sc;
+            // write
+            sc = new TSOS.ShellCommand(this.shellWrite, "write", "<filename> \"data\" - Writes the contents of \"data\" to the file <filename>");
+            this.commandList[this.commandList.length] = sc;
+            // delete
+            sc = new TSOS.ShellCommand(this.shellDelete, "delete", "<filename> - Deletes the file with the name <filename>");
+            this.commandList[this.commandList.length] = sc;
+            // format
+            sc = new TSOS.ShellCommand(this.shellFormat, "format", "- Initializes and formats the hard disk");
+            this.commandList[this.commandList.length] = sc;
+            // ls
+            sc = new TSOS.ShellCommand(this.shellLs, "ls", "- Displays a list of all files from the directory");
+            this.commandList[this.commandList.length] = sc;
+            // setschedule
+            sc = new TSOS.ShellCommand(this.shellSetSchedule, "setschedule", "\"rr\" | \"fcfs\" | \"priority\" - Changes the process scheduling algorithm to the input");
+            this.commandList[this.commandList.length] = sc;
             // clearmem
             sc = new TSOS.ShellCommand(this.shellClearMem, "clearmem", "- Clears all of the memory");
             this.commandList[this.commandList.length] = sc;
@@ -210,6 +231,67 @@ var TSOS;
             }
             else {
                 _StdOut.putText("For what?");
+            }
+        };
+        Shell.prototype.shellCreate = function (args) {
+            var fileName = args[0];
+            if (fileName === undefined || fileName === null) {
+                _StdOut.putText("No arguments given for \"create\" command");
+            }
+            else {
+            }
+        };
+        Shell.prototype.shellRead = function (args) {
+            var fileName = args[0];
+            if (fileName === undefined || fileName === null) {
+                _StdOut.putText("No arguments given for \"read\" command");
+            }
+            else {
+            }
+        };
+        Shell.prototype.shellWrite = function (args) {
+            var fileName = args[0];
+            var data = args[1];
+            if (fileName === undefined || fileName === null || data === undefined || data === null) {
+                _StdOut.putText("Not enough arguments given for \"write\" command");
+            }
+            else {
+            }
+        };
+        Shell.prototype.shellDelete = function (args) {
+            var fileName = args[0];
+            if (fileName === undefined || fileName === null) {
+                _StdOut.putText("No arguments given for \"delete\" command");
+            }
+            else {
+            }
+        };
+        Shell.prototype.shellFormat = function (args) {
+            // TODO Format disk
+        };
+        Shell.prototype.shellLs = function (args) {
+            // TODO List all files from the directory
+        };
+        Shell.prototype.shellSetSchedule = function (args) {
+            var algo = args[0];
+            if (algo === undefined || algo === null) {
+                _StdOut.putText("No arguments given for \"delete\" command");
+            }
+            else {
+                switch (algo) {
+                    case 'rr':
+                        _CpuScheduler.setSchedulingMode(TSOS.SchedulingMode.ROUND_ROBIN);
+                        break;
+                    case 'fcfs':
+                        _CpuScheduler.setSchedulingMode(TSOS.SchedulingMode.FCFS);
+                        break;
+                    case 'priority':
+                        _CpuScheduler.setSchedulingMode(TSOS.SchedulingMode.PRIORITY);
+                        break;
+                    default:
+                        _StdOut.putText('Argument given did not match a scheduling algorithm (\"rr\", \"fcfs\", \"priority\")');
+                        break;
+                }
             }
         };
         Shell.prototype.shellVer = function (args) {
