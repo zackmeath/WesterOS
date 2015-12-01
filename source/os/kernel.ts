@@ -138,6 +138,8 @@ module TSOS {
                 case TSOS.IRQ.CONTEXT_SWITCH:
                     _CpuScheduler.contextSwitch();
                     break;
+                case TSOS.IRQ.FILE_SYSTEM:
+                    _FileSystemManager.handleOperation(params);
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");
                     break;

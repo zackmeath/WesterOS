@@ -242,6 +242,8 @@ var TSOS;
                 _StdOut.putText("No arguments given for \"create\" command");
             }
             else {
+                var params = { operationType: 'create', fileName: fileName };
+                _KernelInterruptQueue.enqueue(new TSOS.Interrupt(TSOS.IRQ.FILE_SYSTEM, params));
             }
         };
         Shell.prototype.shellRead = function (args) {
@@ -250,6 +252,8 @@ var TSOS;
                 _StdOut.putText("No arguments given for \"read\" command");
             }
             else {
+                var params = { operationType: 'read', fileName: fileName };
+                _KernelInterruptQueue.enqueue(new TSOS.Interrupt(TSOS.IRQ.FILE_SYSTEM, params));
             }
         };
         Shell.prototype.shellWrite = function (args) {
@@ -259,6 +263,11 @@ var TSOS;
                 _StdOut.putText("Not enough arguments given for \"write\" command");
             }
             else {
+                if (data.substring(0, 1) === '\"' && data.substring(data.length - 1, data.length) === '\"') {
+                    data = data.substring(1, data.length - 1);
+                }
+                var params = { operationType: 'write', fileName: fileName, data: data };
+                _KernelInterruptQueue.enqueue(new TSOS.Interrupt(TSOS.IRQ.FILE_SYSTEM, params));
             }
         };
         Shell.prototype.shellDelete = function (args) {
@@ -267,13 +276,17 @@ var TSOS;
                 _StdOut.putText("No arguments given for \"delete\" command");
             }
             else {
+                var params = { operationType: 'delete', fileName: fileName };
+                _KernelInterruptQueue.enqueue(new TSOS.Interrupt(TSOS.IRQ.FILE_SYSTEM, params));
             }
         };
         Shell.prototype.shellFormat = function (args) {
-            // TODO Format disk
+            var params = { operationType: 'format' };
+            _KernelInterruptQueue.enqueue(new TSOS.Interrupt(TSOS.IRQ.FILE_SYSTEM, params));
         };
         Shell.prototype.shellLs = function (args) {
-            // TODO List all files from the directory
+            var params = { operationType: 'ls' };
+            _KernelInterruptQueue.enqueue(new TSOS.Interrupt(TSOS.IRQ.FILE_SYSTEM, params));
         };
         Shell.prototype.shellSetSchedule = function (args) {
             var algo = args[0];

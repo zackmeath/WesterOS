@@ -18,7 +18,8 @@ module TSOS {
         TIMER,
         KEYBOARD,
         SYSCALL,
-        CONTEXT_SWITCH
+        CONTEXT_SWITCH,
+        FILE_SYSTEM
     }
 }
 
