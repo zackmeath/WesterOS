@@ -12,14 +12,14 @@ module TSOS {
     export class DeviceDriverFileSystem extends DeviceDriver {
 
         constructor (){
-            super(this.driverEntry, this.isr);
+            super(this.fsDriverEntry, this.isr);
         }
 
-        public driverEntry() {
+        public fsDriverEntry() {
             // Initialization routine for this, the kernel-mode File System Device Driver.
             this.status = "loaded";
         }
-        public isr() {
+        public isr(params) {
             switch (params.operationType) {
                 case 'format':
                     _FileSystemManager.formatFileSystem();

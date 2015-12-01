@@ -16,7 +16,7 @@ module TSOS {
             this.headerSize = _FileSystem.headerSize;
         }
 
-        private formatFileSystem(){
+        public formatFileSystem(){
             var blankBlock = FILE_SYSTEM_FLAG_NOT_USED;
             for(var i = 0; i < this.blockSize-1; i++){
                 blankBlock += FILE_SYSTEM_EMPTY;
@@ -30,7 +30,7 @@ module TSOS {
             }
         }
 
-        private createFile(fileName): string {
+        public createFile(fileName): string {
             var foundSpot = false;
             if(this.doesFileExist(fileName)){
                 return 'File \"' + fileName + '\" already exists';
@@ -71,7 +71,7 @@ module TSOS {
             }
         }
 
-        private readFile(fileName): string {
+        public readFile(fileName): string {
             if(!this.doesFileExist(fileName)){
                 return 'File \"' + fileName + '\" does not exist';
             }
@@ -89,21 +89,21 @@ module TSOS {
 
         }
 
-        private writeFile(fileName, data): string {
+        public writeFile(fileName, data): string {
             if(!this.doesFileExist(fileName)){
                 return 'File \"' + fileName + '\" does not exist';
             }
             // TODO Return 'Success' if successful
         }
 
-        private deleteFile(fileName): string {
+        public deleteFile(fileName): string {
             if(!this.doesFileExist(fileName)){
                 return 'File \"' + fileName + '\" does not exist';
             }
             // TODO Return 'Success' if successful
         }
 
-        private ls(){
+        public ls(){
             // TODO
         }
 
