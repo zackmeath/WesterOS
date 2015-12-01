@@ -52,6 +52,9 @@ var TSOS;
             // setschedule
             sc = new TSOS.ShellCommand(this.shellSetSchedule, "setschedule", "\"rr\" | \"fcfs\" | \"priority\" - Changes the process scheduling algorithm to the input");
             this.commandList[this.commandList.length] = sc;
+            // getschedule
+            sc = new TSOS.ShellCommand(this.shellGetSchedule, "getschedule", "- Prints the current scheduling algorithm: \"Round Robin\" | \"First-Come First-Serve\" | \"Priority\"");
+            this.commandList[this.commandList.length] = sc;
             // clearmem
             sc = new TSOS.ShellCommand(this.shellClearMem, "clearmem", "- Clears all of the memory");
             this.commandList[this.commandList.length] = sc;
@@ -292,6 +295,19 @@ var TSOS;
                         _StdOut.putText('Argument given did not match a scheduling algorithm (\"rr\", \"fcfs\", \"priority\")');
                         break;
                 }
+            }
+        };
+        Shell.prototype.shellGetSchedule = function (args) {
+            switch (_CpuScheduler.getSchedulingMode()) {
+                case TSOS.SchedulingMode.ROUND_ROBIN:
+                    _StdOut.putText("Round Robin");
+                    break;
+                case TSOS.SchedulingMode.FCFS:
+                    _StdOut.putText("First-Come First-Serve");
+                    break;
+                case TSOS.SchedulingMode.PRIORITY:
+                    _StdOut.putText("Priority");
+                    break;
             }
         };
         Shell.prototype.shellVer = function (args) {

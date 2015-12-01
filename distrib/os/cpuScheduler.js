@@ -10,6 +10,7 @@ var TSOS;
         CpuScheduler.prototype.getQuantum = function () { return this.quantum; };
         CpuScheduler.prototype.setQuantum = function (q) { this.quantum = q; };
         CpuScheduler.prototype.setSchedulingMode = function (m) { this.mode = m; };
+        CpuScheduler.prototype.getSchedulingMode = function () { return this.mode; };
         CpuScheduler.prototype.incrementCounter = function () { this.counter++; };
         CpuScheduler.prototype.resetCounter = function () { this.counter = 1; };
         CpuScheduler.prototype.setExecutingPCB = function (pbc) { this.executingPCB = pbc; };

@@ -24,9 +24,10 @@ var TSOS;
             _KernelBuffers = new Array(); // Buffers... for the kernel.
             _KernelInputQueue = new TSOS.Queue(); // Where device input lands before being processed out somewhere.
             // Initialize the Process and memory managers with number of allowable processes
+            _CpuScheduler = new TSOS.CpuScheduler();
             _ProcessManager = new TSOS.ProcessManager(3);
             _MemoryManager = new TSOS.MemoryManager(3);
-            _CpuScheduler = new TSOS.CpuScheduler();
+            _FileSystemManager = new TSOS.FileSystemManager();
             // Initialize the console.
             _Console = new TSOS.Console(); // The command line interface / console I/O device.
             _Console.init();
@@ -37,6 +38,10 @@ var TSOS;
             // Load the Keyboard Device Driver
             this.krnTrace("Loading the keyboard device driver.");
             _krnKeyboardDriver = new TSOS.DeviceDriverKeyboard(); // Construct it.
+            _krnKeyboardDriver.driverEntry(); // Call the driverEntry() initialization routine.
+            this.krnTrace(_krnKeyboardDriver.status);
+            this.krnTrace("Loading the file system device driver.");
+            _krnFSDriver = new TSOS.DeviceDriverFileSystem(); // Construct it.
             _krnKeyboardDriver.driverEntry(); // Call the driverEntry() initialization routine.
             this.krnTrace(_krnKeyboardDriver.status);
             // Enable the OS Interrupts.  (Not the CPU clock interrupt, as that is done in the hardware sim.)

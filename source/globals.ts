@@ -14,20 +14,20 @@
 const APP_NAME: string    = "WesterOS";
 const APP_VERSION: string = "5.10"; 
 
-const CPU_CLOCK_INTERVAL: number = 100;   // This is in ms (milliseconds) so 1000 = 1 second.
+const CPU_CLOCK_INTERVAL: number = 10;   // This is in ms (milliseconds) so 1000 = 1 second.
 
-// const TIMER_IRQ: number = 0;  // Pages 23 (timer), 9 (interrupts), and 561 (interrupt priority).
-// const KEYBOARD_IRQ: number = 1;
-// const SYSCALL_IRQ: number = 2;
-// const CONTEXT_SWITCH_IRQ: number = 3;
-
+const FILE_SYSTEM_EMPTY: string    = '-';
+const FILE_SYSTEM_FLAG_NOT_USED: string = '0';
+const FILE_SYSTEM_FLAG_USED: string     = '1';
 
 var _CPU: TSOS.Cpu;  // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
-
 var _Memory: TSOS.Memory;
-var _ProcessManager: TSOS.ProcessManager;
-var _MemoryManager: TSOS.MemoryManager;
-var _CpuScheduler: TSOS.CpuScheduler;
+var _FileSystem: TSOS.FileSystem;
+
+var _CpuScheduler:      TSOS.CpuScheduler;
+var _ProcessManager:    TSOS.ProcessManager;
+var _MemoryManager:     TSOS.MemoryManager;
+var _FileSystemManager: TSOS.FileSystemManager;
 
 var _OSclock: number = 0;  // Page 23.
 

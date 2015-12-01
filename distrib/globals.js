@@ -12,16 +12,17 @@
 //
 var APP_NAME = "WesterOS";
 var APP_VERSION = "5.10";
-var CPU_CLOCK_INTERVAL = 100; // This is in ms (milliseconds) so 1000 = 1 second.
-// const TIMER_IRQ: number = 0;  // Pages 23 (timer), 9 (interrupts), and 561 (interrupt priority).
-// const KEYBOARD_IRQ: number = 1;
-// const SYSCALL_IRQ: number = 2;
-// const CONTEXT_SWITCH_IRQ: number = 3;
+var CPU_CLOCK_INTERVAL = 10; // This is in ms (milliseconds) so 1000 = 1 second.
+var FILE_SYSTEM_EMPTY = '-';
+var FILE_SYSTEM_FLAG_NOT_USED = '0';
+var FILE_SYSTEM_FLAG_USED = '1';
 var _CPU; // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
 var _Memory;
+var _FileSystem;
+var _CpuScheduler;
 var _ProcessManager;
 var _MemoryManager;
-var _CpuScheduler;
+var _FileSystemManager;
 var _OSclock = 0; // Page 23.
 var _Mode = 0; // (currently unused)  0 = Kernel Mode, 1 = User Mode.  See page 21.
 var _SystemStatus = "Normal";
@@ -50,6 +51,7 @@ var _SarcasticMode = false;
 var _ChessMode = false;
 // Global Device Driver Objects - page 12
 var _krnKeyboardDriver; //  = null;
+var _krnFSDriver; //  = null;
 var _hardwareClockID = null;
 var _UserProgramInput;
 // For testing (and enrichment)...
