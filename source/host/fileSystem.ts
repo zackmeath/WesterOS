@@ -10,7 +10,7 @@ module TSOS {
                 public headerSize: number
         ){}
 
-        public read(track, sector, block){
+        public read(track, sector, block): string {
             return localStorage.getItem(track + '-' + sector + '-' + block);
         }
 

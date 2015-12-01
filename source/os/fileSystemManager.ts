@@ -16,33 +16,6 @@ module TSOS {
             this.headerSize = _FileSystem.headerSize;
         }
 
-        public handleOperation(params){
-            switch (params.type) {
-                case 'format':
-                    this.formatFileSystem();
-                    break;
-                case 'ls':
-                    this.ls();
-                    break;
-                case 'create':
-                    var outupt = this.createFile(params.fileName);
-                    _StdOut.putText(output);
-                    break;
-                case 'read':
-                    var output = this.readFile(params.fileName);
-                    _StdOut.putText(output);
-                    break;
-                case 'write':
-                    var output = this.writeFile(params.fileName, params.data);
-                    _StdOut.putText(output);
-                    break;
-                case 'delete':
-                    var output = this.deleteFile(params.fileName);
-                    _StdOut.putText(output);
-                    break;
-            }
-        }
-
         private formatFileSystem(){
             var blankBlock = FILE_SYSTEM_FLAG_NOT_USED;
             for(var i = 0; i < this.blockSize-1; i++){
@@ -65,7 +38,7 @@ module TSOS {
             for(var j = 0; j < this.sectors; j++){
                 for(var k = 0; k < this.blocks; k++){
                     var file = this.deconstructFile(0, j, k);
-                    if(file[0] === 0){
+                    if(file[0] === FILE_SYSTEM_FLAG_NOT_USED){
                         foundSpot = true;
                         var fileString = FILE_SYSTEM_FLAG_USED;
                         var done = false;
@@ -139,7 +112,7 @@ module TSOS {
             var sector = parseInt(tsbString.substring(1,2));
             var block = parseInt(tsbString.substring(2,3));
 
-            var file = this.deconstructFile(_FileSystem.read(track, sector, block));
+            var file = this.deconstructFile(track, sector, block);
 
             if(isNaN(parseInt(file[1]))){ // If we do not need to continue reading to a new block
                 return file[2];
