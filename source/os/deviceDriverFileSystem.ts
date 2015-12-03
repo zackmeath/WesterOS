@@ -12,20 +12,25 @@ module TSOS {
     export class DeviceDriverFileSystem extends DeviceDriver {
 
         constructor (){
-            super(this.fsDriverEntry, this.isr);
+            super(this.fsDriverEntry, this.FSisr);
         }
 
         public fsDriverEntry() {
             // Initialization routine for this, the kernel-mode File System Device Driver.
             this.status = "loaded";
         }
-        public isr(params) {
+        public FSisr(params) {
             switch (params.operationType) {
                 case 'format':
                     _FileSystemManager.formatFileSystem();
                     break;
                 case 'ls':
-                    _FileSystemManager.ls();
+                    var files = _FileSystemManager.ls();
+                    for(var i = 0; i < files.length; i++){
+                        _StdOut.putText(files[i]);
+                        _StdOut.advanceLine();
+                    }
+                    _OsShell.putPrompt();
                     break;
                 case 'create':
                     var output = _FileSystemManager.createFile(params.fileName);

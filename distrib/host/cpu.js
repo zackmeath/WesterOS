@@ -135,6 +135,8 @@ var TSOS;
             TSOS.Control.updateMemoryDisplay();
             // Update resident table
             TSOS.Control.updateResidentDisplay();
+            // Update File System display
+            TSOS.Control.updateFSDisplay();
         }; // End of cycle
         Cpu.prototype.loadAccFromConstant = function () {
             this.PC++;

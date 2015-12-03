@@ -62,7 +62,7 @@ var _CommandHistory: TSOS.CommandHistory;
 
 // At least this OS is not trying to kill you. (Yet.)
 var _SarcasticMode: boolean = false;
-var _ChessMode: boolean = false;
+var _hasBeenFormatted: boolean = false;
 
 // Global Device Driver Objects - page 12
 var _krnKeyboardDriver; //  = null;

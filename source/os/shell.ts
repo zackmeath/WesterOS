@@ -347,6 +347,10 @@ module TSOS {
             }
 
             public shellCreate(args) {
+                if(!_hasBeenFormatted){
+                    _StdOut.putText("File System has not been formatted yet, use the \"format\" command first");
+                    return;
+                }
                 var fileName = args[0];
                 if(fileName === undefined || fileName === null){
                     _StdOut.putText("No arguments given for \"create\" command");
@@ -354,9 +358,14 @@ module TSOS {
                     var params = {operationType: 'create', fileName: fileName};
                     _KernelInterruptQueue.enqueue(new Interrupt(TSOS.IRQ.FILE_SYSTEM, params));
                 }
+                TSOS.Control.updateFSDisplay();
             }
 
             public shellRead(args) {
+                if(!_hasBeenFormatted){
+                    _StdOut.putText("File System has not been formatted yet, use the \"format\" command first");
+                    return;
+                }
                 var fileName = args[0];
                 if(fileName === undefined || fileName === null){
                     _StdOut.putText("No arguments given for \"read\" command");
@@ -367,6 +376,10 @@ module TSOS {
             }
 
             public shellWrite(args) {
+                if(!_hasBeenFormatted){
+                    _StdOut.putText("File System has not been formatted yet, use the \"format\" command first");
+                    return;
+                }
                 var fileName = args[0];
                 var data = args[1];
                 if(fileName === undefined || fileName === null || data === undefined || data === null){
@@ -378,9 +391,14 @@ module TSOS {
                     var params = {operationType: 'write', fileName: fileName, data: data};
                     _KernelInterruptQueue.enqueue(new Interrupt(TSOS.IRQ.FILE_SYSTEM, params));
                 }
+                TSOS.Control.updateFSDisplay();
             }
 
             public shellDelete(args) {
+                if(!_hasBeenFormatted){
+                    _StdOut.putText("File System has not been formatted yet, use the \"format\" command first");
+                    return;
+                }
                 var fileName = args[0];
                 if(fileName === undefined || fileName === null){
                     _StdOut.putText("No arguments given for \"delete\" command");
@@ -388,14 +406,21 @@ module TSOS {
                     var params = {operationType: 'delete', fileName: fileName};
                     _KernelInterruptQueue.enqueue(new Interrupt(TSOS.IRQ.FILE_SYSTEM, params));
                 }
+                TSOS.Control.updateFSDisplay();
             }
 
             public shellFormat(args) {
+                _hasBeenFormatted = true;
                 var params = {operationType: 'format'};
                 _KernelInterruptQueue.enqueue(new Interrupt(TSOS.IRQ.FILE_SYSTEM, params));
+                TSOS.Control.updateFSDisplay();
             }
 
             public shellLs(args) {
+                if(!_hasBeenFormatted){
+                    _StdOut.putText("File System has not been formatted yet, use the \"format\" command first");
+                    return;
+                }
                 var params = {operationType: 'ls'};
                 _KernelInterruptQueue.enqueue(new Interrupt(TSOS.IRQ.FILE_SYSTEM, params));
             }

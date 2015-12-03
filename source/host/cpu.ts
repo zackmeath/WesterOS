@@ -148,6 +148,9 @@ module TSOS {
             // Update resident table
             TSOS.Control.updateResidentDisplay();
 
+            // Update File System display
+            TSOS.Control.updateFSDisplay();
+
         } // End of cycle
 
 

@@ -30,81 +30,147 @@ module TSOS {
             }
         }
 
-        public createFile(fileName): string {
-            var foundSpot = false;
-            if(this.doesFileExist(fileName)){
-                return 'File \"' + fileName + '\" already exists';
-            }
-            for(var j = 0; j < this.sectors; j++){
-                for(var k = 0; k < this.blocks; k++){
-                    var file = this.deconstructFile(0, j, k);
-                    if(file[0] === FILE_SYSTEM_FLAG_NOT_USED){
-                        foundSpot = true;
-                        var fileString = FILE_SYSTEM_FLAG_USED;
-                        var done = false;
-                        for(var x = 1; x < this.tracks; x++){
-                            for(var y = 0; y < this.tracks; y++){
-                                for(var z = 0; z < this.tracks; z++){
-                                    if(done){
-                                        continue;
-                                    }
-                                    var secondFile = this.deconstructFile(x, y, z);
-                                    if(secondFile[0] === FILE_SYSTEM_FLAG_NOT_USED){
-                                        done = true;
-                                        fileString += '' + x + y + z;
-                                    }
-                                }
-                            }
-                        }
-                        fileString += fileName;
-                        while(fileString.length < this.blockSize){
-                            fileString += FILE_SYSTEM_EMPTY;
-                        }
-                        _FileSystem.write(0, j, k, fileString);
-                    }
-                }
-            }
-            if(foundSpot){
-                return 'Success';
-            } else {
-                return 'Exceeded maximum number of files allowed';
-            }
-        }
 
         public readFile(fileName): string {
             if(!this.doesFileExist(fileName)){
                 return 'File \"' + fileName + '\" does not exist';
             }
-            for(var j = 0; j < this.sectors; j++){
-                for(var k = 0; k < this.blocks; k++){
-                    var file = this.deconstructFile(0, j, k);
-                    if(file[0] === FILE_SYSTEM_FLAG_NOT_USED){ // File is not in use
-                        continue;
-                    }
-                    if(file[2] === fileName){
-                        return this.retrieveFileContents(file[1]);
-                    }
-                }
+            var file = this.getFileByName(fileName);
+            return this.retrieveFileContents(file[1]);
+        }
+
+        public createFile(fileName): string {
+            // Error handling
+            if(this.doesFileExist(fileName)){
+                return 'File \"' + fileName + '\" already exists';
+            }
+            var fileLocation = this.findEmptyFileTSB();
+            if(fileLocation.length !== 3){
+                return fileLocation;
+            }
+            var contentLocation = this.findEmptyTSB();
+            if(contentLocation.length !== 3){
+                return contentLocation;
             }
 
+            // Write to the new locations
+            var fileString = FILE_SYSTEM_FLAG_USED + contentLocation + fileName;
+            var contentString = FILE_SYSTEM_FLAG_USED;
+            while (fileString.length < this.blockSize){
+                fileString += FILE_SYSTEM_EMPTY;
+            }
+            while (contentString.length < this.blockSize){
+                contentString += FILE_SYSTEM_EMPTY;
+            }
+            this.writeFileToFS(fileLocation, fileString);
+            this.writeFileToFS(contentString, contentString);
+            return 'Success';
         }
 
         public writeFile(fileName, data): string {
             if(!this.doesFileExist(fileName)){
                 return 'File \"' + fileName + '\" does not exist';
             }
-            // TODO Return 'Success' if successful
+            var file = this.getFileByName(fileName);
+            this.writeFileContents(file[1], data);
+            return 'Success';
         }
 
         public deleteFile(fileName): string {
             if(!this.doesFileExist(fileName)){
                 return 'File \"' + fileName + '\" does not exist';
             }
-            // TODO Return 'Success' if successful
+            var file = this.getFileByName(fileName);
+            var fileLocation = this.getFileLocationByName(fileName);
+            this.contentsDelete(file[1]);
+
+            var newString = FILE_SYSTEM_FLAG_NOT_USED + file[1] + file[2];
+            while (newString.length < this.blockSize){
+                newString += FILE_SYSTEM_EMPTY;
+            }
+
+            this.writeFileToFS(fileLocation, newString);
+            return 'Success';
         }
 
-        public ls(){
-            // TODO
+        public ls(): string[] {
+            var output = [];
+            for(var j = 0; j < this.tracks; j++){
+                for(var k = 0; k < this.tracks; k++){
+                    var file = this.getFileByLocation(0, j, k);
+                    if(file[0] === FILE_SYSTEM_FLAG_USED){
+                        output.push(file[2]);
+                    }
+                }
+            }
+            return output;
+        }
+
+        private findEmptyFileTSB(): string {
+            for(var j = 0; j < this.tracks; j++){
+                for(var k = 0; k < this.tracks; k++){
+                    var file = this.getFileByLocation(0, j, k);
+                    if(file[0] === FILE_SYSTEM_FLAG_NOT_USED){
+                        return '' + 0 + j + k;
+                    }
+                }
+            }
+            return 'Exceeded maximum number of files';
+        }
+
+        private findEmptyTSB(): string {
+            for(var i = 1; i < this.tracks; i++){
+                for(var j = 0; j < this.tracks; j++){
+                    for(var k = 0; k < this.tracks; k++){
+                        var file = this.getFileByLocation(i, j, k);
+                        if(file[0] === FILE_SYSTEM_FLAG_NOT_USED){
+                            return '' + i + j + k;
+                        }
+                    }
+                }
+            }
+            return 'No free storage space was found';
+        }
+
+        private contentsDelete(tsbString){
+            var file = this.getFileByLocationString(tsbString);
+            if(parseInt(file[1])){
+                this.contentsDelete(file[1]);
+            }
+
+            var newString = FILE_SYSTEM_FLAG_NOT_USED + file[1] + file[2];
+            while (newString.length < this.blockSize){
+                newString += FILE_SYSTEM_EMPTY;
+            }
+            this.writeFileToFS(tsbString, newString);
+        }
+
+        // data will not always be the correct size
+        private writeFileContents(tsbString, data){
+            var DATA_SIZE = this.blockSize - this.headerSize;
+
+            if (data.length <= DATA_SIZE) {
+                var file = this.getFileByLocationString(tsbString);
+                data = file[0] + file[1] + data;
+                while (data.length < this.blockSize){
+                    data += FILE_SYSTEM_EMPTY;
+                }
+                this.writeFileToFS(tsbString, data)
+            } else {
+                var first = data.substring(0, DATA_SIZE);
+                var second = data.substring(DATA_SIZE);
+                this.writeFileContents(tsbString, first);
+                this.writeFileContents(this.findEmptyTSB(), second);
+            }
+        }
+
+        // data will always be the correct size
+        private writeFileToFS(tsbString, data){
+            var track = parseInt(tsbString.substring(0,1));
+            var sector = parseInt(tsbString.substring(1,2));
+            var block = parseInt(tsbString.substring(2,3));
+
+            _FileSystem.write(track, sector, block, data);
         }
 
         private retrieveFileContents(tsbString){
@@ -112,7 +178,7 @@ module TSOS {
             var sector = parseInt(tsbString.substring(1,2));
             var block = parseInt(tsbString.substring(2,3));
 
-            var file = this.deconstructFile(track, sector, block);
+            var file = this.getFileByLocation(track, sector, block);
 
             if(isNaN(parseInt(file[1]))){ // If we do not need to continue reading to a new block
                 return file[2];
@@ -125,7 +191,7 @@ module TSOS {
             for(var j = 0; j < this.sectors; j++){
                 for(var k = 0; k < this.blocks; k++){
 
-                    var file = this.deconstructFile(0, j, k);
+                    var file = this.getFileByLocation(0, j, k);
 
                     // If the tsb is not in use we dont care about it
                     if(file[0] === FILE_SYSTEM_FLAG_NOT_USED){
@@ -140,6 +206,45 @@ module TSOS {
                 }
             }
             return false;
+        }
+
+        private getFileByName(fileName): string[]{
+            for(var j = 0; j < this.sectors; j++){
+                for(var k = 0; k < this.blocks; k++){
+                    var file = this.getFileByLocation(0, j, k);
+                    if(file[0] === FILE_SYSTEM_FLAG_NOT_USED){ // File is not in use
+                        continue;
+                    }
+                    if(file[2] === fileName){
+                        return file;
+                    }
+                }
+            }
+        }
+
+        private getFileLocationByName(fileName): string{
+            for(var j = 0; j < this.sectors; j++){
+                for(var k = 0; k < this.blocks; k++){
+                    var file = this.getFileByLocation(0, j, k);
+                    if(file[0] === FILE_SYSTEM_FLAG_NOT_USED){ // File is not in use
+                        continue;
+                    }
+                    if(file[2] === fileName){
+                        return '' + 0 + j + k;
+                    }
+                }
+            }
+        }
+
+        private getFileByLocationString(tsbString): string[] {
+            var t = tsbString.substring(0,1);
+            var s = tsbString.substring(1,2);
+            var b = tsbString.substring(2,3);
+            return this.deconstructFile(t, s, b);
+        }
+
+        private getFileByLocation(t,s,b){
+            return this.deconstructFile(t, s, b);
         }
 
         private deconstructFile(t, s, b){

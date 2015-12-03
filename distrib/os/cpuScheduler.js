@@ -82,33 +82,35 @@ var TSOS;
                 _Kernel.krnInterruptHandler(TSOS.IRQ.CONTEXT_SWITCH);
                 return;
             }
-            // Get the queue into array form
-            var tempArray = [];
-            var size = _ProcessManager.readyQueue.getSize();
-            for (var i = 0; i < size; i++) {
-                tempArray.push(_ProcessManager.readyQueue.dequeue());
-            }
-            // Sort programs so they are in correct order
-            for (var j = 0; j < tempArray.length; j++) {
-                var bestPriority = Infinity;
-                for (var i = 0; i < tempArray.length; i++) {
-                    var currentPCB = tempArray[i];
-                    if (currentPCB === undefined || currentPCB === null) {
-                        continue;
-                    }
-                    if (currentPCB.priority < bestPriority) {
-                        bestPriority = currentPCB.priority;
-                    }
+            if (this.executingPCB === null) {
+                // Get the queue into array form
+                var tempArray = [];
+                var size = _ProcessManager.readyQueue.getSize();
+                for (var i = 0; i < size; i++) {
+                    tempArray.push(_ProcessManager.readyQueue.dequeue());
                 }
-                for (var i = 0; i < tempArray.length; i++) {
-                    var currentPCB = tempArray[i];
-                    if (currentPCB === undefined || currentPCB === null) {
-                        continue;
+                // Sort programs so they are in correct order
+                for (var j = 0; j < tempArray.length; j++) {
+                    var bestPriority = Infinity;
+                    for (var i = 0; i < tempArray.length; i++) {
+                        var currentPCB = tempArray[i];
+                        if (currentPCB === undefined || currentPCB === null) {
+                            continue;
+                        }
+                        if (currentPCB.priority < bestPriority) {
+                            bestPriority = currentPCB.priority;
+                        }
                     }
-                    if (currentPCB.priority === bestPriority) {
-                        _ProcessManager.readyQueue.enqueue(currentPCB);
-                        delete tempArray[i];
-                        break;
+                    for (var i = 0; i < tempArray.length; i++) {
+                        var currentPCB = tempArray[i];
+                        if (currentPCB === undefined || currentPCB === null) {
+                            continue;
+                        }
+                        if (currentPCB.priority === bestPriority) {
+                            _ProcessManager.readyQueue.enqueue(currentPCB);
+                            delete tempArray[i];
+                            break;
+                        }
                     }
                 }
             }

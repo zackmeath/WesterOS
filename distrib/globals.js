@@ -12,7 +12,7 @@
 //
 var APP_NAME = "WesterOS";
 var APP_VERSION = "5.10";
-var CPU_CLOCK_INTERVAL = 10; // This is in ms (milliseconds) so 1000 = 1 second.
+var CPU_CLOCK_INTERVAL = 100; // This is in ms (milliseconds) so 1000 = 1 second.
 var FILE_SYSTEM_EMPTY = '-';
 var FILE_SYSTEM_FLAG_NOT_USED = '0';
 var FILE_SYSTEM_FLAG_USED = '1';
@@ -48,7 +48,7 @@ var _OsShell;
 var _CommandHistory;
 // At least this OS is not trying to kill you. (Yet.)
 var _SarcasticMode = false;
-var _ChessMode = false;
+var _hasBeenFormatted = false;
 // Global Device Driver Objects - page 12
 var _krnKeyboardDriver; //  = null;
 var _krnFSDriver; //  = null;

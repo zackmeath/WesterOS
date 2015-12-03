@@ -102,6 +102,26 @@ var TSOS;
             }
             display.innerHTML = htmlString;
         };
+        Control.updateFSDisplay = function () {
+            var display = document.getElementById('fsTable');
+            var htmlString = '<tr><th>Bit</th><th>TSB</th><th>Data</th></tr>';
+            if (!_hasBeenFormatted) {
+                var htmlString;
+                '<tr><td>N/A</td><td>N/A</td><td>N/A</td></tr>';
+            }
+            else {
+                for (var i = 0; i < _FileSystem.tracks; i++) {
+                    for (var j = 0; j < _FileSystem.sectors; j++) {
+                        for (var k = 0; k < _FileSystem.blocks; k++) {
+                            var file = _FileSystem.read(i, j, k);
+                            var htmlString;
+                            '<tr><td>' + '</td><td>' + '</td><td>' + '</td></tr>';
+                        }
+                    }
+                }
+            }
+            display.innerHTML = htmlString;
+        };
         Control.hostInit = function () {
             // This is called from index.html's onLoad event via the onDocumentLoad function pointer.
             // Get a global reference to the canvas.  TODO: Should we move this stuff into a Display Device Driver?

@@ -119,7 +119,8 @@ var TSOS;
                     _CpuScheduler.contextSwitch();
                     break;
                 case TSOS.IRQ.FILE_SYSTEM:
-                    _FileSystemManager.handleOperation(params);
+                    _krnFSDriver.isr(params);
+                    break;
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");
                     break;

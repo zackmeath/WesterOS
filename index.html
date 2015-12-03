@@ -133,82 +133,98 @@
                     </div>
 
                     <div class="col-md-6">
+                        <div class="panel panel-default" >
+                            <div class="panel-body" style="height:170px;overflow-y:auto;">
+                                <table id="fsTable" class="table">
+                                    <tr>
+                                        <th>Bit</th>
+                                        <th>TSB</th>
+                                        <th>Data</th>
+                                    </tr>
+                                    <tr>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
                         <div id="divLog">
                             <label>
                                 Host Log
                             </label>
-                                <textarea name="taHostLog"
-                                          id  ="taHostLog"
-                                          rows="5"
-                                          class="form-control"
-                                          ></textarea>
+                            <textarea name="taHostLog"
+                                      id  ="taHostLog"
+                                      rows="5"
+                                      class="form-control"
+                                      ></textarea>
                         </div>
                         <p></p>
-                            <label>
-                                CPU Status
-                            </label>
-                            <div class="panel panel-default">
-                                <table id="processTable" class="table">
-                                    <tr>
-                                        <th>Instr</th>
-                                        <th>PC</th>
-                                        <th>Acc</th>
-                                        <th>X</th>
-                                        <th>Y</th>
-                                        <th>Z</th>
-                                    </tr>
+                        <label>
+                            CPU Status
+                        </label>
+                        <div class="panel panel-default">
+                            <table id="processTable" class="table">
+                                <tr>
+                                    <th>Instr</th>
+                                    <th>PC</th>
+                                    <th>Acc</th>
+                                    <th>X</th>
+                                    <th>Y</th>
+                                    <th>Z</th>
+                                </tr>
 
-                                    <tr>
-                                        <td>N/A</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                    </tr>
+                                <tr>
+                                    <td>N/A</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
 
+                            </table>
+                        </div>
+                        <p></p>
+                        <label>
+                            Process Memory
+                        </label>
+                        <div class="panel panel-default" >
+                            <div class="panel-body" style="height:170px;overflow-y:auto;">
+                                <table id="memoryTable" class="table">
                                 </table>
                             </div>
-                            <p></p>
-                            <label>
-                                Process Memory
-                            </label>
-                            <div class="panel panel-default" >
-                                <div class="panel-body" style="height:170px;overflow-y:auto;">
-                                    <table id="memoryTable" class="table">
-                                    </table>
-                                </div>
-                            </div>
-                            <p></p>
+                        </div>
+                        <p></p>
 
-                            <label>
-                                Resident List
-                            </label>
-                            <div class="panel panel-default" >
-                                <div class="panel-body" style="height:170px;overflow-y:auto;">
-                                    <table id="residentTable" class="table">
-                                        <tr>
-                                            <th>PID</th>
-                                            <th>State</th>
-                                            <th>Program Counter</th>
-                                        </tr>
-                                        <tr>
-                                            <td>N/A</td>
-                                            <td>N/A</td>
-                                            <td>N/A</td>
-                                        </tr>
-                                    </table>
-                                </div>
+                        <label>
+                            Resident List
+                        </label>
+                        <div class="panel panel-default" >
+                            <div class="panel-body" style="height:170px;overflow-y:auto;">
+                                <table id="residentTable" class="table">
+                                    <tr>
+                                        <th>PID</th>
+                                        <th>State</th>
+                                        <th>Program Counter</th>
+                                    </tr>
+                                    <tr>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                        <td>N/A</td>
+                                    </tr>
+                                </table>
                             </div>
-                            <p></p>
+                        </div>
+                        <p></p>
 
-                            <label>
-                                Program Input
-                            </label>
-                                <textarea id="taProgramInput" class="well form-control">A9 03 8D 41 00 A9 01 8D 40 00 AC 40 00 A2 01 FF EE 40 00 AE 40 00 EC 41 00 D0 EF A9 44 8D 42 00 A9 4F 8D 43 00 A9 4E 8D 44 00 A9 45 8D 45 00 A9 00 8D 46 00 A2 02 A0 42 FF 00</textarea>
-                            <!--
+                        <label>
+                            Program Input
+                        </label>
+                        <textarea id="taProgramInput" class="well form-control">A9 03 8D 41 00 A9 01 8D 40 00 AC 40 00 A2 01 FF EE 40 00 AE 40 00 EC 41 00 D0 EF A9 44 8D 42 00 A9 4F 8D 43 00 A9 4E 8D 44 00 A9 45 8D 45 00 A9 00 8D 46 00 A2 02 A0 42 FF 00</textarea>
+                        <!--
                             <textarea id="taProgramInput" class="well form-control">A9 00 8D 00 00 A9 00 8D 4B 00 A9 00 8D 4B 00 A2 03 EC 4B 00 D0 07 A2 01 EC 00 00 D0 05 A2 00 EC 00 00 D0 26 A0 4C A2 02 FF AC 4B 00 A2 01 FF A9 01 6D 4B 00 8D 4B 00 A2 02 EC 4B 00 D0 05 A0 55 A2 02 FF A2 01 EC 00 00 D0 C5 00 00 63 6F 75 6E 74 69 6E 67 00 68 65 6C 6C 6F 20 77 6F 72 6C 64 00</textarea>
-                            -->
+                        -->
                     </div>
                 </div>
             </div>
