@@ -19,7 +19,7 @@ module TSOS {
         public formatFileSystem(){
             var blankBlock = FILE_SYSTEM_FLAG_NOT_USED;
             for(var i = 0; i < this.blockSize-1; i++){
-                blankBlock += FILE_SYSTEM_EMPTY;
+                blankBlock += FILE_SYSTEM_EMPTY_BYTE;
             }
             for(var i = 0; i < this.tracks; i++){
                 for(var j = 0; j < this.sectors; j++){
@@ -28,6 +28,14 @@ module TSOS {
                     }
                 }
             }
+            var bootBlock = FILE_SYSTEM_FLAG_USED;
+            bootBlock += FILE_SYSTEM_EMPTY_BYTE + FILE_SYSTEM_EMPTY_BYTE + FILE_SYSTEM_EMPTY_BYTE;
+            bootBlock += 'Boot';
+
+            for(var i = 0; i < this.blockSize-1; i++){
+                bootBlock += FILE_SYSTEM_EMPTY_BYTE;
+            }
+            _FileSystem.write(0, 0, 0, bootBlock);
         }
 
 
@@ -57,13 +65,13 @@ module TSOS {
             var fileString = FILE_SYSTEM_FLAG_USED + contentLocation + fileName;
             var contentString = FILE_SYSTEM_FLAG_USED;
             while (fileString.length < this.blockSize){
-                fileString += FILE_SYSTEM_EMPTY;
+                fileString += FILE_SYSTEM_EMPTY_BYTE;
             }
             while (contentString.length < this.blockSize){
-                contentString += FILE_SYSTEM_EMPTY;
+                contentString += FILE_SYSTEM_EMPTY_BYTE;
             }
             this.writeFileToFS(fileLocation, fileString);
-            this.writeFileToFS(contentString, contentString);
+            this.writeFileToFS(contentLocation, contentString);
             return 'Success';
         }
 
@@ -86,7 +94,7 @@ module TSOS {
 
             var newString = FILE_SYSTEM_FLAG_NOT_USED + file[1] + file[2];
             while (newString.length < this.blockSize){
-                newString += FILE_SYSTEM_EMPTY;
+                newString += FILE_SYSTEM_EMPTY_BYTE;
             }
 
             this.writeFileToFS(fileLocation, newString);
@@ -140,7 +148,7 @@ module TSOS {
 
             var newString = FILE_SYSTEM_FLAG_NOT_USED + file[1] + file[2];
             while (newString.length < this.blockSize){
-                newString += FILE_SYSTEM_EMPTY;
+                newString += FILE_SYSTEM_EMPTY_BYTE;
             }
             this.writeFileToFS(tsbString, newString);
         }
@@ -148,19 +156,20 @@ module TSOS {
         // data will not always be the correct size
         private writeFileContents(tsbString, data){
             var DATA_SIZE = this.blockSize - this.headerSize;
-
             if (data.length <= DATA_SIZE) {
-                var file = this.getFileByLocationString(tsbString);
-                data = file[0] + file[1] + data;
+                data = FILE_SYSTEM_FLAG_USED + FILE_SYSTEM_EMPTY_BYTE + FILE_SYSTEM_EMPTY_BYTE + FILE_SYSTEM_EMPTY_BYTE + data;
                 while (data.length < this.blockSize){
-                    data += FILE_SYSTEM_EMPTY;
+                    data += FILE_SYSTEM_EMPTY_BYTE;
                 }
-                this.writeFileToFS(tsbString, data)
+                this.writeFileToFS(tsbString, data);
             } else {
+                var newLocation = this.findEmptyTSB();
                 var first = data.substring(0, DATA_SIZE);
                 var second = data.substring(DATA_SIZE);
-                this.writeFileContents(tsbString, first);
-                this.writeFileContents(this.findEmptyTSB(), second);
+                first = FILE_SYSTEM_FLAG_USED + newLocation + first;
+                // console.log(first);
+                this.writeFileToFS(tsbString, first);
+                this.writeFileContents(newLocation, second);
             }
         }
 
@@ -174,15 +183,13 @@ module TSOS {
         }
 
         private retrieveFileContents(tsbString){
-            var track = parseInt(tsbString.substring(0,1));
-            var sector = parseInt(tsbString.substring(1,2));
-            var block = parseInt(tsbString.substring(2,3));
+            var file = this.getFileByLocationString(tsbString);
+            console.log(tsbString);
 
-            var file = this.getFileByLocation(track, sector, block);
-
-            if(isNaN(parseInt(file[1]))){ // If we do not need to continue reading to a new block
+            if(file[1] === '---'){ // If we do not need to continue reading to a new block
                 return file[2];
             } else {
+                // console.log(file[2]);
                 return file[2] + this.retrieveFileContents(file[1]);
             }
         }
@@ -197,6 +204,7 @@ module TSOS {
                     if(file[0] === FILE_SYSTEM_FLAG_NOT_USED){
                         continue;
                     }
+                    // console.log(file);
 
                     // Test if the contents at tsb match the filename
                     if(file[2] === fileName){
@@ -251,9 +259,19 @@ module TSOS {
             var contents = _FileSystem.read(t, s, b);
             var flag = contents.substring(0, 1);
             var address = contents.substring(1, 4);
-            var data = contents.substring(4, contents.indexOf(FILE_SYSTEM_EMPTY));
-            return [flag, address, data];
+            contents = contents.substring(4);
+            // var data = contents.substring(0, contents.indexOf(FILE_SYSTEM_EMPTY_BYTE));
+            var data = contents.substring(0);
+            var out = '';
+            for(var i = 0; i < data.length; i++){
+                if (data[i] === FILE_SYSTEM_EMPTY_BYTE){
+                    break;
+                }
+                out += data[i];
+            }
+            return [flag, address, out];
         }
+
     }
 
 }

@@ -111,15 +111,16 @@ module TSOS {
 
         public static updateFSDisplay(): void {
             var display = document.getElementById('fsTable');
-            var htmlString = '<tr><th>Bit</th><th>TSB</th><th>Data</th></tr>';
+            var htmlString = '<tr><th>TSB</th><th>Bit</th><th>Loc</th><th>Data</th></tr>';
             if(!_hasBeenFormatted){
-                var htmlString += '<tr><td>N/A</td><td>N/A</td><td>N/A</td></tr>';
+                htmlString += '<tr><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr>';
             } else {
                 for(var i = 0; i < _FileSystem.tracks; i++){
                     for(var j = 0; j < _FileSystem.sectors; j++){
                         for(var k = 0; k < _FileSystem.blocks; k++){
                             var file = _FileSystem.read(i, j, k);
-                            var htmlString += '<tr><td>' + '</td><td>' + '</td><td>' + '</td></tr>';
+                            var tsbStr = '' + i + j + k;
+                            htmlString += '<tr><td>' + tsbStr + '</td><td>' + file.substr(0,1) + '</td><td>' + file.substr(1,3) + '</td><td>' + file.substr(4, file.length) + '</td></tr>';
                         }
                     }
                 }

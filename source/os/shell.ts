@@ -380,17 +380,23 @@ module TSOS {
                     _StdOut.putText("File System has not been formatted yet, use the \"format\" command first");
                     return;
                 }
-                var fileName = args[0];
-                var data = args[1];
-                if(fileName === undefined || fileName === null || data === undefined || data === null){
+                if(args.length < 2){
                     _StdOut.putText("Not enough arguments given for \"write\" command");
-                } else {
-                    if(data.substring(0,1) === '\"' && data.substring(data.length-1, data.length) === '\"'){
-                        data = data.substring(1, data.length-1);
-                    }
-                    var params = {operationType: 'write', fileName: fileName, data: data};
-                    _KernelInterruptQueue.enqueue(new Interrupt(TSOS.IRQ.FILE_SYSTEM, params));
+                    return;
                 }
+                var fileName = args[0];
+                var data = '';
+                for (var i = 1; i < args.length; i++) {
+                    data += args[i] + ' ';
+                }
+                data = data.trim();
+                if(data.substr(1,1) !== '\"' || data.substr(-1) !== '\"'){
+                    _StdOut.putText("The data to write must be surrounded by quotes");
+                    return;
+                }
+                data = data.substring(2, data.length-1);
+                var params = {operationType: 'write', fileName: fileName, data: data};
+                _KernelInterruptQueue.enqueue(new Interrupt(TSOS.IRQ.FILE_SYSTEM, params));
                 TSOS.Control.updateFSDisplay();
             }
 

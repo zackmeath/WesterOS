@@ -120,6 +120,7 @@ var TSOS;
                     break;
                 case TSOS.IRQ.FILE_SYSTEM:
                     _krnFSDriver.isr(params);
+                    TSOS.Control.updateFSDisplay();
                     break;
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");
