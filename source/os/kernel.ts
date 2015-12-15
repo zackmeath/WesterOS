@@ -28,7 +28,7 @@ module TSOS {
 
             // Initialize the Process and memory managers with number of allowable processes
             _CpuScheduler = new CpuScheduler();
-            _ProcessManager = new ProcessManager(3);
+            _ProcessManager = new ProcessManager();
             _MemoryManager = new MemoryManager(3);
             _FileSystemManager = new FileSystemManager();
 
@@ -141,6 +141,9 @@ module TSOS {
                 case TSOS.IRQ.FILE_SYSTEM:
                     _krnFSDriver.isr(params);
                     TSOS.Control.updateFSDisplay();
+                    break;
+                case TSOS.IRQ.PAGE_FAULT:
+                    _MemoryManager.pageFaultISR(params.newPCB, params.oldPCB);
                     break;
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");

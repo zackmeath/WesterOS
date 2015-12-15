@@ -25,7 +25,7 @@ var TSOS;
             _KernelInputQueue = new TSOS.Queue(); // Where device input lands before being processed out somewhere.
             // Initialize the Process and memory managers with number of allowable processes
             _CpuScheduler = new TSOS.CpuScheduler();
-            _ProcessManager = new TSOS.ProcessManager(3);
+            _ProcessManager = new TSOS.ProcessManager();
             _MemoryManager = new TSOS.MemoryManager(3);
             _FileSystemManager = new TSOS.FileSystemManager();
             // Initialize the console.
@@ -121,6 +121,9 @@ var TSOS;
                 case TSOS.IRQ.FILE_SYSTEM:
                     _krnFSDriver.isr(params);
                     TSOS.Control.updateFSDisplay();
+                    break;
+                case TSOS.IRQ.PAGE_FAULT:
+                    _MemoryManager.pageFaultISR(params.newPCB, params.oldPCB);
                     break;
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");

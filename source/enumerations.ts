@@ -19,7 +19,8 @@ module TSOS {
         KEYBOARD,
         SYSCALL,
         CONTEXT_SWITCH,
-        FILE_SYSTEM
+        FILE_SYSTEM,
+        PAGE_FAULT
     }
 }
 

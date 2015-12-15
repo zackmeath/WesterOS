@@ -12,6 +12,8 @@ var TSOS;
             this.processState = TSOS.ProcessState.New;
             this.baseRegister = -1;
             this.limitRegister = -1;
+            this.isInMemory = false;
+            this.diskLocation = '';
         } // End of constructor
         PCB.prototype.update = function (pc, Acc, XReg, YReg, Zflag) {
             this.programCounter = pc;

@@ -1,8 +1,7 @@
 var TSOS;
 (function (TSOS) {
     var ProcessManager = (function () {
-        function ProcessManager(maxProcesses) {
-            this.maxProcesses = maxProcesses;
+        function ProcessManager() {
             this.readyQueue = new TSOS.Queue();
             this.residentList = [];
         }

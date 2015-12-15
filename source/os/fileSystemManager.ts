@@ -126,7 +126,7 @@ module TSOS {
             return 'Exceeded maximum number of files';
         }
 
-        private findEmptyTSB(): string {
+        public findEmptyTSB(): string {
             for(var i = 1; i < this.tracks; i++){
                 for(var j = 0; j < this.tracks; j++){
                     for(var k = 0; k < this.tracks; k++){
@@ -140,7 +140,7 @@ module TSOS {
             return 'No free storage space was found';
         }
 
-        private contentsDelete(tsbString){
+        public contentsDelete(tsbString){
             var file = this.getFileByLocationString(tsbString);
             if(parseInt(file[1])){
                 this.contentsDelete(file[1]);
@@ -154,7 +154,7 @@ module TSOS {
         }
 
         // data will not always be the correct size
-        private writeFileContents(tsbString, data){
+        public writeFileContents(tsbString, data){
             var DATA_SIZE = this.blockSize - this.headerSize;
             if (data.length <= DATA_SIZE) {
                 data = FILE_SYSTEM_FLAG_USED + FILE_SYSTEM_EMPTY_BYTE + FILE_SYSTEM_EMPTY_BYTE + FILE_SYSTEM_EMPTY_BYTE + data;
@@ -163,11 +163,15 @@ module TSOS {
                 }
                 this.writeFileToFS(tsbString, data);
             } else {
+                var blockTaken = FILE_SYSTEM_FLAG_USED;
+                while(blockTaken.length < this.blockSize){
+                    blockTaken += FILE_SYSTEM_EMPTY_BYTE;
+                }
+                this.writeFileToFS(tsbString, blockTaken);
                 var newLocation = this.findEmptyTSB();
                 var first = data.substring(0, DATA_SIZE);
                 var second = data.substring(DATA_SIZE);
                 first = FILE_SYSTEM_FLAG_USED + newLocation + first;
-                // console.log(first);
                 this.writeFileToFS(tsbString, first);
                 this.writeFileContents(newLocation, second);
             }
@@ -182,14 +186,12 @@ module TSOS {
             _FileSystem.write(track, sector, block, data);
         }
 
-        private retrieveFileContents(tsbString){
+        public retrieveFileContents(tsbString){
             var file = this.getFileByLocationString(tsbString);
-            console.log(tsbString);
 
             if(file[1] === '---'){ // If we do not need to continue reading to a new block
                 return file[2];
             } else {
-                // console.log(file[2]);
                 return file[2] + this.retrieveFileContents(file[1]);
             }
         }
@@ -204,7 +206,6 @@ module TSOS {
                     if(file[0] === FILE_SYSTEM_FLAG_NOT_USED){
                         continue;
                     }
-                    // console.log(file);
 
                     // Test if the contents at tsb match the filename
                     if(file[2] === fileName){

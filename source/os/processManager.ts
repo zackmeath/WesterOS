@@ -4,7 +4,7 @@ module TSOS {
         public residentList: TSOS.PCB[];
         public readyQueue: TSOS.Queue;
 
-        constructor(private maxProcesses: number){
+        constructor(){
             this.readyQueue = new Queue();
             this.residentList = [];
         }
@@ -68,6 +68,7 @@ module TSOS {
             }
             _CPU.isExecuting = true;
         }
+
 
         private processes;
     }

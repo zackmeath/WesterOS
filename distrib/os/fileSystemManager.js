@@ -141,11 +141,15 @@ var TSOS;
                 this.writeFileToFS(tsbString, data);
             }
             else {
+                var blockTaken = FILE_SYSTEM_FLAG_USED;
+                while (blockTaken.length < this.blockSize) {
+                    blockTaken += FILE_SYSTEM_EMPTY_BYTE;
+                }
+                this.writeFileToFS(tsbString, blockTaken);
                 var newLocation = this.findEmptyTSB();
                 var first = data.substring(0, DATA_SIZE);
                 var second = data.substring(DATA_SIZE);
                 first = FILE_SYSTEM_FLAG_USED + newLocation + first;
-                // console.log(first);
                 this.writeFileToFS(tsbString, first);
                 this.writeFileContents(newLocation, second);
             }
@@ -159,12 +163,10 @@ var TSOS;
         };
         FileSystemManager.prototype.retrieveFileContents = function (tsbString) {
             var file = this.getFileByLocationString(tsbString);
-            console.log(tsbString);
             if (file[1] === '---') {
                 return file[2];
             }
             else {
-                // console.log(file[2]);
                 return file[2] + this.retrieveFileContents(file[1]);
             }
         };
@@ -176,7 +178,6 @@ var TSOS;
                     if (file[0] === FILE_SYSTEM_FLAG_NOT_USED) {
                         continue;
                     }
-                    // console.log(file);
                     // Test if the contents at tsb match the filename
                     if (file[2] === fileName) {
                         return true;
@@ -235,7 +236,6 @@ var TSOS;
                 out += data[i];
             }
             return [flag, address, out];
-            // return [flag, address, data];
         };
         return FileSystemManager;
     })();

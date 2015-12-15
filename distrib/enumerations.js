@@ -23,6 +23,7 @@ var TSOS;
         IRQ[IRQ["SYSCALL"] = 2] = "SYSCALL";
         IRQ[IRQ["CONTEXT_SWITCH"] = 3] = "CONTEXT_SWITCH";
         IRQ[IRQ["FILE_SYSTEM"] = 4] = "FILE_SYSTEM";
+        IRQ[IRQ["PAGE_FAULT"] = 5] = "PAGE_FAULT";
     })(TSOS.IRQ || (TSOS.IRQ = {}));
     var IRQ = TSOS.IRQ;
 })(TSOS || (TSOS = {}));
