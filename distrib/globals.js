@@ -23,6 +23,7 @@ var _CpuScheduler;
 var _ProcessManager;
 var _MemoryManager;
 var _FileSystemManager;
+var KEYBOARD_IRQ = TSOS.IRQ.KEYBOARD;
 var _OSclock = 0; // Page 23.
 var _Mode = 0; // (currently unused)  0 = Kernel Mode, 1 = User Mode.  See page 21.
 var _SystemStatus = "Normal";

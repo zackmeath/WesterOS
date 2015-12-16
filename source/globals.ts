@@ -16,7 +16,7 @@ const APP_VERSION: string = "5.10";
 
 const CPU_CLOCK_INTERVAL: number = 10;   // This is in ms (milliseconds) so 1000 = 1 second.
 
-const FILE_SYSTEM_EMPTY_BYTE: string = '-';
+const FILE_SYSTEM_EMPTY_BYTE: string    = '-';
 const FILE_SYSTEM_FLAG_NOT_USED: string = '0';
 const FILE_SYSTEM_FLAG_USED: string     = '1';
 
@@ -28,6 +28,8 @@ var _CpuScheduler:      TSOS.CpuScheduler;
 var _ProcessManager:    TSOS.ProcessManager;
 var _MemoryManager:     TSOS.MemoryManager;
 var _FileSystemManager: TSOS.FileSystemManager;
+
+var KEYBOARD_IRQ = TSOS.IRQ.KEYBOARD;
 
 var _OSclock: number = 0;  // Page 23.
 
