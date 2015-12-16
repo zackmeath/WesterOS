@@ -12,7 +12,7 @@
 //
 var APP_NAME = "WesterOS";
 var APP_VERSION = "5.10";
-var CPU_CLOCK_INTERVAL = 100; // This is in ms (milliseconds) so 1000 = 1 second.
+var CPU_CLOCK_INTERVAL = 10; // This is in ms (milliseconds) so 1000 = 1 second.
 var FILE_SYSTEM_EMPTY_BYTE = '-';
 var FILE_SYSTEM_FLAG_NOT_USED = '0';
 var FILE_SYSTEM_FLAG_USED = '1';

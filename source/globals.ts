@@ -14,7 +14,7 @@
 const APP_NAME: string    = "WesterOS";
 const APP_VERSION: string = "5.10"; 
 
-const CPU_CLOCK_INTERVAL: number = 100;   // This is in ms (milliseconds) so 1000 = 1 second.
+const CPU_CLOCK_INTERVAL: number = 10;   // This is in ms (milliseconds) so 1000 = 1 second.
 
 const FILE_SYSTEM_EMPTY_BYTE: string = '-';
 const FILE_SYSTEM_FLAG_NOT_USED: string = '0';

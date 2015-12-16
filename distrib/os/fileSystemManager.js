@@ -96,8 +96,8 @@ var TSOS;
             return output;
         };
         FileSystemManager.prototype.findEmptyFileTSB = function () {
-            for (var j = 0; j < this.tracks; j++) {
-                for (var k = 0; k < this.tracks; k++) {
+            for (var j = 0; j < this.sectors; j++) {
+                for (var k = 0; k < this.blocks; k++) {
                     var file = this.getFileByLocation(0, j, k);
                     if (file[0] === FILE_SYSTEM_FLAG_NOT_USED) {
                         return '' + 0 + j + k;
@@ -108,8 +108,8 @@ var TSOS;
         };
         FileSystemManager.prototype.findEmptyTSB = function () {
             for (var i = 1; i < this.tracks; i++) {
-                for (var j = 0; j < this.tracks; j++) {
-                    for (var k = 0; k < this.tracks; k++) {
+                for (var j = 0; j < this.sectors; j++) {
+                    for (var k = 0; k < this.blocks; k++) {
                         var file = this.getFileByLocation(i, j, k);
                         if (file[0] === FILE_SYSTEM_FLAG_NOT_USED) {
                             return '' + i + j + k;

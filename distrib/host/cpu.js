@@ -110,6 +110,10 @@ var TSOS;
                         this.PC++;
                         break;
                     case '00':
+                        var out = '';
+                        for (var i = 0; i < 256; i++) {
+                            out += _MemoryManager.read(this.currentPCB, i);
+                        }
                         this.breakOP();
                         break;
                     default:

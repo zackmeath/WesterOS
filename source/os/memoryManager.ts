@@ -53,12 +53,14 @@ module TSOS {
             }
             if(!pcb.isInMemory){
                 // No more space to allocate in memory, write to disk
-                console.log('writing to disk...');
                 pcb.isInMemory = false;
                 pcb.diskLocation = _FileSystemManager.findEmptyTSB();
                 var str = '';
                 for (var i = 0; i < program.length; i++){
                     str += program[i];
+                }
+                while(str.length < this.programSize*2){
+                    str += '0';
                 }
                 _FileSystemManager.writeFileContents(pcb.diskLocation, str);
                 TSOS.Control.updateFSDisplay();
@@ -82,22 +84,25 @@ module TSOS {
 
         public pageFaultISR(newPCBid: number, oldPCBid): void {
             var pcbToLoad = _ProcessManager.residentList[newPCBid];
-            var pcbToStore = _ProcessManager.residentList[oldPCBid];
 
-            // Store old pcb
-            var programString = '';
-            for(var i = 0; i < this.allocated.length; i++){
-                if(this.allocated[i] === pcbToStore.processID){
-                    for(var j = 0; j < this.programSize; j++){
-                        programString += this.read(pcbToStore, j);
+            if(oldPCBid !== -1) {
+                var pcbToStore = _ProcessManager.residentList[oldPCBid];
+
+                // Store old pcb
+                var programString = '';
+                for(var i = 0; i < this.allocated.length; i++){
+                    if(this.allocated[i] === pcbToStore.processID){
+                        for(var j = 0; j < this.programSize; j++){
+                            programString += this.read(pcbToStore, j);
+                        }
+                        this.allocated[i] = -1;
+                        break;
                     }
-                    this.allocated[i] = -1;
-                    break;
                 }
+                pcbToStore.isInMemory = false;
+                pcbToStore.diskLocation = _FileSystemManager.findEmptyTSB();
+                _FileSystemManager.writeFileContents(pcbToStore.diskLocation, programString);
             }
-            pcbToStore.isInMemory = false;
-            pcbToStore.diskLocation = _FileSystemManager.findEmptyTSB();
-            _FileSystemManager.writeFileContents(pcbToStore.diskLocation, programString);
             
             // load new pcb
             var newProgram = _FileSystemManager.retrieveFileContents(pcbToLoad.diskLocation);

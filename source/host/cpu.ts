@@ -117,6 +117,10 @@ module TSOS {
                         this.PC++;
                         break;
                     case '00': // BREAK PROGRAM (sys call)
+                        var out = '';
+                        for(var i = 0; i < 256; i++){
+                            out += _MemoryManager.read(this.currentPCB, i);
+                        }
                         this.breakOP();
                         break;
                     default:
